@@ -1,0 +1,79 @@
+<!doctype html>
+<html ng-app='drugDrive'>
+  <head>
+  	<meta http-equiv="X-UA-Compatible" content="IE=11" /> 
+	
+    <script src="/libraries/angular.min.js"></script>
+	
+	<script src="app/app.js"></script>
+	<script src="app/components/drugDriveController.js"></script>	
+	<script src="app/components/custodyController.js"></script>	
+	<script src="app/components/custodyService.js"></script>
+	<script src="app/components/custodyListDirective.js"></script>
+	<script src="app/components/officerLocationService.js"></script>
+	<script src="app/components/drugDriveService.js"></script>	
+	
+	<link href="css/drugDrive.css" rel="stylesheet">	
+	
+  </head>
+  <body>
+
+  	<div class="main" ng-controller="drugDriveController as ddCtrl">
+  	  <h2 align="center">
+  	  	{{ applicationTitle }}
+  	  </h2>
+  	  
+  	 
+  	  
+  	  <form novalidate ng-submit='submitDD()' name="ddForm">
+  	  	
+  	  	On <input type="text" ng-model="ddData.DATE_INITIAL_STOP"
+  	  	   required 
+  	  	   ng-pattern='(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19|20)\d\d' /> 
+  	  	@ <input type="text" ng-model="ddData.TIME_INITIAL_STOP" required />
+  	  	<button ng-click='getOfficerLocation()' type="button">Get My Location</button>  	  	  	  
+  	  	
+  	  	<!-- ng-show="officerLocationSearchRan" -->
+  	  	<div>
+  	  	
+  	  	Location Data:
+  	  	Force: <input type="text" ng-model="ddData.WWM_TEST_FORCE" required><br>
+  	  	LPA: <input type="text" ng-model="ddData.WWM_TEST_LPA" required><br>
+  	  	Beat Code: <input type="text" ng-model="ddData.WWM_TEST_BEAT"><br>
+  	  	Grid Ref: {{ ddData.WWM_GRID_REF }}
+  	  	<br><br>
+  	  	The test was made at: <select ng-model='ddData.WWM_TEST_LOCATION'>
+  	  							<option value="">-- Select --</option>
+  	  							<option value="Roadside">Roadside</option>
+  	  							<option value="Station">Station</option>
+  	  							<option value="Hospital">Hospital</option>
+  	  						 </select>
+  	  						 
+  	  	Was an arrest made?: <select ng-model='ddData.ARRESTED' ng-options="c.id as c.label for c in selectYN"></select>
+  	  	  	  							
+  	  	<custody-list-directive ng-show="ddData.ARRESTED==='Y'"></custody-list-directive>
+  	  						 	
+  	  	</div>
+  	  	
+  	  	 
+  	  	
+  	  	
+  	  	
+  	  	<input type="submit"
+  	  	       value="Submit Drug Drive / FIT Record" />
+  	  	
+  	  </form>
+  	  
+  	  <!--
+  	  <div custody-list-directive></div>
+  	  -->
+  	  
+  	  <br><br><br>
+  	  <div style="border:1px solid black; padding:10px;">
+  	  	{{ ddData | json }}
+  	  </div>
+  	  
+  	</div>
+  	
+  </body>
+</html>  

@@ -1,0 +1,20 @@
+body{
+	font-family:Arial;
+}
+
+/*
+.ng-valid-required{
+	background-color:#BBFFBB
+}
+
+.ng-invalid-required{
+	background-color:#FF9999
+}*/
+
+input.ng-dirty.ng-valid-pattern{
+	background-color:#BBFFBB;
+}
+
+input.ng-dirty.ng-invalid-pattern{
+	background-color:#FF9999;
+}

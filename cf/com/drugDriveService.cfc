@@ -37,6 +37,30 @@
        
 	</cffunction>
 
+	<cffunction name="createDrugDrive" description="Creates / Updates a Drug Drive Form" access="remote" output="false" returntype="struct" returnformat="JSON" >
+              
+       <cfset var qDD="">
+       <cfset var fnVars=initVars()>
+       <cfset var incomingData=toString( getHttpRequestData().content )>
+       <cfset var formData=structNew()>
+       <cfset var returnStruct=structNew()>
+       
+       <cfset structAppend( formData, deserializeJson( incomingData ) )>
+       
+       <cfsavecontent variable="stringFormData"><cfdump var="#formData#" format="text"/></cfsavecontent>
+       
+       <cflog file="ddService" type="information" text="================================================" >	
+	   <cflog file="ddService" type="information" text="create new DD" >
+	   <cflog file="ddService" type="information" text="form data" >
+	   <cflog file="ddService" type="information" text="#stringFormData#" >
+	   <cflog file="ddService" type="information" text="================================================" >
+       
+       <cfset returnStruct.URN="DD/D/1/15">
+       
+       <cfreturn returnStruct>
+       
+	</cffunction>
+
 	<cffunction name="createDDPDF" description="Creates a drug drive PDF form, returns the path and filename to the created form" access="remote" output="false" returntype="struct">
 		<cfargument name="DD_ID" type="string" required="true" hint="DD_ID of test to create the PDF for" >		
 		
