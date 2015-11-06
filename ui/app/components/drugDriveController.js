@@ -6,24 +6,15 @@ app.controller('drugDriveController', ['$scope', 'officerLocationService', 'drug
   $scope.ddData={
   	DATE_INITIAL_STOP:'29/10/2015',
   	TIME_INITIAL_STOP:'21:33',
-  	GENDER:'',
-  	ETHICITY:'',
-  	CUSTODY_REF:'',
-  	AGE:'',
-  	RTC:'',
-  	WWM_GRID_REF:'',
-  	WWM_TEST_LPA:'',
-  	WWM_TEST_BEAT:'',
-  	WWM_TEST_FORCE:'',
   	WWM_OFFICER_UID:'n_bla005',
   	WWM_OFFICER_COLLAR:'4854',
   	WWM_OFFICER_FORCE:'22',
   	WWM_OFFICER_NAME:'Sp Con 4854 Nick BLACKHAM',
   	WWM_OFFICER_EMAIL:'nick.blackham@westmercia.pnn.police.uk',
-  	WWM_TEST_LOCATION:'',
-  	ARRESTED:'N',
-  	CUSTODY_DATA:{}
+  	WWM_TEST_LOCATION:''
   };
+  
+  $scope.CUSTODY_DATA={};
   
   $scope.selectYN=[
   	{label:'-- Select --', id:''},
@@ -40,7 +31,8 @@ app.controller('drugDriveController', ['$scope', 'officerLocationService', 'drug
   	       .success(function(data, status, headers){
   		// the success function wraps the response in data
 				// so we need to call data.data to fetch the raw data
-				console.log(data.URN);
+				console.log(data.DD_ID);
+				$scope.ddData.WWM_DD_ID=data.DD_ID;
 			}).error(function(data, status, heaers, config){
 				console.log('Error aye it: ' + data);
 				console.log(status);
@@ -54,10 +46,10 @@ app.controller('drugDriveController', ['$scope', 'officerLocationService', 'drug
   	       .success(function(data, status, headers){
   		// the success function wraps the response in data
 				// so we need to call data.data to fetch the raw data
-				$scope.ddData.WWM_GRID_REF = data.GRIDREF;
+				$scope.ddData.WWM_TEST_GRIDREF = data.GRIDREF;
 				$scope.ddData.WWM_TEST_LPA = data.LPA;
 				$scope.ddData.WWM_TEST_BEAT = data.BEATCODE;
-				$scope.ddData.WWM_TEST_FORCE = data.FORCE;
+				$scope.ddData.WWM_TEST_FORCE = data.FORCE;				
 				$scope.officerLocationSearchRan=true;
 				console.log($scope.meData);
 			}).error(function(data, status, heaers, config){
@@ -68,7 +60,7 @@ app.controller('drugDriveController', ['$scope', 'officerLocationService', 'drug
   };
   
   $scope.custodyClick = function(custodyData){
-  	$scope.ddData.CUSTODY_DATA=custodyData;
+  	$scope.CUSTODY_DATA=custodyData;
   };
    
   

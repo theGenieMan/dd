@@ -40,7 +40,7 @@
   	  	Force: <input type="text" ng-model="ddData.WWM_TEST_FORCE" required><br>
   	  	LPA: <input type="text" ng-model="ddData.WWM_TEST_LPA" required><br>
   	  	Beat Code: <input type="text" ng-model="ddData.WWM_TEST_BEAT"><br>
-  	  	Grid Ref: {{ ddData.WWM_GRID_REF }}
+  	  	Grid Ref: {{ ddData.WWM_TEST_GRIDREF }}
   	  	<br><br>
   	  	The test was made at: <select ng-model='ddData.WWM_TEST_LOCATION'>
   	  							<option value="">-- Select --</option>
@@ -50,6 +50,9 @@
   	  						 </select>
   	  						 
   	  	Was an arrest made?: <select ng-model='ddData.ARRESTED' ng-options="c.id as c.label for c in selectYN"></select>
+  	  	
+  	  	<input type="text" ng-model='ddData.WWM_OFFICER_COLLAR'>
+  	  		<input type="text" ng-model='ddData.WWM_OFFICER_FORCE'>
   	  	  	  							
   	  	<custody-list-directive ng-show="ddData.ARRESTED==='Y'"></custody-list-directive>
   	  						 	

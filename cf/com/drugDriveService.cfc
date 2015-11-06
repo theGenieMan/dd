@@ -40,11 +40,18 @@
 	<cffunction name="createDrugDrive" description="Creates / Updates a Drug Drive Form" access="remote" output="false" returntype="struct" returnformat="JSON" >
               
        <cfset var qDD="">
+       <cfset var qNextSeq="">
        <cfset var fnVars=initVars()>
        <cfset var incomingData=toString( getHttpRequestData().content )>
        <cfset var formData=structNew()>
        <cfset var returnStruct=structNew()>
-       
+       <cfset var qDbToPdfLookup=getDbtoPdfLookup(lookupFile=fnVars.dbToPdfLookupFile)>
+       <cfset var columnName=''>
+       <cfset var colValue=''>
+       <cfset var iCol=''>
+       <cfset var updateQuery=''>
+       <cfset var inserQuery=''>
+              
        <cfset structAppend( formData, deserializeJson( incomingData ) )>
        
        <cfsavecontent variable="stringFormData"><cfdump var="#formData#" format="text"/></cfsavecontent>
@@ -55,7 +62,97 @@
 	   <cflog file="ddService" type="information" text="#stringFormData#" >
 	   <cflog file="ddService" type="information" text="================================================" >
        
-       <cfset returnStruct.URN="DD/D/1/15">
+       <!--- no DD_ID so it's create a new record time --->
+       <cfif not StructKeyExists(formData,'WWM_DD_ID')>
+       	  <cfquery name="qNextSeq" datasource="#fnVars.DD_DB#">
+       	  	select DD_ID_SEQ.NEXTVAL AS NEW_DD_ID from DUAL
+       	  </cfquery>
+       	  
+       	  <cfset formData.WWM_DD_ID=qNextSeq.NEW_DD_ID>
+       	  <cfoutput>
+       	  <cfsavecontent variable="insertQuery">
+       	  	INSERT INTO DRUG_DRIVE
+       	  	(
+       	  		<cfset iCol=1>
+       	  		<cfloop collection="#formData#" item="columnName" >
+       	  		 <cfif iCol GT 1>
+       	  		 ,
+       	  		 </cfif>
+       	  		 #columnName#
+       	  		 <cfset iCol++>
+       	  		</cfloop>
+       	  	)
+       	  	VALUES
+       	  	(
+       	  		<cfset iCol=1>
+       	  		<cfloop collection="#formData#" item="columnName" >
+       	  		 <cfif iCol GT 1>
+       	  		 ,
+       	  		 </cfif>
+       	  		 <cfset colValue=structFind(formData,columnName)>
+       	  		 <cfquery name="qType" dbtype="query">
+       	  		 	SELECT FIELD_TYPE
+       	  		 	FROM qDbToPdfLookup
+       	  		 	WHERE DB_NAME='#columnName#'
+       	  		 </cfquery>
+       	  		 <cfif qType.FIELD_TYPE IS "Date">
+       	  		 TO_DATE('#colValue#','DD/MM/YYYY')
+       	  		 <cfelse>
+       	  		 '#colValue#'
+       	  		 </cfif> 
+       	  		 <cfset iCol++>
+       	  		</cfloop>
+       	  	)
+       	  </cfsavecontent>
+       	  </cfoutput>
+       	  
+       	  <cflog file="ddService" type="information" text="#insertQuery#" >
+       	  
+       	  <!--- insert the record --->
+       	  <cfquery name="qDD" datasource="#fnVars.DD_DB#">
+       	  	#PreserveSingleQuotes(insertQuery)#
+       	  </cfquery>
+       	  
+       <cfelse>
+       <!--- DD_ID exists so we have an update --->
+       
+	       <cfoutput>
+	       	  <cfsavecontent variable="updateQuery">
+	       	  	UPDATE DRUG_DRIVE
+	       	  	SET
+	       	  		<cfset iCol=1>
+	       	  		<cfloop collection="#formData#" item="columnName" >
+	       	  		<cfif columnName IS NOT "WWM_DD_ID">
+	       	  		 <cfif iCol GT 1>
+	       	  		 ,
+	       	  		 </cfif>
+	       	  		 #columnName# = 
+	       	  		 <cfset colValue=structFind(formData,columnName)>
+	       	  		 <cfquery name="qType" dbtype="query">
+	       	  		 	SELECT FIELD_TYPE
+	       	  		 	FROM qDbToPdfLookup
+	       	  		 	WHERE DB_NAME='#columnName#'
+	       	  		 </cfquery>
+	       	  		 <cfif qType.FIELD_TYPE IS "Date">
+	       	  		 TO_DATE('#colValue#','DD/MM/YYYY')
+	       	  		 <cfelse>
+	       	  		 '#colValue#'
+	       	  		 </cfif> 
+	       	  		 <cfset iCol++>
+	       	  		 </cfif>
+	       	  		</cfloop>
+	       	  	WHERE WWM_DD_ID = #formData['WWM_DD_ID']#	       	  			       	  	
+	       	  </cfsavecontent>
+	       	  </cfoutput>
+          <cflog file="ddService" type="information" text="#updateQuery#" >
+          <!--- update the record --->
+       	  <cfquery name="qDD" datasource="#fnVars.DD_DB#">
+       	  	#PreserveSingleQuotes(updateQuery)#
+       	  </cfquery>
+       
+       </cfif>
+       
+       <cfset returnStruct.DD_ID=formData.WWM_DD_ID>
        
        <cfreturn returnStruct>
        
