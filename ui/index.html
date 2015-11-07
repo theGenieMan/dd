@@ -4,21 +4,24 @@
   	<meta http-equiv="X-UA-Compatible" content="IE=11" /> 
 	
     <script src="/libraries/angular.min.js"></script>
+    <script src="/libraries/ui-bootstrap-tpls-0.14.3.min.js"></script>    
 	
 	<script src="app/app.js"></script>
-	<script src="app/components/drugDriveController.js"></script>	
+	<script src="app/components/drugDriveController.js"></script>
+	<script src="app/components/tabController.js"></script>	
 	<script src="app/components/custodyController.js"></script>	
 	<script src="app/components/custodyService.js"></script>
 	<script src="app/components/custodyListDirective.js"></script>
 	<script src="app/components/officerLocationService.js"></script>
 	<script src="app/components/drugDriveService.js"></script>	
-	
-	<link href="css/drugDrive.css" rel="stylesheet">	
+		
+	<link href="/libraries/bootstrap-3.3.5-dist/css/bootstrap.css" rel="stylesheet">
+	<link href="css/drugDrive.css" rel="stylesheet">		
 	
   </head>
   <body>
 
-  	<div class="main" ng-controller="drugDriveController as ddCtrl">
+  	<div class="mainDiv" ng-controller="drugDriveController as ddCtrl">
   	  <h2 align="center">
   	  	{{ applicationTitle }}
   	  </h2>
@@ -27,40 +30,61 @@
   	  
   	  <form novalidate ng-submit='submitDD()' name="ddForm">
   	  	
-  	  	On <input type="text" ng-model="ddData.DATE_INITIAL_STOP"
-  	  	   required 
-  	  	   ng-pattern='(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19|20)\d\d' /> 
-  	  	@ <input type="text" ng-model="ddData.TIME_INITIAL_STOP" required />
-  	  	<button ng-click='getOfficerLocation()' type="button">Get My Location</button>  	  	  	  
+  	  	<div ng-controller="TabController">
+  	  	<uib-tabset>
+  	  		<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled" ng-bind-html-unsafe="tab.content">
+		     <div ng-include='tab.content'></div>
+		    </uib-tab>
+  	  	</uib-tabset>	
+  	  	</div>
   	  	
-  	  	<!-- ng-show="officerLocationSearchRan" -->
-  	  	<div>
-  	  	
-  	  	Location Data:
-  	  	Force: <input type="text" ng-model="ddData.WWM_TEST_FORCE" required><br>
-  	  	LPA: <input type="text" ng-model="ddData.WWM_TEST_LPA" required><br>
-  	  	Beat Code: <input type="text" ng-model="ddData.WWM_TEST_BEAT"><br>
-  	  	Grid Ref: {{ ddData.WWM_TEST_GRIDREF }}
-  	  	<br><br>
-  	  	The test was made at: <select ng-model='ddData.WWM_TEST_LOCATION'>
+  	  	<!--
+  	  	<uib-tabset>
+  	  		<uib-tab heading='Time &amp; Location'>
+  	  			
+  	  		  <div class="formDiv">	
+  	  		  	<ng-form name="locationForm">
+  	  			On <input type="text" ng-model="ddData.DATE_INITIAL_STOP"
+		  	  	   required 
+		  	  	   /> 
+		  	  	@ <input type="text" ng-model="ddData.TIME_INITIAL_STOP" required />
+		  	  	<button ng-click='getOfficerLocation()' type="button">Get My Location</button>  	  	  	  
+		  	  	
+		  	  	Location Data:
+		  	  	Force: <input type="text" ng-model="ddData.WWM_TEST_FORCE" required /><br>
+		  	  	LPA: <input type="text" ng-model="ddData.WWM_TEST_LPA" required /><br>
+		  	  	Beat Code: <input type="text" ng-model="ddData.WWM_TEST_BEAT" /><br>
+		  	  	Grid Ref: {{ ddData.WWM_TEST_GRIDREF }}
+		  	  	<br><br>
+		  	  	{{ locationForm.$valid }}
+		  	  	<button ng-click='nextTab(1)' type="button" >Goto Tests Performed</button>
+		  	  	
+		  	  	</ng-form>
+		  	  </div>
+		  	  	
+  	  		</uib-tab>
+  	  		
+  	  		<uib-tab heading='Tests Performed' disable='true'>
+  	  			The test was made at: <select ng-model='ddData.WWM_TEST_LOCATION'>
   	  							<option value="">-- Select --</option>
   	  							<option value="Roadside">Roadside</option>
   	  							<option value="Station">Station</option>
   	  							<option value="Hospital">Hospital</option>
   	  						 </select>
-  	  						 
-  	  	Was an arrest made?: <select ng-model='ddData.ARRESTED' ng-options="c.id as c.label for c in selectYN"></select>
+  	  		</uib-tab>
+  	  		
+		  	<uib-tab heading='Person / Arrest' disable='true'>
+		  		Was an arrest made?: <select ng-model='ddData.ARRESTED' ng-options="c.id as c.label for c in selectYN"></select>
+		  		<custody-list-directive ng-show="ddData.ARRESTED==='Y'"></custody-list-directive>
+		  	</uib-tab>
+  	  		
+  	  	</uib-tabset>
+  	  	-->
   	  	
+  	  	<br><br>
+  	  	<hr>
   	  	<input type="text" ng-model='ddData.WWM_OFFICER_COLLAR'>
-  	  		<input type="text" ng-model='ddData.WWM_OFFICER_FORCE'>
-  	  	  	  							
-  	  	<custody-list-directive ng-show="ddData.ARRESTED==='Y'"></custody-list-directive>
-  	  						 	
-  	  	</div>
-  	  	
-  	  	 
-  	  	
-  	  	
+  	  	<input type="text" ng-model='ddData.WWM_OFFICER_FORCE'>
   	  	
   	  	<input type="submit"
   	  	       value="Submit Drug Drive / FIT Record" />

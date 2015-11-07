@@ -1,6 +1,3 @@
-body{
-	font-family:Arial;
-}
 
 /*
 .ng-valid-required{
@@ -11,10 +8,48 @@ body{
 	background-color:#FF9999
 }*/
 
+.mainDiv{
+	margin:10px;
+}
+
+.formDiv{
+	padding:10px 5px 10px 5px;
+}
+
 input.ng-dirty.ng-valid-pattern{
 	background-color:#BBFFBB;
 }
 
 input.ng-dirty.ng-invalid-pattern{
 	background-color:#FF9999;
+}
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.tab-pane{ border:solid 1px #000066;  border-top: 0;    }
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  color: #FF4D4D;
+  cursor: default;
+  background-color: #fff;
+  border:solid 1px #000066;
+  border-bottom-color: transparent;
+  font-weight:bold;
+}
+
+.nav-tabs {
+  border-bottom: 1px solid #000066;
+}
+
+.nav-tabs > li > a {
+  margin-right: 2px;
+  line-height: 1.42857143;
+  border: 1px solid transparent;
+  border-radius: 4px 4px 0 0;
+  border-color: #000066;
+}
+.nav-tabs > li > a:hover {
+  border-color: #000066;
 }

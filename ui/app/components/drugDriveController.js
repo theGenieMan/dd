@@ -59,6 +59,11 @@ app.controller('drugDriveController', ['$scope', 'officerLocationService', 'drug
   	
   };
   
+  $scope.nextTab = function(tabNumber){
+  	tabNumber++
+  	alert('go to tab '+tabNumber)
+  }
+  
   $scope.custodyClick = function(custodyData){
   	$scope.CUSTODY_DATA=custodyData;
   };

@@ -1,4 +1,4 @@
-var app = angular.module('drugDrive', []);
+var app = angular.module('drugDrive', ['ui.bootstrap']);
 
 // Configure the $httpProvider by adding our date transformer
 app.config(["$httpProvider", function ($httpProvider) {

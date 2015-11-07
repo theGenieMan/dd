@@ -1,0 +1,8 @@
+<div class="formDiv">	
+	<ng-form name="personArrest">
+
+		Was an arrest made?: <select ng-model='ddData.ARRESTED' ng-options="c.id as c.label for c in selectYN"></select>
+		<custody-list-directive ng-show="ddData.ARRESTED==='Y'"></custody-list-directive>
+  	  						 
+   </ng-form>
+</div>

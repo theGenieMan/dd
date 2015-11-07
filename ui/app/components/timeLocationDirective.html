@@ -1,0 +1,20 @@
+<div class="formDiv">	
+	<ng-form name="locationForm">
+		
+		On <input type="text" ng-model="ddData.DATE_INITIAL_STOP"
+		   required 
+		   /> 
+		@ <input type="text" ng-model="ddData.TIME_INITIAL_STOP" required />
+		<button ng-click='getOfficerLocation()' type="button">Get My Location</button>  	  	  	  
+		
+		Location Data:
+		Force: <input type="text" ng-model="ddData.WWM_TEST_FORCE" required /><br>
+		LPA: <input type="text" ng-model="ddData.WWM_TEST_LPA" required /><br>
+		Beat Code: <input type="text" ng-model="ddData.WWM_TEST_BEAT" /><br>
+		Grid Ref: {{ ddData.WWM_TEST_GRIDREF }}
+		<br><br>
+		{{ locationForm.$valid }}
+		<button ng-click='submitDD();nextTab(0)' type="button" >Goto Tests Performed</button>
+	
+	</ng-form>
+</div>

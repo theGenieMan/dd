@@ -1,0 +1,14 @@
+<div class="formDiv">	
+	<ng-form name="testsPerformed">
+
+		The test was made at: <select ng-model='ddData.WWM_TEST_LOCATION'>
+  	  							<option value="">-- Select --</option>
+  	  							<option value="Roadside">Roadside</option>
+  	  							<option value="Station">Station</option>
+  	  							<option value="Hospital">Hospital</option>
+  	  						 </select>
+  	  	
+  	  	<button ng-click='submitDD();nextTab(1)' type="button" >Goto Person / Arrest</button>
+  	  						 
+   </ng-form>
+</div>
