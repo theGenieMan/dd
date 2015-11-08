@@ -16,14 +16,6 @@
 	padding:10px 5px 10px 5px;
 }
 
-input.ng-dirty.ng-valid-pattern{
-	background-color:#BBFFBB;
-}
-
-input.ng-dirty.ng-invalid-pattern{
-	background-color:#FF9999;
-}
-
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 .tab-pane{ border:solid 1px #000066;  border-top: 0;    }
@@ -52,4 +44,10 @@ input.ng-dirty.ng-invalid-pattern{
 }
 .nav-tabs > li > a:hover {
   border-color: #000066;
+}
+
+.mandatory{
+  background-color:#FFFF99;	
+}
+	
 }

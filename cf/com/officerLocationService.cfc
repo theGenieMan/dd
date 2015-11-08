@@ -25,8 +25,8 @@
                 
          <cfargument name="officerCollar" type="string" required="true" hint="collar number of officer" />
          <cfargument name="officerForce" type="string" required="true" hint="force of officer" />
-         <cfargument name="dateToFind" type="string" required="true" hint="date to find location for" />
-         <cfargument name="timeToFind" type="string" required="true" hint="time to find location for" />
+         <cfargument name="dateToFind" type="date" required="true" hint="date to find location for" />
+         <cfargument name="timeToFind" type="date" required="true" hint="time to find location for" />
          
          <cfset var officerLocationData=structNew()>
          <cfset var qWMQuery="">
@@ -34,13 +34,15 @@
          <cfset var qBeatQuery="">
          <cfset var fnVars=initVars()>
          <cfset var sWMCollar=arguments.officerCollar>
-         <cfset var sWCollar=arguments.officerCollar>
+         <cfset var sWCollar=arguments.officerCollar>       
          <cfset var warksDateYear=ListGetAt(arguments.dateToFind,3,"/")>
          <cfset var warksDateMonth=ListGetAt(arguments.dateToFind,2,"/")>
          <cfset var warksDateDay=ListGetAt(arguments.dateToFind,1,"/")>
          <cfset var warksDate=warksDateYear & warksDateMonth & warksDateDay>
          <cfset var warksTime=Replace(timeToFind,":","","ALL")&"00">
          <cfset var listDistances="100,250,500,1000,2000">
+         
+         <cflog file="ols" type="information" text="x#dateToFind#x#timeToFind#x" >
          
          <cfset officerLocationData.locationAvailable=false>
          <cfset officerLocationData.gridAvailable=false>

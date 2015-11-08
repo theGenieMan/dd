@@ -1,11 +1,40 @@
-app.controller('drugDriveController', ['$scope', 'officerLocationService', 'drugDriveService' , function($scope, offLS, ddService) {
+app.controller('drugDriveController', ['$scope', '$document', 'officerLocationService', 'drugDriveService' , function($scope, $document, offLS, ddService) {
+  
+   $document.on('keydown', function(e){
+          if(e.which === 8 && e.target.nodeName !== "INPUT"){ // you can add others here.
+              e.preventDefault();
+          }
+      });
   
   $scope.applicationTitle='Drug Drive / FIT Test Submission';
   $scope.officerLocationSearchRan=false;
+  $scope.calStatus = {
+    opened: false
+  };
+  
+  $scope.forceSelect = [
+  	{label:'-- Select --', id:''},
+  	{label:'Warwickshire Police', id:23},
+  	{label:'West Mercia Police', id:22}	
+  ];
+  
+  $scope.lpaSelect = [
+  	{label:'-- Select --', id:''},
+  	{label:'C - South Worcestershire', id:'C'},
+  	{label:'D - North Worcestershire', id:'D'},
+  	{label:'E - Herefordshire', id:'E'},
+  	{label:'F - Shropshire', id:'F'},
+  	{label:'G - Telford &amp; Wrekin', id:'G'},
+  	{label:'N - North Warwickshire', id:'N'},
+  	{label:'S - South Warwickshire', id:'S'}	
+  ]
+
+  $scope.overideDate=new Date(2015,9,29,21,33,0,0);
+  
   
   $scope.ddData={
-  	DATE_INITIAL_STOP:'29/10/2015',
-  	TIME_INITIAL_STOP:'21:33',
+  	DATE_INITIAL_STOP:$scope.overideDate,
+  	TIME_INITIAL_STOP:formatDate($scope.overideDate,'HH:mm'),
   	WWM_OFFICER_UID:'n_bla005',
   	WWM_OFFICER_COLLAR:'4854',
   	WWM_OFFICER_FORCE:'22',
@@ -59,10 +88,9 @@ app.controller('drugDriveController', ['$scope', 'officerLocationService', 'drug
   	
   };
   
-  $scope.nextTab = function(tabNumber){
-  	tabNumber++
-  	alert('go to tab '+tabNumber)
-  }
+  $scope.openCal = function($event) {
+    $scope.calStatus.opened = true;
+  };
   
   $scope.custodyClick = function(custodyData){
   	$scope.CUSTODY_DATA=custodyData;

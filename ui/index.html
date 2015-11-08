@@ -6,6 +6,7 @@
     <script src="/libraries/angular.min.js"></script>
     <script src="/libraries/ui-bootstrap-tpls-0.14.3.min.js"></script>    
 	
+	<script src="app/usefulFunctions.js"></script>
 	<script src="app/app.js"></script>
 	<script src="app/components/drugDriveController.js"></script>
 	<script src="app/components/tabController.js"></script>	
@@ -38,48 +39,7 @@
   	  	</uib-tabset>	
   	  	</div>
   	  	
-  	  	<!--
-  	  	<uib-tabset>
-  	  		<uib-tab heading='Time &amp; Location'>
-  	  			
-  	  		  <div class="formDiv">	
-  	  		  	<ng-form name="locationForm">
-  	  			On <input type="text" ng-model="ddData.DATE_INITIAL_STOP"
-		  	  	   required 
-		  	  	   /> 
-		  	  	@ <input type="text" ng-model="ddData.TIME_INITIAL_STOP" required />
-		  	  	<button ng-click='getOfficerLocation()' type="button">Get My Location</button>  	  	  	  
-		  	  	
-		  	  	Location Data:
-		  	  	Force: <input type="text" ng-model="ddData.WWM_TEST_FORCE" required /><br>
-		  	  	LPA: <input type="text" ng-model="ddData.WWM_TEST_LPA" required /><br>
-		  	  	Beat Code: <input type="text" ng-model="ddData.WWM_TEST_BEAT" /><br>
-		  	  	Grid Ref: {{ ddData.WWM_TEST_GRIDREF }}
-		  	  	<br><br>
-		  	  	{{ locationForm.$valid }}
-		  	  	<button ng-click='nextTab(1)' type="button" >Goto Tests Performed</button>
-		  	  	
-		  	  	</ng-form>
-		  	  </div>
-		  	  	
-  	  		</uib-tab>
-  	  		
-  	  		<uib-tab heading='Tests Performed' disable='true'>
-  	  			The test was made at: <select ng-model='ddData.WWM_TEST_LOCATION'>
-  	  							<option value="">-- Select --</option>
-  	  							<option value="Roadside">Roadside</option>
-  	  							<option value="Station">Station</option>
-  	  							<option value="Hospital">Hospital</option>
-  	  						 </select>
-  	  		</uib-tab>
-  	  		
-		  	<uib-tab heading='Person / Arrest' disable='true'>
-		  		Was an arrest made?: <select ng-model='ddData.ARRESTED' ng-options="c.id as c.label for c in selectYN"></select>
-		  		<custody-list-directive ng-show="ddData.ARRESTED==='Y'"></custody-list-directive>
-		  	</uib-tab>
-  	  		
-  	  	</uib-tabset>
-  	  	-->
+  	  	
   	  	
   	  	<br><br>
   	  	<hr>
@@ -98,6 +58,9 @@
   	  <br><br><br>
   	  <div style="border:1px solid black; padding:10px;">
   	  	{{ ddData | json }}
+  	  	
+  	  	{{ ddData.DATE_INITIAL_STOP.getDate() }}
+  	  	
   	  </div>
   	  
   	</div>
