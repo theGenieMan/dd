@@ -7,7 +7,7 @@
     	<cfif SERVER_NAME IS "127.0.0.1" OR SERVER_NAME IS "localhost">   		
     		<cfset serviceVars.WAREHOUSE_DB="wmercia">    		
     	<cfelseif SERVER_NAME IS "development.intranet.wmcpolice">
-    	
+    	    <cfset serviceVars.WAREHOUSE_DB="wmercia">    
     	<cfelseif SERVER_NAME IS "websvr.intranet.wmcpolice">	
     		
     	</cfif>
@@ -29,6 +29,7 @@
 		   SELECT CUSTODY_REF, NOMINAL_REF, NAME AS NOMINAL_NAME,
 		          DOB, ETHNIC_APP, AO_FORCE, AO_BADGE, SEX, ARREST_TIME
 		   FROM   browser_owner.CUSTODY_SEARCH
+		   WHERE  ARREST_TIME > SYSDATE-7
 		   ORDER  BY ARREST_TIME DESC
 		</cfquery>
 		

@@ -6,10 +6,16 @@
     	
     	<cfif SERVER_NAME IS "127.0.0.1" OR SERVER_NAME IS "localhost">   		
     		<cfset serviceVars.WAREHOUSE_DB="wmercia">
-    		<cfset serviceVars.LOCATION_DB="wmercia">    
+			<cfset serviceVars.WAREHOUSE_DB_PREFIX="">
+    		<cfset serviceVars.LOCATION_DB="wmercia">
+			<cfset serviceVars.LOCATION_DB_PREFIX="">    
     		<cfset serviceVars.STORM_DB="wmercia">    		
     	<cfelseif SERVER_NAME IS "development.intranet.wmcpolice">
-    	
+    		<cfset serviceVars.WAREHOUSE_DB="wmercia">
+			<cfset serviceVars.WAREHOUSE_DB_PREFIX="BROWSER_OWNER.">    
+    		<cfset serviceVars.LOCATION_DB="SS_CRIMES">
+			<cfset serviceVars.LOCATION_DB_PREFIX="CRIME.">    
+    		<cfset serviceVars.STORM_DB="STORM_ARC">  
     	<cfelseif SERVER_NAME IS "websvr.intranet.wmcpolice">	
     		
     	</cfif>
@@ -63,7 +69,7 @@
          </cfif>
          <cfquery name="qWMQuery" datasource="#fnVars.LOCATION_DB#" maxrows="1">
 			SELECT  av.TIME_TO, av.X, av.Y, av.X||av.Y AS GRIDREF, CALLSIGN
-			FROM    APLS_STAFF_AVIS_HIST_VIEW av
+			FROM    #fnVars.LOCATION_DB_PREFIX#APLS_STAFF_AVIS_HIST_VIEW av
 			WHERE   CALLSIGN = <cfqueryparam value="#sWMCollar#" cfsqltype="cf_sql_varchar">
 			AND     (TIME_FROM < TO_DATE('#dateToFind# #timeToFind#','DD/MM/YYYY HH24:MI:SS') AND TIME_TO > TO_DATE('#dateToFind# #timeToFind#','DD/MM/YYYY HH24:MI:SS'))         	
          </cfquery>
@@ -123,7 +129,7 @@
 					(
 					SELECT BEAT_CODE, DESCRIPTION, GRID_REF, ABS(#officerLocationData.X#-SUBSTR(GRID_REF,0,6)) AS DIFF1, ABS(#officerLocationData.Y#-SUBSTR(GRID_REF,7,6)) AS DIFF2, 
 					       SQRT(  ABS(#officerLocationData.X#-SUBSTR(GRID_REF,0,6))*ABS(#officerLocationData.X#-SUBSTR(GRID_REF,0,6)) +  ABS(#officerLocationData.Y#-SUBSTR(GRID_REF,7,6))*ABS(#officerLocationData.Y#-SUBSTR(GRID_REF,7,6))  ) AS DIST
-					FROM OFFENCE_SEARCH os, ORG_LOOKUP org
+					FROM #fnVars.WAREHOUSE_DB_PREFIX#OFFENCE_SEARCH os, #fnVars.WAREHOUSE_DB_PREFIX#ORG_LOOKUP org
 					WHERE SUBSTR( OS.GRID_REF ,0,6) BETWEEN '#xLow#' AND '#xHigh#'
 					  AND SUBSTR( OS.GRID_REF ,7,6) BETWEEN '#yLow#' AND '#yHigh#'
 					  AND BEAT_CODE IS NOT NULL

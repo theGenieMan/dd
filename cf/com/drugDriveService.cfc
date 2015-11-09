@@ -6,13 +6,14 @@
     	
     	<cfif SERVER_NAME IS "127.0.0.1" OR SERVER_NAME IS "localhost">
     		<cfset serviceVars.DD_DB="DrugDrive">
-    		<cfset serviceVars.WAREHOUSE_DB="wmercia">
-    		<cfset serviceVars.STORM_ARC_DB="arcma">
     		<cfset serviceVars.templateFile="C:\ColdFusion10\cfusion\wwwroot\drugDrive\cf\pdfTemplates\hoDrugDriveFormV1.pdf">
     		<cfset serviceVars.dbToPdfLookupFile="C:\ColdFusion10\cfusion\wwwroot\drugDrive\cf\com\dbToPdfLookup.txt">
     		<cfset serviceVars.pdfLocation="C:\ColdFusion10\cfusion\wwwroot\drugDrive\pdfOutput\">
     	<cfelseif SERVER_NAME IS "development.intranet.wmcpolice">
-    	
+    		<cfset serviceVars.DD_DB="DrugDriveNew">
+    		<cfset serviceVars.templateFile="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\dd\cf\pdfTemplates\hoDrugDriveFormV1.pdf">
+    		<cfset serviceVars.dbToPdfLookupFile="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\dd\cf\com\dbToPdfLookup.txt">
+    		<cfset serviceVars.pdfLocation="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\pdfOutput\">    	
     	<cfelseif SERVER_NAME IS "websvr.intranet.wmcpolice">	
     		
     	</cfif>
@@ -69,39 +70,41 @@
        	  </cfquery>
        	  
        	  <cfset formData.WWM_DD_ID=qNextSeq.NEW_DD_ID>
+			  
        	  <cfoutput>
        	  <cfsavecontent variable="insertQuery">
        	  	INSERT INTO DRUG_DRIVE
        	  	(
        	  		<cfset iCol=1>
-       	  		<cfloop collection="#formData#" item="columnName" >
-       	  		 <cfif iCol GT 1>
-       	  		 ,
-       	  		 </cfif>
-       	  		 #columnName#
-       	  		 <cfset iCol++>
-       	  		</cfloop>
+       	  		<cfloop query="qDbToPdfLookup">
+				
+				 <cfif structKeyExists(formData,DB_NAME)>	 						 	
+	       	  		 <cfif iCol GT 1>
+	       	  		 ,
+	       	  		 </cfif>
+	       	  		 #DB_NAME#
+	       	  		 <cfset iCol++>
+				 </cfif>
+       	  		</cfloop>       	  		
        	  	)
        	  	VALUES
        	  	(
-       	  		<cfset iCol=1>
-       	  		<cfloop collection="#formData#" item="columnName" >
-       	  		 <cfif iCol GT 1>
-       	  		 ,
-       	  		 </cfif>
-       	  		 <cfset colValue=structFind(formData,columnName)>
-       	  		 <cfquery name="qType" dbtype="query">
-       	  		 	SELECT FIELD_TYPE
-       	  		 	FROM qDbToPdfLookup
-       	  		 	WHERE DB_NAME='#columnName#'
-       	  		 </cfquery>
-       	  		 <cfif qType.FIELD_TYPE IS "Date">
-       	  		 TO_DATE('#colValue#','DD/MM/YYYY')
-       	  		 <cfelse>
-       	  		 '#colValue#'
-       	  		 </cfif> 
-       	  		 <cfset iCol++>
-       	  		</cfloop>
+       	  	    <cfset iCol=1>
+       	  		<cfloop query="qDbToPdfLookup">				
+				 <cfif structKeyExists(formData,DB_NAME)>	 						 	
+	       	  		 <cfif iCol GT 1>
+	       	  		 ,
+	       	  		 </cfif>
+	       	  		 <cfif FIELD_TYPE IS "Date">
+					  TO_DATE('#formData[DB_NAME]#','DD/MM/YYYY')	
+					 <cfelseif FIELD_TYPE IS "Number">
+					   #formData[DB_NAME]#	   	  
+					 <cfelse>
+	       	  		  '#formData[DB_NAME]#'
+					 </cfif>
+	       	  		 <cfset iCol++>
+				 </cfif>
+       	  		</cfloop>       	  		
        	  	)
        	  </cfsavecontent>
        	  </cfoutput>
@@ -120,27 +123,23 @@
 	       	  <cfsavecontent variable="updateQuery">
 	       	  	UPDATE DRUG_DRIVE
 	       	  	SET
-	       	  		<cfset iCol=1>
-	       	  		<cfloop collection="#formData#" item="columnName" >
-	       	  		<cfif columnName IS NOT "WWM_DD_ID">
+	       	  	<cfset iCol=1>
+       	  		<cfloop query="qDbToPdfLookup">				
+				 <cfif structKeyExists(formData,DB_NAME) AND DB_NAME IS NOT "WWM_DD_ID">	 						 	
 	       	  		 <cfif iCol GT 1>
 	       	  		 ,
 	       	  		 </cfif>
-	       	  		 #columnName# = 
-	       	  		 <cfset colValue=structFind(formData,columnName)>
-	       	  		 <cfquery name="qType" dbtype="query">
-	       	  		 	SELECT FIELD_TYPE
-	       	  		 	FROM qDbToPdfLookup
-	       	  		 	WHERE DB_NAME='#columnName#'
-	       	  		 </cfquery>
-	       	  		 <cfif qType.FIELD_TYPE IS "Date">
-	       	  		 TO_DATE('#colValue#','DD/MM/YYYY')
-	       	  		 <cfelse>
-	       	  		 '#colValue#'
-	       	  		 </cfif> 
+	       	  		 #DB_NAME# = 
+	       	  		 <cfif FIELD_TYPE IS "Date">
+					  TO_DATE('#formData[DB_NAME]#','DD/MM/YYYY')	
+					 <cfelseif FIELD_TYPE IS "Number">
+					   #formData[DB_NAME]#	   	  
+					 <cfelse>
+	       	  		  '#formData[DB_NAME]#'
+					 </cfif>
 	       	  		 <cfset iCol++>
-	       	  		 </cfif>
-	       	  		</cfloop>
+				 </cfif>
+       	  		</cfloop>       
 	       	  	WHERE WWM_DD_ID = #formData['WWM_DD_ID']#	       	  			       	  	
 	       	  </cfsavecontent>
 	       	  </cfoutput>

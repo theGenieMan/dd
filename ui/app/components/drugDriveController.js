@@ -33,7 +33,7 @@ app.controller('drugDriveController', ['$scope', '$document', 'officerLocationSe
   
   
   $scope.ddData={
-  	DATE_INITIAL_STOP:$scope.overideDate,
+  	DATE_INITIAL_STOP_PICKER:$scope.overideDate,
   	TIME_INITIAL_STOP:formatDate($scope.overideDate,'HH:mm'),
   	WWM_OFFICER_UID:'n_bla005',
   	WWM_OFFICER_COLLAR:'4854',
@@ -54,8 +54,8 @@ app.controller('drugDriveController', ['$scope', '$document', 'officerLocationSe
   
   $scope.submitDD = function(){
   	
-  	alert('submit me form')
-  	
+	$scope.ddData.DATE_INITIAL_STOP=formatDate($scope.ddData.DATE_INITIAL_STOP_PICKER,'dd/MM/yyyy');
+	alert($scope.ddData.DATE_INITIAL_STOP)
   	ddService.submitDD($scope.ddData)
   	       .success(function(data, status, headers){
   		// the success function wraps the response in data
@@ -71,7 +71,7 @@ app.controller('drugDriveController', ['$scope', '$document', 'officerLocationSe
   
   $scope.getOfficerLocation = function(){
   	
-  	  offLS.getOfficerLocation($scope.ddData.WWM_OFFICER_COLLAR, $scope.ddData.WWM_OFFICER_FORCE, $scope.ddData.DATE_INITIAL_STOP, $scope.ddData.TIME_INITIAL_STOP)
+  	  offLS.getOfficerLocation($scope.ddData.WWM_OFFICER_COLLAR, $scope.ddData.WWM_OFFICER_FORCE, $scope.ddData.DATE_INITIAL_STOP_PICKER, $scope.ddData.TIME_INITIAL_STOP)
   	       .success(function(data, status, headers){
   		// the success function wraps the response in data
 				// so we need to call data.data to fetch the raw data

@@ -6,7 +6,7 @@ app.factory('officerLocationService', ['$http', function($http) {
     	  	
       return $http({
 	  	method: 'get',        
-        url: '/drugDrive/cf/Com/officerLocationService.cfc?method=getLocation&officerCollar='+collar+'&officerForce='+force+'&dateToFind='+dateToFind+'&timeToFind='+timeLocation
+        url: '../cf/Com/officerLocationService.cfc?method=getLocation&officerCollar='+collar+'&officerForce='+force+'&dateToFind='+dateToFind+'&timeToFind='+timeLocation
       });
     }
     return {
