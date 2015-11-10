@@ -26,11 +26,15 @@
 		<cfset var qCust=''>		
 		
 		<cfquery name="qCust" datasource="#fnVars.WAREHOUSE_DB#">
-		   SELECT CUSTODY_REF, NOMINAL_REF, NAME AS NOMINAL_NAME,
-		          DOB, ETHNIC_APP, AO_FORCE, AO_BADGE, SEX, ARREST_TIME
-		   FROM   browser_owner.CUSTODY_SEARCH
-		   WHERE  ARREST_TIME > SYSDATE-7
-		   ORDER  BY ARREST_TIME DESC
+			SELECT CUSTODY_REF, SUBSTR(CUSTODY_REF,0,4) AS CUST_SUITE,
+			       NOMINAL_REF, NAME AS NOMINAL_NAME,
+                   TO_CHAR(DOB,'DD/MM/YYYY') AS DOB, 
+                   floor(MONTHS_BETWEEN(sysdate,DOB)/12) AS AGE,
+                   ETHNIC_APP, AO_FORCE, AO_BADGE, SEX, 
+                   TO_CHAR(ARREST_TIME,'DD-MON HH24:MI') AS ARREST_TIME
+           FROM    browser_owner.CUSTODY_SEARCH
+           WHERE   ARREST_TIME > SYSDATE-1
+           ORDER   BY ARREST_TIME DESC
 		</cfquery>
 		
         <cfreturn QueryToArray(qCust)>

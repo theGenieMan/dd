@@ -8,6 +8,13 @@ app.config(["$httpProvider", function ($httpProvider) {
     });
 }]);
 
+app.filter('startFrom', function () {
+    return function (input, start) {
+        start = +start;
+        return input.slice(start);
+    }
+});
+
 var regexIso8601 = /^(\d{4}|\+\d{6})(?:-(\d{2})(?:-(\d{2})(?:T(\d{2}):(\d{2}):(\d{2})\.(\d{1,})(Z|([\-+])(\d{2}):(\d{2}))?)?)?)?$/;
 
 function convertDateStringsToDates(input) {

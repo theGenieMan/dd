@@ -48,7 +48,8 @@ app.controller('drugDriveController', ['$scope', '$document', 'officerLocationSe
   	WWM_OFFICER_NAME:'Sp Con 4854 Nick BLACKHAM',
   	WWM_OFFICER_EMAIL:'nick.blackham@westmercia.pnn.police.uk',
   	WWM_TEST_LOCATION:'Roadside',
-  	ROADSIDE_FIT_DONE: 'Y'  	
+  	ROADSIDE_FIT_DONE: 'Y',
+	ARRESTED:'Y'  	
   };
   
   $scope.CUSTODY_DATA={};

@@ -2,6 +2,8 @@
 <html ng-app='drugDrive'>
   <head>
   	<meta http-equiv="X-UA-Compatible" content="IE=11" /> 
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Expires" CONTENT="-1">
 	
     <script src="/libraries/angular.min.js"></script>
     <script src="/libraries/ui-bootstrap-tpls-0.14.3.min.js"></script>    
@@ -22,7 +24,7 @@
   </head>
   <body>
 
-  	<div class="mainDiv" ng-controller="drugDriveController as ddCtrl">
+  	<div class="mainDiv container" ng-controller="drugDriveController as ddCtrl">
   	  <h2 align="center">
   	  	{{ applicationTitle }}
   	  </h2>
@@ -60,6 +62,8 @@
   	  	{{ ddData | json }}
   	  	
   	  	{{ ddData.DATE_INITIAL_STOP.getDate() }}
+		
+		{{ CUSTODY_DATA | json }}
   	  	
   	  </div>
   	  

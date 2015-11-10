@@ -18,6 +18,11 @@
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
+.form-control {
+width:auto;
+display:inline-block;
+}
+
 .tab-pane{ border:solid 1px #000066;  border-top: 0;    }
 
 .nav-tabs > li.active > a,
@@ -39,7 +44,7 @@
   margin-right: 2px;
   line-height: 1.42857143;
   border: 1px solid transparent;
-  border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0px 0px;
   border-color: #000066;
 }
 .nav-tabs > li > a:hover {
@@ -50,4 +55,3 @@
   background-color:#FFFF99;	
 }
 	
-}

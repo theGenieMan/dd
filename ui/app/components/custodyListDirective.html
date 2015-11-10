@@ -1,19 +1,45 @@
-<table>
+<div class="form-inline">
+	<div class="row">
+		<div class="form-group col-sm-1">
+		Filter -
+		</div>
+		<div class="form-group col-sm-1"> 
+		<label for="suiteFilter">Custody</label>
+		</div> 
+		<div class="form-group col-sm-1">
+			<select class="form-control" name="suiteFilter" ng-model='search.CUST_SUITE' 
+	                 ng-options="c.id as c.label for c in custodyStnList"></select>
+		</div>
+	</div>				 
+</div>
+<table class="table table-striped">
 	<thead>
 		<th>Custody Ref</th>
 		<th>Person</th>
 		<th>Sex</th>
-		<th>DOB/Age</th>
+		<th>DOB (Age)</th>
 		<th>Arrest By</th>
 		<th>Arrest Date</th>
 	</thead>
 	<tbody>
-	  <tr ng-repeat="custody in custodyListArray">
+	  <!--
+	  <tr ng-repeat="custody in custodyListArray | filter:search:strict">
+	  -->
+	  <tr ng-repeat="custody in ( custodyListArray | filter:search ) | startFrom:(currentPage - 1) * pageSize | limitTo: pageSize">
 		<td><a href ng-click="custodyClick(custody)">{{ custody.CUSTODY_REF }}</a></td>
 		<td>{{ custody.NOMINAL_NAME }} ({{ custody.NOMINAL_REF }})</td>
 		<td>{{ custody.SEX }}</td>
-		<td>{{ custody.DOB }}</td>
-		<td>{{ custody.CUSTODY_REF }}</td>
+		<td>{{ custody.DOB }} ({{ custody.AGE }})</td>
+		<td>{{ custody.AO_FORCE }} {{ custody.AO_BADGE }}</td>
+		<td>{{ custody.ARREST_TIME }}</td>
 	  </tr>
-	</tbody>	
+	</tbody>
+	<tfoot>
+	  <tr>
+	  	<td colspan="6" align="right">
+			<uib-pagination total-items="( custodyListArray | filter:search ).length" ng-model="currentPage"></uib-pagination>	  		
+	  	</td>
+	  </tr>
+	</tfoot>	
 </table>
+
