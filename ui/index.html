@@ -24,12 +24,23 @@
   </head>
   <body>
 
-  	<div class="mainDiv container" ng-controller="drugDriveController as ddCtrl">
-  	  <h2 align="center">
-  	  	{{ applicationTitle }}
-  	  </h2>
-  	  
-  	 
+  	<div class="mainDiv" ng-controller="drugDriveController as ddCtrl">
+  	 <nav class="navbar navbar-default navbar-fixed-top">
+       <div class="container">
+         <div class="navbar-header">
+          <span class="navbar-brand">Drug / FIT Test</span>	
+         </div>
+		 <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav ">
+           <li><a href="#">Home</a></li>		  
+		  </ul>
+		  <ul class="nav navbar-nav navbar-right">
+		   <li><a href="#">Logo</a></li>
+		 </div>        
+	   </div>
+	 </nav>
+	 
+	 <div class="container">
   	  
   	  <form novalidate ng-submit='submitDD()' name="ddForm">
   	  	
@@ -52,7 +63,8 @@
   	  	       value="Submit Drug Drive / FIT Record" />
   	  	
   	  </form>
-  	  
+	  
+  	 </div> 
   	  <!--
   	  <div custody-list-directive></div>
   	  -->

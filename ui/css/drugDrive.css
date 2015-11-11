@@ -1,4 +1,7 @@
-
+body { padding-top: 45px; }
+@media screen and (max-width: 768px) {
+    body { padding-top: 0px; }
+}
 /*
 .ng-valid-required{
 	background-color:#BBFFBB
