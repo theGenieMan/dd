@@ -1,14 +1,14 @@
-var app = angular.module('drugDrive', ['ui.bootstrap']);
+angular.module('drugDrive', ['ui.bootstrap','ngRoute']);
 
 // Configure the $httpProvider by adding our date transformer
-app.config(["$httpProvider", function ($httpProvider) {
+angular.module('drugDrive').config(["$httpProvider", function ($httpProvider) {
     $httpProvider.defaults.transformResponse.push(function(responseData){
         convertDateStringsToDates(responseData);
         return responseData;
     });
 }]);
 
-app.filter('startFrom', function () {
+angular.module('drugDrive').filter('startFrom', function () {
     return function (input, start) {
         start = +start;
         return input.slice(start);

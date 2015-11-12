@@ -1,4 +1,5 @@
-app.controller('TabController', ['$scope', function($scope) {
+angular.module('drugDrive')
+  .controller('TabController', ['$scope', function($scope) {
 	
 	$scope.tabs = [
     { title:'Time / Location', content:'app/components/timeLocationDirective.html' },

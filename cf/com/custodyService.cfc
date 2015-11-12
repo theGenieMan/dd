@@ -5,13 +5,15 @@
     	<cfset var serviceVars=structNew()>
     	
     	<cfif SERVER_NAME IS "127.0.0.1" OR SERVER_NAME IS "localhost">   		
-    		<cfset serviceVars.WAREHOUSE_DB="wmercia">    		
+    		<cfset serviceVars.WAREHOUSE_DB="wmercia">  
+    		<cfset serviceVars.ENV="localDev">  		
     	<cfelseif SERVER_NAME IS "development.intranet.wmcpolice">
-    	    <cfset serviceVars.WAREHOUSE_DB="wmercia">    
+    	    <cfset serviceVars.WAREHOUSE_DB="wmercia">
+    	    <cfset serviceVars.ENV="wmDev">    
     	<cfelseif SERVER_NAME IS "websvr.intranet.wmcpolice">	
     		
     	</cfif>
-    	
+
     	<cfreturn serviceVars>
     	
     </cffunction>
@@ -24,8 +26,8 @@
         <cfset var fnVars=initVars()>
         <cfset var arrCust=arrayNew(1)>    
 		<cfset var qCust=''>		
-		
-		<cfquery name="qCust" datasource="#fnVars.WAREHOUSE_DB#">
+		<cflog file="custService" type="information" text="running get custodies" />
+		<cfquery name="qCust" datasource="#fnVars.WAREHOUSE_DB#" result="qCustRes">
 			SELECT CUSTODY_REF, SUBSTR(CUSTODY_REF,0,4) AS CUST_SUITE,
 			       NOMINAL_REF, NAME AS NOMINAL_NAME,
                    TO_CHAR(DOB,'DD/MM/YYYY') AS DOB, 
@@ -33,10 +35,12 @@
                    ETHNIC_APP, AO_FORCE, AO_BADGE, SEX, 
                    TO_CHAR(ARREST_TIME,'DD-MON HH24:MI') AS ARREST_TIME
            FROM    browser_owner.CUSTODY_SEARCH
+           <cfif fnVars.ENV IS NOT "localDev">
            WHERE   ARREST_TIME > SYSDATE-1
+           </cfif>
            ORDER   BY ARREST_TIME DESC
 		</cfquery>
-		
+		<cflog file="custService" type="information" text="#qCUst.recordCount# rows returned. #qCustRes.sql#" />
         <cfreturn QueryToArray(qCust)>
     </cffunction>
     

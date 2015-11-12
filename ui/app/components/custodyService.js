@@ -1,4 +1,5 @@
-app.factory('custodyService', ['$http', function($http) {
+angular.module('drugDrive')
+  .factory('custodyService', ['$http', function($http) {
 
     var getCustodies = function() {	  	
       return $http({

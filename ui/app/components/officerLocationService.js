@@ -1,4 +1,5 @@
-app.factory('officerLocationService', ['$http', function($http) {
+angular.module('drugDrive')
+  .factory('officerLocationService', ['$http', function($http) {
 
     var getOfficerLocation = function(collar, force, dateLocation, timeLocation) {	
           

@@ -2,15 +2,21 @@
 <html ng-app='drugDrive'>
   <head>
   	<meta http-equiv="X-UA-Compatible" content="IE=11" /> 
-	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
-	<META HTTP-EQUIV="Expires" CONTENT="-1">
+	<meta http-equiv="cache-control" content="max-age=0" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+	<meta http-equiv="pragma" content="no-cache" />
 	
     <script src="/libraries/angular.min.js"></script>
+    <script src="/libraries/angular-route.min.js"></script>
     <script src="/libraries/ui-bootstrap-tpls-0.14.3.min.js"></script>    
 	
 	<script src="app/usefulFunctions.js"></script>
 	<script src="app/app.js"></script>
-	<script src="app/components/drugDriveController.js"></script>
+	<script src="app/routes.js"></script>
+	<script src="app/controllers/HomeController.js"></script>
+	<script src="app/controllers/DrugDriveController.js"></script>
 	<script src="app/components/tabController.js"></script>	
 	<script src="app/components/custodyController.js"></script>	
 	<script src="app/components/custodyService.js"></script>
@@ -24,7 +30,7 @@
   </head>
   <body>
 
-  	<div class="mainDiv" ng-controller="drugDriveController as ddCtrl">
+  	<div class="mainDiv" ng-controller="HomeController">
   	 <nav class="navbar navbar-default navbar-fixed-top">
        <div class="container">
          <div class="navbar-header">
@@ -32,7 +38,9 @@
          </div>
 		 <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav ">
-           <li><a href="#">Home</a></li>		  
+           <li><a ng-href="#/">Home</a></li>
+           <li><a ng-href="#/drugDriveForm">New Submission</a></li>
+           <li><a ng-href="#/userList">My Submissions</a></li>		  
 		  </ul>
 		  <ul class="nav navbar-nav navbar-right">
 		   <li><a href="#">Logo</a></li>
@@ -40,46 +48,8 @@
 	   </div>
 	 </nav>
 	 
-	 <div class="container">
-  	  
-  	  <form novalidate ng-submit='submitDD()' name="ddForm">
-  	  	
-  	  	<div ng-controller="TabController">
-  	  	<uib-tabset>
-  	  		<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled" ng-bind-html-unsafe="tab.content">
-		     <div ng-include='tab.content'></div>
-		    </uib-tab>
-  	  	</uib-tabset>	
-  	  	</div>
-  	  	
-  	  	
-  	  	
-  	  	<br><br>
-  	  	<hr>
-  	  	<input type="text" ng-model='ddData.WWM_OFFICER_COLLAR'>
-  	  	<input type="text" ng-model='ddData.WWM_OFFICER_FORCE'>
-  	  	
-  	  	<input type="submit"
-  	  	       value="Submit Drug Drive / FIT Record" />
-  	  	
-  	  </form>
-	  
-  	 </div> 
-  	  <!--
-  	  <div custody-list-directive></div>
-  	  -->
-  	  
-  	  <br><br><br>
-  	  <div style="border:1px solid black; padding:10px;">
-  	  	{{ ddData | json }}
-  	  	
-  	  	{{ ddData.DATE_INITIAL_STOP.getDate() }}
-		
-		{{ CUSTODY_DATA | json }}
-  	  	
-  	  </div>
-  	  
-  	</div>
-  	
+	 <div ng-view></div>
+  </div> 
+  	 
   </body>
 </html>  

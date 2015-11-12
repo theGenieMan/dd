@@ -1,4 +1,5 @@
-app.controller('custodyController', ['$scope', 'custodyService', '$log', function($scope,  custodyService, $log) {
+angular.module('drugDrive')
+ .controller('custodyController', ['$scope', 'custodyService', '$log', function($scope,  custodyService, $log) {
   $scope.person = {
     name: 'HTCU'
   };

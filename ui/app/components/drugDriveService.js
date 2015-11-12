@@ -1,4 +1,6 @@
-app.factory('drugDriveService', ['$http', function($http) {
+angular.module('drugDrive')
+
+  .factory('drugDriveService', ['$http', function($http) {
 
     var submitDD = function(form) {	  	
       return $http({

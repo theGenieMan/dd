@@ -1,0 +1,36 @@
+<div class="container">
+  	  
+  	  <form novalidate ng-submit='submitDD()' name="ddForm">
+  	  	
+  	  	<div ng-controller="TabController">
+  	  	<uib-tabset>
+  	  		<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled" ng-bind-html-unsafe="tab.content">
+		     <div ng-include='tab.content'></div>
+		    </uib-tab>
+  	  	</uib-tabset>	
+  	  	</div>
+  	  	
+  	  	
+  	  	
+  	  	<br><br>
+  	  	<hr>
+  	  	<input type="text" ng-model='ddData.WWM_OFFICER_COLLAR'>
+  	  	<input type="text" ng-model='ddData.WWM_OFFICER_FORCE'>
+  	  	
+  	  	<input type="submit"
+  	  	       value="Submit Drug Drive / FIT Record" />
+  	  	
+  	  </form>
+	  
+  	   	  
+  	  <br><br><br>
+  	  <div style="border:1px solid black; padding:10px;">
+  	  	{{ ddData | json }}
+  	  	
+  	  	{{ ddData.DATE_INITIAL_STOP.getDate() }}
+		
+		{{ CUSTODY_DATA | json }}
+  	  	
+  	  </div>
+  	  
+</div>
