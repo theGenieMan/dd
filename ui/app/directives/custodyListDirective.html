@@ -1,0 +1,36 @@
+<div class="pull-right">
+	<div class="row">				
+		<input type="text" size="55" class="form-control" ng-model="searchText" placeholder="type to filter eg. Name, Custody Ref etc..">			
+	</div>				 
+</div>
+<table class="table table-striped">
+	<thead>
+		<th>Custody Ref</th>
+		<th>Person</th>
+		<th>Sex</th>
+		<th>DOB (Age)</th>
+		<th>Arrest By</th>
+		<th>Arrest Date</th>
+	</thead>
+	<tbody>
+	  <!--
+	  <tr ng-repeat="custody in custodyListArray | filter:search:strict">
+	  -->
+	  <tr ng-repeat="custody in ( custodyListArray | filter:searchText ) | startFrom:(currentPage - 1) * pageSize | limitTo: pageSize">
+		<td><a href ng-click="custodyClick(custody)">{{ custody.CUSTODY_REF }}</a></td>
+		<td>{{ custody.NOMINAL_NAME }} ({{ custody.NOMINAL_REF }})</td>
+		<td>{{ custody.SEX }}</td>
+		<td>{{ custody.DOB }} ({{ custody.AGE }})</td>
+		<td>{{ custody.AO_FORCE }} {{ custody.AO_BADGE }}</td>
+		<td>{{ custody.ARREST_TIME }}</td>
+	  </tr>
+	</tbody>
+	<tfoot>
+	  <tr>
+	  	<td colspan="6" align="right">
+			<uib-pagination total-items="( custodyListArray | filter:searchText ).length" ng-model="currentPage"></uib-pagination>	  		
+	  	</td>
+	  </tr>
+	</tfoot>	
+</table>
+

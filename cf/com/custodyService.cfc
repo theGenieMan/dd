@@ -28,15 +28,47 @@
 		<cfset var qCust=''>		
 		<cflog file="custService" type="information" text="running get custodies" />
 		<cfquery name="qCust" datasource="#fnVars.WAREHOUSE_DB#" result="qCustRes">
-			SELECT CUSTODY_REF, SUBSTR(CUSTODY_REF,0,4) AS CUST_SUITE,
-			       NOMINAL_REF, NAME AS NOMINAL_NAME,
+            SELECT cs.CUSTODY_REF, SUBSTR(cs.CUSTODY_REF,0,4) AS CUST_SUITE,
+                   cs.NOMINAL_REF, NAME AS NOMINAL_NAME,
                    TO_CHAR(DOB,'DD/MM/YYYY') AS DOB, 
                    floor(MONTHS_BETWEEN(sysdate,DOB)/12) AS AGE,
                    ETHNIC_APP, AO_FORCE, AO_BADGE, SEX, 
-                   TO_CHAR(ARREST_TIME,'DD-MON HH24:MI') AS ARREST_TIME
-           FROM    browser_owner.CUSTODY_SEARCH
+                   TO_CHAR(ARREST_TIME,'DD-MON HH24:MI') AS ARREST_TIME,
+                   cd.AO_NAME, 
+                   TO_CHAR(DECODE(ND.ETHNICITY_6,'NORTH EUROPEAN - WHITE','1',
+                                         'WHITE EUROPEAN','1',
+                                         'SOUTH EUROPEAN - WHITE','2',
+                                         'BLACK','3',
+                                         'ASIAN','4',
+                                         'CHINESE, JAPANESE OR SE ASIAN','5',
+                                         'MIDDLE EASTERN','6',
+                                         'UNKNOWN','0',
+                                         NULL,'')) AS ETHNICITY_6, 
+                   DECODE(ND.ETHNICITY_16,'WHITE - BRITISH','W1',
+                                          'WHITE - IRISH','W2',
+                                          'WHITE - ANY OTHER WHITE BACKGROUND','W9',
+                                          'ASIAN - INDIAN','A1',
+                                          'ASIAN - PAKISTANI','A2',
+                                          'ASIAN - BANGLADESHI','A3',
+                                          'ASIAN - ANY OTHER ASIAN BACKGROUND','A9',
+                                          'BLACK - CARIBBEAN','B1',
+                                          'BLACK - AFRICAN','B2',
+                                          'BLACK - ANY OTHER BLACK BACKGROUND','B9',
+                                          'OTHER - CHINESE','O1',
+                                          'MIXED - WHITE AND BLACK CARIBBEAN','M1',
+                                          'MIXED - WHITE AND BLACK AFRICAN','M2',
+                                          'MIXED - WHITE AND ASIAN','M3',
+                                          'MIXED - ANY OTHER MIXED BACKGROUND','M9',
+                                          'OTHER - ANY OTHER ETHNIC GROUP','O9',
+                                          NULL,'',
+                                          '') AS ETHNICITY_16
+           FROM    browser_owner.CUSTODY_SEARCH cs, browser_owner.CUSTODY_DETAIL cd,
+                   browser_owner.NOMINAL_DETAILS nd
+           WHERE (1=1)
+           AND    cs.CUSTODY_REF=cd.CUSTODY_REF
+           AND    cs.NOMINAL_REF=nd.NOMINAL_REF
            <cfif fnVars.ENV IS NOT "localDev">
-           WHERE   ARREST_TIME > SYSDATE-1
+           AND   ARREST_TIME > SYSDATE-4
            </cfif>
            ORDER   BY ARREST_TIME DESC
 		</cfquery>

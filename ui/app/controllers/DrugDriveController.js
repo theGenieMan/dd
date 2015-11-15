@@ -2,13 +2,14 @@ angular.module('drugDrive')
   .controller('DrugDriveController', ['$scope', '$document', 'officerLocationService', 'drugDriveService' , function($scope, $document, offLS, ddService) {
   
    $document.on('keydown', function(e){
-          if(e.which === 8 && e.target.nodeName !== "INPUT"){ // you can add others here.
+          if(e.which === 8 && (e.target.nodeName !== "INPUT" && e.target.nodeName !=='TEXTAREA')){ // you can add others here.
               e.preventDefault();
           }
       });
   
   $scope.applicationTitle='Drug Drive / FIT Test Submission';
   $scope.officerLocationSearchRan=false;
+  $scope.showCustodyList=false;
   $scope.calStatus = {
     opened: false
   };
@@ -36,9 +37,41 @@ angular.module('drugDrive')
   	{label:'Station', id:'Station'},
   	{label:'Hospital', id:'Hospital'}	
   ]
+  
+  $scope.swipeResult = [
+  	{label:'-- Select --', id:''},
+  	{label:'Positive', id:'Positive'},
+  	{label:'Negative', id:'Negative'}	
+  ]
+  
+  $scope.swipeDrugs = [
+  	{label:'Cannabis', id:'Cannabis'},
+  	{label:'Cocaine', id:'Cocaine'}
+	/*
+	{label:'Opiates', id:'Opiates'},
+	{label:'Amphetamines', id:'Amphetamines'}
+	*/	
+  ]  
 
   $scope.overideDate=new Date(2015,9,29,21,33,0,0);
   
+  $scope.$watch('ddData.ARRESTED',
+  	function handleArrestedChange(newValue, oldValue){
+		if (newValue == 'Y'){
+			  $scope.showCustodyList=true;
+		}
+		else
+		{
+			  $scope.ddData.CUSTODY_REF='';
+			  $scope.ddData.WWM_NOMINAL_REF='';
+			  $scope.showCustodyList=false;
+		}
+	}
+  )
+  
+  $scope.showCustodies = function(){
+  	$scope.showCustodyList=true;
+  }
   
   $scope.ddData={
   	DATE_INITIAL_STOP_PICKER:$scope.overideDate,
@@ -48,9 +81,16 @@ angular.module('drugDrive')
   	WWM_OFFICER_FORCE:'22',
   	WWM_OFFICER_NAME:'Sp Con 4854 Nick BLACKHAM',
   	WWM_OFFICER_EMAIL:'nick.blackham@westmercia.pnn.police.uk',
-  	WWM_TEST_LOCATION:'Roadside',
-  	ROADSIDE_FIT_DONE: 'Y',
-	ARRESTED:'Y'  	
+  	WWM_TEST_LOCATION:'Station',
+	/*
+  	ROADSIDE_FIT_DONE: 'N',
+	ROADSIDE_BREATH_DONE: 'N',
+	ROADSIDE_SALIVA_DONE: 'Y',
+	
+	*/
+	STATION_SALIVA_RESULT: 'Positive',
+	STATION_BREATH_DONE: 'Y',
+	ARRESTED:'N'  	
   };
   
   $scope.CUSTODY_DATA={};
@@ -60,7 +100,45 @@ angular.module('drugDrive')
   	{label:'Yes', id:'Y'},
   	{label:'No', id:'N'}	
   ];
+
+  $scope.gender=[
+  	{label:'-- Select --', id:''},
+  	{label:'Male', id:'M'},
+  	{label:'Female', id:'F'}	
+  ];
   
+  $scope.ethnic6=[
+     {label:'-- Select --', id:''},
+	 {label:'NORTH EUROPEAN - WHITE', id:1},
+	 {label:'SOUTH EUROPEAN - WHITE', id:2},
+	 {label:'BLACK', id:3},
+	 {label:'ASIAN', id:4},
+	 {label:'CHINESE, JAPANESE OR SE ASIAN', id:5},
+	 {label:'MIDDLE EASTERN', id:6},
+	 {label:'UNKNOWN', id:0},
+  ];
+  
+  $scope.ethnic16=[
+     {label:'-- Select --', id:''},
+	 {label:'W1	WHITE - BRITISH', id:'W1'},
+	 {label:'W2	WHITE - IRISH', id:'"W2'},
+	 {label:'W9	WHITE - ANY OTHER WHITE BACKGROUND', id:'W9'},
+	 {label:'A1	ASIAN - INDIAN', id:'A1'},
+	 {label:'A2	ASIAN - PAKISTANI', id:'A2'},
+	 {label:'A3	ASIAN - BANGLADESHI', id:'A3'},
+	 {label:'A9	ASIAN - ANY OTHER ASIAN BACKGROUND', id:'A9'},
+	 {label:'B1	BLACK - CARIBBEAN', id:'B1'},
+	 {label:'B2	BLACK - AFRICAN', id:'B2'},
+	 {label:'B9	BLACK - ANY OTHER BLACK BACKGROUND', id:'B9'},
+	 {label:'O1	OTHER - CHINESE', id:'O1'},
+	 {label:'M1	MIXED - WHITE AND BLACK CARIBBEAN', id:'M1'},
+	 {label:'M2	MIXED - WHITE AND BLACK AFRICAN', id:'M2'},
+	 {label:'M3	MIXED - WHITE AND ASIAN', id:'M3'},
+	 {label:'M9	MIXED - ANY OTHER MIXED BACKGROUND', id:'M9'},
+	 {label:'O9	OTHER - ANY OTHER ETHNIC GROUP', id:'O9'},
+	 {label:'NX	NOT STATED - DECLINED ', id:'NX'},
+	 {label:'NZ	NOT STATED - NOT UNDERSTOOD ', id:'NZ'}	
+  ];
   
   $scope.submitDD = function(){
   	
@@ -103,7 +181,13 @@ angular.module('drugDrive')
   };
   
   $scope.custodyClick = function(custodyData){
-  	$scope.CUSTODY_DATA=custodyData;
+  	$scope.ddData.CUSTODY_REF=custodyData.CUSTODY_REF;
+	$scope.ddData.AGE=custodyData.AGE;
+	$scope.ddData.GENDER=custodyData.SEX;
+	$scope.ddData.ETHICITY=custodyData.ETHNICITY_16;
+	$scope.ddData.WWM_OFF_ETHNICITY=custodyData.ETHNICITY_6;
+	$scope.ddData.WWM_NOMINAL_REF=custodyData.NOMINAL_REF;
+	$scope.showCustodyList=false;
   };
    
   

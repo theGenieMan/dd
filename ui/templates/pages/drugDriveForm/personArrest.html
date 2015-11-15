@@ -1,0 +1,152 @@
+   {{ personForm.$valid }} <br>   
+   {{ personForm.$errors | json }}
+<div class="form-horizontal formDiv">	
+	<ng-form name="personForm">
+
+	  <div class="form-group" ng-class="{ 'has-error' : personForm.arrested.$invalid }">
+	   <div class="row">
+        <label for="arrested" class="col-md-2 control-label">Arrested?</label>
+           <div class="col-md-6">                          
+                <select ng-model='ddData.ARRESTED' ng-options="c.id as c.label for c in selectYN" 
+				        ng-required="true" name="arrested" class="form-control mandatory"></select>
+				<p ng-show="personForm.arrested.$invalid" class="help-block">Select if test resulted in or was as a result of an arrest</p>					
+		   </div>
+	    </div>
+	  </div>
+
+     
+	  <span name="whyNoArrestSpan" ng-show="ddData.ARRESTED==='N' && (ddData.ROADSIDE_SALIVA_RESULT === 'Positive'|| ddData.STATION_SALIVA_RESULT === 'Positive' || ddData.HOSPITAL_SALIVA_RESULT === 'Positive')">
+	    
+	     <div class="form-group" ng-class="{ 'has-error' : personForm.whyNoArrest.$invalid }">
+	      <div class="row">
+	    	<label for="whyNoArrest" class="col-md-2 control-label">Drug Swipe Positive, why not arrested?</label>
+	        <div class="col-md-6">
+	         <textarea class="form-control mandatory" name="whyNoArrest"
+			           placeholder="eg. Went to hospital, reported for summons"
+					   ng-model="ddData.REASON_NOT_ARRESTED" rows="4" cols="40"
+					   ng-required="ddData.ARRESTED==='N' && (ddData.ROADSIDE_SALIVA_RESULT === 'Positive' || ddData.STATION_SALIVA_RESULT === 'Positive' || ddData.HOSPITAL_SALIVA_RESULT === 'Positive')"></textarea>
+	         <p ng-show="personForm.whyNoArrest.$invalid" class="help-block">Detail why person was not arrested.</p>		
+	        </div>
+	       </div>
+	     </div>
+		 
+      </span>
+	   
+	  <span name="custodyListSpan" ng-show="showCustodyList">
+	  	<div class="form-group">
+	  	 <div class="row">	
+	  	  <label for="custodies" class="col-md-2 control-label">Select Custody</label>
+		  <div class="col-md-9">
+		  	<custody-list-directive></custody-list-directive>
+		  </div>	
+		 </div>
+	    </div>
+	  </span>
+	  
+	  <span name="personDetailsSpan" ng-show="ddData.ARRESTED">
+	  	
+	     <div class="form-group" ng-show="ddData.CUSTODY_REF">
+	      <div class="row">
+	    	<label for="custodyRef" class="col-md-2 control-label">Custody Ref</label>
+	        <div class="col-md-6">
+	          {{ ddData.CUSTODY_REF }} <a href ng-click='showCustodies()'>Show Custody List</a>	
+	        </div>
+	       </div>
+	     </div>
+	  	
+	  	<div class="form-group" ng-class="{ 'has-error' : personForm.personAge.$invalid }">
+	      <div class="row">
+	    	<label for="personAge" class="col-md-2 control-label">Age of person</label>
+	        <div class="col-md-6">
+	          <input type="input" class="form-control mandatory" name="personAge" 
+				       ng-model="ddData.AGE" ng-required="true"
+					   ng-pattern='/^[0-9]{1,3}$/'>	
+	          <p ng-show="personForm.personAge.$invalid" class="help-block">Enter age of person</p>		
+	        </div>
+	       </div>
+	     </div>
+		 
+	    <div class="form-group" ng-class="{ 'has-error' : personForm.personSex.$invalid }">
+	      <div class="row">
+	    	<label for="personSex" class="col-md-2 control-label">Sex of person</label>
+	        <div class="col-md-6">
+	          <select class="form-control mandatory" name="personSex" ng-model='ddData.GENDER' 
+	                 ng-options="c.id as c.label for c in gender" ng-required="true"></select>	         
+	          <p ng-show="personForm.personSex.$invalid" class="help-block">Select gender of person</p>		
+	        </div>
+	       </div>
+	     </div> 
+		 
+	    <div class="form-group" ng-class="{ 'has-error' : personForm.personEth16.$invalid }">
+	      <div class="row">
+	    	<label for="personEth16" class="col-md-2 control-label">Self Defined<Br>Ethnicity</label>
+	        <div class="col-md-6">
+	          <select class="form-control mandatory" name="personEth16" ng-model='ddData.ETHICITY' 
+	                 ng-options="c.id as c.label for c in ethnic16" ng-required="true"></select>	         
+	          <p ng-show="personForm.personEth16.$invalid" class="help-block">Select self defined ethnicty of person</p>		
+	        </div>
+	       </div>
+	     </div> 		
+		 
+	    <div class="form-group" ng-class="{ 'has-error' : personForm.personEth6.$invalid }">
+	      <div class="row">
+	    	<label for="personEth6" class="col-md-2 control-label">Officer Defined<br>Ethnicity</label>
+	        <div class="col-md-6">
+	          <select class="form-control mandatory" name="personEth6" ng-model='ddData.WWM_OFF_ETHNICITY' 
+	                 ng-options="c.id as c.label for c in ethnic6" ng-required="true"></select>	         
+	          <p ng-show="personForm.personEth6.$invalid" class="help-block">Select officer defined ethnicty of person</p>		
+	        </div>
+	       </div>
+	     </div> 			  
+		 
+	  </span>
+	  
+	  <span ng-show="ddData.ARRESTED==='Y' && ddData.WWM_TEST_LOCATION==='Roadside'">
+	  	 <div class="form-group" ng-class="{ 'has-error' : personForm.arrestField.$invalid }">
+	      <div class="row">
+	    	<label for="arrestField" class="col-md-2 control-label">Arrested For</label>
+	        <div class="col-md-6">
+	          <input type="checkbox" ng-model="ddData.ARRESTED_FOR_DRUGSORALC" 
+			  		 ng-required="!(ddData.ARRESTED_FOR_DRUGSORALC.length||ddData.ARRESTED_FOR_S4ALC.length||ddData.ARRESTED_FOR_S5ALC.length||ddData.ARRESTED_FOR_S4DRUGS.length||ddData.ARRESTED_FOR_S5DRUGS.length||ddData.ARRESTED_FOR_FAILURE.length||ddData.ARRESTED_FOR_OTHER.length)"
+			         ng-true-value="'Y'" ng-false-value="''" name="arrestField"> Section 4 Alcohol and/or drugs<br>
+			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S4ALC" ng-true-value="'Y'" ng-false-value="''" > Section 4 Alcohol<br>
+			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S5ALC" ng-true-value="'Y'" ng-false-value="''" > Section 5 Alcohol<br>	
+			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S4DRUGS" ng-true-value="'Y'" ng-false-value="''"> Section 4 Drugs<br>
+			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S5DRUGS" ng-true-value="'Y'" ng-false-value="''"> Section 5 Drugs<br>
+			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_FAILURE" ng-true-value="'Y'" ng-false-value="''"> Fail to provide<br>
+			  Other : <input type="text" ng-model="ddData.ARRESTED_FOR_OTHER">
+			  
+	          <p ng-show="personForm.arrestField.$invalid" class="help-block">Select reason for arrest or enter other</p>
+			  		
+	        </div>
+	       </div>
+	     </div> 	
+	  </span>
+	  
+	  <span ng-show="ddData.ARRESTED==='Y' && ddData.WWM_TEST_LOCATION==='Station'">
+	  	 <div class="form-group" ng-class="{ 'has-error' : personForm.invField.$invalid }">
+	      <div class="row">
+	    	<label for="invField" class="col-md-2 control-label">Investigated at<br>station for</label>
+	        <div class="col-md-6">
+	          <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_DRUGSORALC" name="invField"
+			         ng-required="!(ddData.INVESTIGATION_FOR_DRUGSORALC.length||ddData.INVESTIGATION_FOR_S4ALC.length||ddData.INVESTIGATION_FOR_S5ALC.length||ddData.INVESTIGATION_FOR_S4DRUGS.length||ddData.INVESTIGATION_FOR_S5DRUGS.length||ddData.INVESTIGATION_FOR_FAILURE.length||ddData.INVESTIGATION_FOR_OTHER.length)"
+					 ng-true-value="'Y'" ng-false-value="''" > Section 4 Alcohol and/or drugs<br>
+			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S4ALC"  ng-true-value="'Y'" ng-false-value="''" > Section 4 Alcohol<br>
+			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S5ALC"  ng-true-value="'Y'" ng-false-value="''" > Section 5 Alcohol<br>	
+			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S4DRUGS"  ng-true-value="'Y'" ng-false-value="''" > Section 4 Drugs<br>
+			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S5DRUGS"  ng-true-value="'Y'" ng-false-value="''" > Section 5 Drugs<br>
+			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_FAILURE"  ng-true-value="'Y'" ng-false-value="''" > Fail to provide<br>
+			  Other : <input type="text" ng-model="ddData.INVESTIGATION_FOR_OTHER">			  
+	          <p ng-show="personForm.invField.$invalid" class="help-block">Select reason for arrest or enter other</p>			  		
+	        </div>
+	       </div>
+	     </div> 	
+	  </span>
+			
+	<div align="center">
+		<button ng-click='submitDD();nextTab(2)' class="btn btn-success" type="button" ng-show="personForm.$valid" >Goto Next Tab</button>
+	</div>			
+				 
+   </ng-form>
+   
+</div>

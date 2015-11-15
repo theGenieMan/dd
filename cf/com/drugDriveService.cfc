@@ -100,7 +100,15 @@
 					 <cfelseif FIELD_TYPE IS "Number">
 					   #formData[DB_NAME]#	   	  
 					 <cfelse>
-	       	  		  '#formData[DB_NAME]#'
+					  <cfif isArray(formData[DB_NAME])>
+					  	<cfset listOfArray=''>
+						<cfloop from="1" to="#arrayLen(formData[DB_NAME])#" index="iArr">
+							<cfset listOfArray=ListAppend(listOfArray,formData[DB_NAME][iArr],",")>
+						</cfloop> 					  	  
+	       	  		  '#listOfArray#'
+					  <cfelse>
+					  '#formData[DB_NAME]#'	  
+					  </cfif>
 					 </cfif>
 	       	  		 <cfset iCol++>
 				 </cfif>
