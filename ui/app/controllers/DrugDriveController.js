@@ -10,6 +10,7 @@ angular.module('drugDrive')
   $scope.applicationTitle='Drug Drive / FIT Test Submission';
   $scope.officerLocationSearchRan=false;
   $scope.showCustodyList=false;
+  $scope.personNext=2;
   $scope.calStatus = {
     opened: false
   };

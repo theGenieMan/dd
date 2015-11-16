@@ -1,5 +1,3 @@
-   {{ personForm.$valid }} <br>   
-   {{ personForm.$errors | json }}
 <div class="form-horizontal formDiv">	
 	<ng-form name="personForm">
 
@@ -107,7 +105,7 @@
 	    	<label for="arrestField" class="col-md-2 control-label">Arrested For</label>
 	        <div class="col-md-6">
 	          <input type="checkbox" ng-model="ddData.ARRESTED_FOR_DRUGSORALC" 
-			  		 ng-required="!(ddData.ARRESTED_FOR_DRUGSORALC.length||ddData.ARRESTED_FOR_S4ALC.length||ddData.ARRESTED_FOR_S5ALC.length||ddData.ARRESTED_FOR_S4DRUGS.length||ddData.ARRESTED_FOR_S5DRUGS.length||ddData.ARRESTED_FOR_FAILURE.length||ddData.ARRESTED_FOR_OTHER.length)"
+			  		 ng-required="(!(ddData.ARRESTED_FOR_DRUGSORALC.length||ddData.ARRESTED_FOR_S4ALC.length||ddData.ARRESTED_FOR_S5ALC.length||ddData.ARRESTED_FOR_S4DRUGS.length||ddData.ARRESTED_FOR_S5DRUGS.length||ddData.ARRESTED_FOR_FAILURE.length||ddData.ARRESTED_FOR_OTHER.length)) && (ddData.ARRESTED==='Y' && ddData.WWM_TEST_LOCATION==='Roadside')"
 			         ng-true-value="'Y'" ng-false-value="''" name="arrestField"> Section 4 Alcohol and/or drugs<br>
 			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S4ALC" ng-true-value="'Y'" ng-false-value="''" > Section 4 Alcohol<br>
 			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S5ALC" ng-true-value="'Y'" ng-false-value="''" > Section 5 Alcohol<br>	
@@ -129,7 +127,7 @@
 	    	<label for="invField" class="col-md-2 control-label">Investigated at<br>station for</label>
 	        <div class="col-md-6">
 	          <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_DRUGSORALC" name="invField"
-			         ng-required="!(ddData.INVESTIGATION_FOR_DRUGSORALC.length||ddData.INVESTIGATION_FOR_S4ALC.length||ddData.INVESTIGATION_FOR_S5ALC.length||ddData.INVESTIGATION_FOR_S4DRUGS.length||ddData.INVESTIGATION_FOR_S5DRUGS.length||ddData.INVESTIGATION_FOR_FAILURE.length||ddData.INVESTIGATION_FOR_OTHER.length)"
+			         ng-required="(!(ddData.INVESTIGATION_FOR_DRUGSORALC.length||ddData.INVESTIGATION_FOR_S4ALC.length||ddData.INVESTIGATION_FOR_S5ALC.length||ddData.INVESTIGATION_FOR_S4DRUGS.length||ddData.INVESTIGATION_FOR_S5DRUGS.length||ddData.INVESTIGATION_FOR_FAILURE.length||ddData.INVESTIGATION_FOR_OTHER.length)) && (ddData.ARRESTED==='Y' && ddData.WWM_TEST_LOCATION==='Station')"
 					 ng-true-value="'Y'" ng-false-value="''" > Section 4 Alcohol and/or drugs<br>
 			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S4ALC"  ng-true-value="'Y'" ng-false-value="''" > Section 4 Alcohol<br>
 			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S5ALC"  ng-true-value="'Y'" ng-false-value="''" > Section 5 Alcohol<br>	
@@ -144,7 +142,8 @@
 	  </span>
 			
 	<div align="center">
-		<button ng-click='submitDD();nextTab(2)' class="btn btn-success" type="button" ng-show="personForm.$valid" >Goto Next Tab</button>
+		{{ personNext }}
+		<button ng-click='submitDD();nextTab(personNext)' class="btn btn-success" type="button" ng-show="personForm.$valid" >Goto Next Tab</button>
 	</div>			
 				 
    </ng-form>
