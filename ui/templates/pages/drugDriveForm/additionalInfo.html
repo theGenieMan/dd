@@ -1,0 +1,23 @@
+   {{ additionalForm.$valid }} <br>   
+   {{ additionalForm.$error | json }}
+<div class="form-horizontal formDiv">	
+	<ng-form name="additionalForm">
+	
+		<div class="form-group">
+	      <div class="row">
+	    	<label for="additionalText" class="col-md-2 control-label">Additional Information</label>
+	        <div class="col-md-6">
+	         <textarea class="form-control input-sm" name="additionalText"
+			           placeholder="Please use this section to add any additional information. Eg. problems with screening device, or doctor/nurse not being avialable"
+					   ng-model="ddData.ADDITIONAL_INFORMATION" rows="12" cols="60" />
+					   					   		
+	        </div>
+	       </div>
+	    </div>	
+		
+	<div align="center">		
+		<button ng-click='submitDDAndFinalise();' class="btn btn-success" type="button" ng-show="ddForm.$valid" >Submit Drug/Fit Test</button>
+	</div>			
+		
+	</ng-form>
+</div>	

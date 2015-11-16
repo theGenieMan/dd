@@ -4,12 +4,14 @@ angular.module('drugDrive')
 	$scope.tabs = [
 	    { title:'Time / Location', content:'templates/pages/drugDriveForm/timeLocation.html' },
 	    { title:'Tests Performed', content:'templates/pages/drugDriveForm/testsPerformed.html' },
-	    { title:'Person / Arrest', content:'templates/pages/drugDriveForm/personArrest.html', active: true },
-		{ title:'HCP / Blood / Urine', content:'templates/pages/drugDriveForm/hcpBloodUrine.html'},
+	    { title:'Person / Arrest', content:'templates/pages/drugDriveForm/personArrest.html' },
+		{ title:'HCP', content:'templates/pages/drugDriveForm/hcp.html', active: true},
+		{ title:'Blood / Urine', content:'templates/pages/drugDriveForm/bloodUrine.html'},
 		{ title:'Disposal', content:'templates/pages/drugDriveForm/disposal.html'},
 		{ title:'Additional', content:'templates/pages/drugDriveForm/additionalInfo.html'}
   	];
   
+    /*
     $scope.$watch('ddData.ARRESTED',
   	function handleArrestedChange(newValue, oldValue){
 		if (newValue == 'N'){
@@ -24,7 +26,7 @@ angular.module('drugDrive')
 			  $scope.tabs[4].disabled=false;
 		}
 	}
-  )
+  )*/
   
   $scope.nextTab = function(tabNo){
   	tabNo++;  	

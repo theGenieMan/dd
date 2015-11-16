@@ -1,0 +1,112 @@
+   {{ bloodForm.$valid }} <br>   
+   {{ bloodForm.$error | json }}
+<div class="form-horizontal formDiv">	
+	<ng-form name="bloodForm">
+		
+	  <div class="form-group">
+	   <div class="row">
+        <label for="bloodRequested" class="col-md-2 control-label">Blood Sample<br>Requested?</label>
+           <div class="col-md-6">                          
+                <select ng-model='ddData.BLOOD_REQUESTED' ng-options="c.id as c.label for c in selectYN" 
+				        ng-required="true" name="bloodRequested" class="form-control input-sm"></select>									
+		   </div>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group">
+	   <div class="row">
+        <label for="bloodProvided" class="col-md-2 control-label">Blood Sample<br>Provided?</label>
+           <div class="col-md-6">                          
+                <select ng-model='ddData.BLOOD_PROVIDED' ng-options="c.id as c.label for c in selectYN" 
+				        ng-required="true" name="bloodProvided" class="form-control input-sm"></select>									
+		   </div>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group" ng-class="{ 'has-error' : bloodForm.bloodFailure.$invalid }">
+	   <div class="row">
+        <label for="bloodFailure" class="col-md-2 control-label">If NO why not?</label>
+           <div class="col-md-9">                          
+                <input ng-model="ddData.BLOOD_FAILURE_REASON" type="text"
+                	       class="form-control input-sm"
+                	        name="bloodFailure" size="60" ng-required="ddData.BLOOD_PROVIDED==='N'">  
+				<p ng-show=" bloodForm.bloodFailure.$invalid" class="help-block">Please detail why blood was not provided</p>                	                          									
+		   </div>
+	    </div>
+	  </div>	  
+	  
+	  <div class="form-group" ng-class="{ 'has-error' :bloodForm.hcpTimeReferred.$invalid }">
+	   <div class="row">
+        <label for="bloodTime" class="col-md-2 control-label">Time Blood Taken</label>
+           <div class="col-md-6">                          
+                <input ng-model="ddData.BLOOD_TIME" type="text" placeholder="HH:mm"
+                	       class="form-control input-sm"
+                	       ng-pattern='/[0-2][0-9]:[0-5][0-9]/' name="bloodTime">
+                 <p ng-show="bloodForm.hcpTimeReferred.$invalid" class="help-block">Invalid Time (Valid format is HH:mm)</p>   									
+		   </div>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group">
+	   <div class="row">
+        <label for="urineProvided" class="col-md-2 control-label">Urine Sample<br>Provided?</label>
+           <div class="col-md-6">                          
+                <select ng-model='ddData.URINE_PROVIDED' ng-options="c.id as c.label for c in selectYN" 
+				        ng-required="true" name="urineProvided" class="form-control input-sm"></select>									
+		   </div>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group" ng-class="{ 'has-error' : bloodForm.urineTime1.$invalid }">
+	   <div class="row">
+        <label for="urineTime1" class="col-md-2 control-label">1st Sample Time</label>
+           <div class="col-md-6">                          
+                <input ng-model="ddData.URINE_TIME1" type="text" placeholder="HH:mm"
+                	       class="form-control input-sm"
+                	       ng-pattern='/[0-2][0-9]:[0-5][0-9]/' name="urineTime1">
+                 <p ng-show="bloodForm.urineTime1.$invalid" class="help-block">Invalid Time (Valid format is HH:mm)</p>   									
+		   </div>
+	    </div>
+	  </div>
+	 
+	  <div class="form-group" ng-class="{ 'has-error' : bloodForm.urineTime2.$invalid }">
+	   <div class="row">
+        <label for="urineTime2" class="col-md-2 control-label">2nd Sample Time</label>
+           <div class="col-md-6">                          
+                <input ng-model="ddData.URINE_TIME2" type="text" placeholder="HH:mm"
+                	       class="form-control input-sm"
+                	       ng-pattern='/[0-2][0-9]:[0-5][0-9]/' name="urineTime1">
+                 <p ng-show="bloodForm.urineTime2.$invalid" class="help-block">Invalid Time (Valid format is HH:mm)</p>   									
+		   </div>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group">
+	   <div class="row">
+        <label for="medicalDefence" class="col-md-2 control-label">Medical defence<br>claimed?</label>
+           <div class="col-md-6">                          
+                <select ng-model='ddData.MEDICAL_DEFENCE_CLAIMED' ng-options="c.id as c.label for c in selectYN" 
+				        ng-required="true" name="medicalDefence" class="form-control input-sm"></select>		
+				 <p ng-show="bloodForm.urineTime2.$invalid" class="help-block">Did driver claim to be on prescription medication at any stage</p> 							
+		   </div>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group"  ng-class="{ 'has-error' : bloodForm.medicalDrugs.$invalid }">
+	   <div class="row">
+        <label for="medicalDrugs" class="col-md-2 control-label">If YES which<br>drugs indicated?</label>
+           <div class="col-md-9">                          
+                <input ng-model="ddData.MEDICAL_DEFENCE_DRUGS" type="text"
+                	       class="form-control input-sm" ng-required="ddData.MEDICAL_DEFENCE_CLAIMED==='Y'"
+                	        name="medicalDrugs" size="60">        
+                <p ng-show="bloodForm.medicalDrugs.$invalid" class="help-block">Please detail drugs indicated</p>              									
+		   </div>
+	    </div>
+	  </div>
+	  
+	  <div align="center">		
+		<button ng-click='submitDD();nextTab(4)' class="btn btn-success" type="button" ng-show="bloodForm.$valid" >Goto Next Tab</button>
+	</div>	
+		
+	</ng-form>
+</div>

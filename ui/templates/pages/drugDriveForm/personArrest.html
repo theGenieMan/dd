@@ -6,7 +6,7 @@
         <label for="arrested" class="col-md-2 control-label">Arrested?</label>
            <div class="col-md-6">                          
                 <select ng-model='ddData.ARRESTED' ng-options="c.id as c.label for c in selectYN" 
-				        ng-required="true" name="arrested" class="form-control mandatory"></select>
+				        ng-required="true" name="arrested" class="form-control mandatory input-sm"></select>
 				<p ng-show="personForm.arrested.$invalid" class="help-block">Select if test resulted in or was as a result of an arrest</p>					
 		   </div>
 	    </div>
@@ -19,7 +19,7 @@
 	      <div class="row">
 	    	<label for="whyNoArrest" class="col-md-2 control-label">Drug Swipe Positive, why not arrested?</label>
 	        <div class="col-md-6">
-	         <textarea class="form-control mandatory" name="whyNoArrest"
+	         <textarea class="form-control mandatory input-sm" name="whyNoArrest"
 			           placeholder="eg. Went to hospital, reported for summons"
 					   ng-model="ddData.REASON_NOT_ARRESTED" rows="4" cols="40"
 					   ng-required="ddData.ARRESTED==='N' && (ddData.ROADSIDE_SALIVA_RESULT === 'Positive' || ddData.STATION_SALIVA_RESULT === 'Positive' || ddData.HOSPITAL_SALIVA_RESULT === 'Positive')"></textarea>
@@ -56,7 +56,7 @@
 	      <div class="row">
 	    	<label for="personAge" class="col-md-2 control-label">Age of person</label>
 	        <div class="col-md-6">
-	          <input type="input" class="form-control mandatory" name="personAge" 
+	          <input type="input" class="form-control mandatory input-sm" name="personAge" 
 				       ng-model="ddData.AGE" ng-required="true"
 					   ng-pattern='/^[0-9]{1,3}$/'>	
 	          <p ng-show="personForm.personAge.$invalid" class="help-block">Enter age of person</p>		
@@ -68,7 +68,7 @@
 	      <div class="row">
 	    	<label for="personSex" class="col-md-2 control-label">Sex of person</label>
 	        <div class="col-md-6">
-	          <select class="form-control mandatory" name="personSex" ng-model='ddData.GENDER' 
+	          <select class="form-control mandatory input-sm" name="personSex" ng-model='ddData.GENDER' 
 	                 ng-options="c.id as c.label for c in gender" ng-required="true"></select>	         
 	          <p ng-show="personForm.personSex.$invalid" class="help-block">Select gender of person</p>		
 	        </div>
@@ -79,7 +79,7 @@
 	      <div class="row">
 	    	<label for="personEth16" class="col-md-2 control-label">Self Defined<Br>Ethnicity</label>
 	        <div class="col-md-6">
-	          <select class="form-control mandatory" name="personEth16" ng-model='ddData.ETHICITY' 
+	          <select class="form-control mandatory input-sm" name="personEth16" ng-model='ddData.ETHICITY' 
 	                 ng-options="c.id as c.label for c in ethnic16" ng-required="true"></select>	         
 	          <p ng-show="personForm.personEth16.$invalid" class="help-block">Select self defined ethnicty of person</p>		
 	        </div>
@@ -90,7 +90,7 @@
 	      <div class="row">
 	    	<label for="personEth6" class="col-md-2 control-label">Officer Defined<br>Ethnicity</label>
 	        <div class="col-md-6">
-	          <select class="form-control mandatory" name="personEth6" ng-model='ddData.WWM_OFF_ETHNICITY' 
+	          <select class="form-control mandatory input-sm" name="personEth6" ng-model='ddData.WWM_OFF_ETHNICITY' 
 	                 ng-options="c.id as c.label for c in ethnic6" ng-required="true"></select>	         
 	          <p ng-show="personForm.personEth6.$invalid" class="help-block">Select officer defined ethnicty of person</p>		
 	        </div>

@@ -1,0 +1,29 @@
+   {{ disposalForm.$valid }} <br>   
+   {{ disposalForm.$error | json }}
+<div class="form-horizontal formDiv">	
+	<ng-form name="disposalForm">
+	
+	  	 <div class="form-group" ng-class="{ 'has-error' : disposalForm.dispField.$invalid }">
+	      <div class="row">
+	    	<label for="dispField" class="col-md-2 control-label">Charged with</label>
+	        <div class="col-md-6">
+	          <input type="checkbox" ng-model="ddData.DISPOSAL_DRUGSORALC" name="dispField"
+			         ng-required="(!(ddData.DISPOSAL_DRUGSORALC.length||ddData.DISPOSAL_S4ALC.length||ddData.DISPOSAL_S5ALC.length||ddData.DISPOSAL_S4DRUGS.length||ddData.DISPOSAL_S5DRUGS.length||ddData.DISPOSAL_FAILURE.length||ddData.DISPOSAL_OTHER.length)) && (ddData.ARRESTED==='Y')"
+					 ng-true-value="'Y'" ng-false-value="''" > Section 4 Alcohol and/or drugs<br>
+			  <input type="checkbox" ng-model="ddData.DISPOSAL_S4ALC"  ng-true-value="'Y'" ng-false-value="''" > Section 4 Alcohol<br>
+			  <input type="checkbox" ng-model="ddData.DISPOSAL_S5ALC"  ng-true-value="'Y'" ng-false-value="''" > Section 5 Alcohol<br>	
+			  <input type="checkbox" ng-model="ddData.DISPOSAL_S4DRUGS"  ng-true-value="'Y'" ng-false-value="''" > Section 4 Drugs<br>
+			  <input type="checkbox" ng-model="ddData.DISPOSAL_S5DRUGS"  ng-true-value="'Y'" ng-false-value="''" > Section 5 Drugs<br>
+			  <input type="checkbox" ng-model="ddData.DISPOSAL_FAILURE"  ng-true-value="'Y'" ng-false-value="''" > Fail to provide<br>
+			  Other : <input type="text" ng-model="ddData.DISPOSAL_OTHER">			  
+	          <p ng-show="disposalForm.dispField.$invalid" class="help-block">Select disposal method</p>			  		
+	        </div>
+	       </div>
+	     </div> 	
+		
+	<div align="center">		
+		<button ng-click='submitDD();nextTab(4)' class="btn btn-success" type="button" ng-show="disposalForm.$valid" >Goto Next Tab</button>
+	</div>			
+		
+	</ng-form>
+</div>

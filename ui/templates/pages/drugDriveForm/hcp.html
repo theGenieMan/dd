@@ -1,0 +1,79 @@
+   {{ hcpForm.$valid }} <br>   
+   {{ hcpForm.$error | json }}
+<div class="form-horizontal formDiv">	
+	<ng-form name="hcpForm">
+		
+	  <div class="form-group">
+	   <div class="row">
+        <label for="hcpReferred" class="col-md-2 control-label">Referred to Health <br> Care Prof (HCP)?</label>
+           <div class="col-md-6">                          
+                <select ng-model='ddData.HCP_REFERRAL' ng-options="c.id as c.label for c in selectYN" 
+				        ng-required="true" name="hcpReferred" class="form-control input-sm mandatory"></select>									
+		   </div>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group" ng-class="{ 'has-error' : hcpForm.dateHCPReferred.$invalid }">
+	   <div class="row">
+        <label for="dateHCPReferred" class="col-md-2 control-label">Date Referred</label>
+           <div class="col-md-6">                          
+                <input type="text" id="dateHCPReferred" ng-model="ddData.STATION_HCP_DATE_PICKER" name="dateHCPReferred"
+				       class="form-control input-sm" uib-datepicker-popup="dd/MM/yyyy" 
+				       is-open="calStatus.opened" ng-click="calStatus.opened=true" placeholder="DD/MM/YYYY"/> 	
+				<p ng-show="hcpForm.dateHCPReferred.$invalid" class="help-block">Invalid Date (Valid format is DD/MM/YYYY)</p>						
+		   </div>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group" ng-class="{ 'has-error' : hcpForm.hcpTimeReferred.$invalid }">
+	   <div class="row">
+        <label for="hcpTimeReferred" class="col-md-2 control-label">Time Referred</label>
+           <div class="col-md-6">                          
+                <input ng-model="ddData.STATION_HCP_TIME" type="text" placeholder="HH:mm"
+                	       class="form-control input-sm"
+                	       ng-pattern='/[0-2][0-9]:[0-5][0-9]/' name="hcpTimeReferred">
+                 <p ng-show="hcpForm.hcpTimeReferred.$invalid" class="help-block">Invalid Time (Valid format is HH:mm)</p>   									
+		   </div>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group">
+	      <div class="row">
+	    	<label for="HCPWas" class="col-md-2 control-label">HCP Was</label>
+	        <div class="col-md-6">
+	          <input type="checkbox" ng-model="ddData.HCP_DOCTOR" name="HCPWas"			         
+					 ng-true-value="'Y'" ng-false-value="''" /> Doctor<br>
+			  <input type="checkbox" ng-model="ddData.HCP_NURSE"  
+			         ng-true-value="'Y'" ng-false-value="''" > Nurse<br>			  
+			  Other : <input type="text" class="form-control input-sm" ng-model="ddData.HCP_OTHER">			  	          			  		
+	        </div>
+	       </div>
+	  </div> 	
+	  
+	  <div class="form-group">
+	   <div class="row">
+        <label for="hcpAssessed" class="col-md-2 control-label">Impairment assessed<br>by HCP?</label>
+           <div class="col-md-6">                          
+                <select ng-model='ddData.HCP_HCP_ASSESSED' ng-options="c.id as c.label for c in selectYN" 
+				        name="hcpAssessed" class="form-control input-sm"></select>									
+		   </div>
+	    </div>
+	  </div>
+	  
+	  <div class="form-group">
+	   <div class="row">
+        <label for="hcpDecision" class="col-md-2 control-label">HCP's Decision</label>
+           <div class="col-md-9">                          
+                <input ng-model="ddData.HCP_DECISION" type="text" placeholder="Drug Related Condition?"
+                	       class="form-control input-sm"
+                	        name="hcpDecision" size="60">                    									
+		   </div>
+	    </div>
+	  </div>
+	  
+	<div align="center">		
+		<button ng-click='submitDD();nextTab(3)' class="btn btn-success" type="button" ng-show="hcpForm.$valid" >Goto Next Tab</button>
+	</div>	
+		
+	</ng-form>
+</div>

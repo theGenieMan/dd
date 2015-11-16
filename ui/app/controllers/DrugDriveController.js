@@ -139,12 +139,15 @@ angular.module('drugDrive')
 	 {label:'O9	OTHER - ANY OTHER ETHNIC GROUP', id:'O9'},
 	 {label:'NX	NOT STATED - DECLINED ', id:'NX'},
 	 {label:'NZ	NOT STATED - NOT UNDERSTOOD ', id:'NZ'}	
-  ];
+  ];  
   
   $scope.submitDD = function(){
   	
 	$scope.ddData.DATE_INITIAL_STOP=formatDate($scope.ddData.DATE_INITIAL_STOP_PICKER,'dd/MM/yyyy');
-	alert($scope.ddData.DATE_INITIAL_STOP)
+	if ($scope.ddData.STATION_HCP_DATE_PICKER){
+		$scope.ddData.STATION_HCP_DATE=formatDate($scope.ddData.STATION_HCP_DATE_PICKER,'dd/MM/yyyy');	
+	}
+	
   	ddService.submitDD($scope.ddData)
   	       .success(function(data, status, headers){
   		// the success function wraps the response in data
