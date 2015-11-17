@@ -82,6 +82,24 @@
 	  </div>
 	  
 	  <div class="form-group">
+	      <div class="row">
+	    	<label for="labField" class="col-md-2 control-label">Labratory</label>
+	        <div class="col-md-6">
+	          <input type="checkbox" ng-model="ddData.LAB_LGC" name="labField"			         
+					 ng-true-value="'Y'" ng-false-value="''"
+					 ng-checked="ddData.LAB_LGC==='Y'"> LGC<br>
+			  <input type="checkbox" ng-model="ddData.LAB_RANDOX" 
+			         ng-true-value="'Y'" ng-false-value="''"
+					 ng-checked="ddData.LAB_RANDOX==='Y'"> Randox<br>
+			  <input type="checkbox" ng-model="ddData.LAB_ROAR" 
+			         ng-true-value="'Y'" ng-false-value="''" 
+					 ng-checked="ddData.LAB_ROAR==='Y'"> ROAR<br>				  
+			  Other : <input type="text" ng-model="ddData.LAB_OTHER">			  	          			  		
+	        </div>
+	       </div>
+	     </div> 
+	  
+	  <div class="form-group">
 	   <div class="row">
         <label for="medicalDefence" class="col-md-2 control-label">Medical defence<br>claimed?</label>
            <div class="col-md-6">                          
