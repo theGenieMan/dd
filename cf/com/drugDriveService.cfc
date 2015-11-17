@@ -22,7 +22,7 @@
     	
     </cffunction>
 
-	<cffunction name="getDrugDrive" description="Get Drug Drive Test From DB" access="remote" output="false" returntype="struct" returnformat="JSON">
+	<cffunction name="getDrugDriveJSON" description="Get Drug Drive Test From DB" access="remote" output="false" returntype="struct" returnformat="JSON">
        <cfargument name="DD_ID" required="true" type="numeric" hint="DD_ID to get from DB">
        
        <cfset var qDD="">
@@ -35,6 +35,22 @@
        </cfquery>
        
        <cfreturn QueryToStruct(qDD,1)>
+       
+	</cffunction>
+
+	<cffunction name="getDrugDrive" description="Get Drug Drive Test From DB" access="remote" output="false" returntype="query">
+       <cfargument name="DD_ID" required="true" type="numeric" hint="DD_ID to get from DB">
+       
+       <cfset var qDD="">
+       <cfset var fnVars=initVars()>
+       
+       <cfquery name="qDD" datasource="#fnVars.DD_DB#">
+       	SELECT *
+       	FROM   FF_OWNER.DRUG_DRIVE
+       	WHERE  WWM_DD_ID=<cfqueryparam value="#arguments.DD_ID#" cfsqltype="cf_sql_numeric" />
+       </cfquery>
+       
+       <cfreturn qDD>
        
 	</cffunction>
 
@@ -85,7 +101,8 @@
 	       	  		 #DB_NAME#
 	       	  		 <cfset iCol++>
 				 </cfif>
-       	  		</cfloop>       	  		
+       	  		</cfloop>
+       	  		,WWM_YEAR       	  		
        	  	)
        	  	VALUES
        	  	(
@@ -112,7 +129,8 @@
 					 </cfif>
 	       	  		 <cfset iCol++>
 				 </cfif>
-       	  		</cfloop>       	  		
+       	  		</cfloop>
+       	  		,TO_CHAR(SYSDATE,'YY')       	  		
        	  	)
        	  </cfsavecontent>
        	  </cfoutput>
@@ -163,6 +181,48 @@
        
        <cfreturn returnStruct>
        
+	</cffunction>
+
+	<cffunction name="finaliseDrugDrive" description="Finalises the drug drive PDF form, returns the URN created" access="remote" output="false" returntype="struct" returnformat="JSON" >
+		<cfargument name="DD_ID" type="string" required="true" hint="DD_ID of test to create the PDF for" >	
+
+		<cfset var returnStruct=structNew()>
+		<cfset var qSeq="">
+		<cfset var qUpd="">
+		<cfset var qDD=getDrugDrive(arguments.DD_ID)>
+		<cfset var fnVars=initVars()>
+		
+		<cfset returnStruct.URN=''>
+		
+		<cflock timeout="10" scope="Server" type="exclusive">
+			
+			<cfquery name="qSeq" datasource="#fnVars.DD_DB#">
+				SELECT MAX(WWM_SERIAL_NO) AS MAX_SERIAL
+				FROM   FF_OWNER.DRUG_DRIVE
+				WHERE  WWM_YEAR='#qDD.WWM_YEAR#'
+				  AND  WWM_TEST_LPA='#qDD.WWM_TEST_LPA#'
+				  AND  WWM_TEST_FORCE='#qDD.WWM_TEST_FORCE#'
+			</cfquery>
+			
+			<cfif Len(qSeq.MAX_SERIAL) IS 0>
+				<cfset nextSeq=1>
+			<cfelse>
+			    <cfset nextSeq=qSeq.MAX_SERIAL+1>
+			</cfif>
+			
+			<cfset returnStruct.URN='DRUGDRIVE/'&qDD.WWM_TEST_FORCE&"/"&qDD.WWM_TEST_LPA&"/"&nextSeq&"/"&qDD.WWM_YEAR>
+		
+			<cfquery name="qUpd" datasource="#fnVars.DD_DB#">
+				UPDATE FF_OWNER.DRUG_DRIVE
+				   SET WWM_SERIAL_NO = #nextSeq#,
+				       WWM_URN = '#returnStruct.URN#'
+				 WHERE WWM_DD_ID = #qDD.WWM_DD_ID#
+			</cfquery>
+		
+		</cflock>
+		
+     <cfreturn returnStruct>
+		
 	</cffunction>
 
 	<cffunction name="createDDPDF" description="Creates a drug drive PDF form, returns the path and filename to the created form" access="remote" output="false" returntype="struct">

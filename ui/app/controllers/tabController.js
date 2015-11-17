@@ -2,10 +2,10 @@ angular.module('drugDrive')
   .controller('TabController', ['$scope', function($scope) {
 	
 	$scope.tabs = [
-	    { title:'Time / Location', content:'templates/pages/drugDriveForm/timeLocation.html' },
+	    { title:'Time / Location', content:'templates/pages/drugDriveForm/timeLocation.html', active: true },
 	    { title:'Tests Performed', content:'templates/pages/drugDriveForm/testsPerformed.html' },
 	    { title:'Person / Arrest', content:'templates/pages/drugDriveForm/personArrest.html' },
-		{ title:'HCP', content:'templates/pages/drugDriveForm/hcp.html', active: true},
+		{ title:'HCP', content:'templates/pages/drugDriveForm/hcp.html'},
 		{ title:'Blood / Urine', content:'templates/pages/drugDriveForm/bloodUrine.html'},
 		{ title:'Disposal', content:'templates/pages/drugDriveForm/disposal.html'},
 		{ title:'Additional', content:'templates/pages/drugDriveForm/additionalInfo.html'}

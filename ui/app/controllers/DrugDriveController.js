@@ -32,6 +32,18 @@ angular.module('drugDrive')
 	}
   )
   
+  $scope.$watch('ddData.WWM_TEST_REASON',
+  	function handleReasonChange(newValue, oldValue){
+		if (newValue == 'RTC'){
+			  $scope.ddData.RTC='Y';
+		}
+		else
+		{
+			  $scope.ddData.RTC='';
+		}
+	}
+  )  
+  
   $scope.showCustodies = function(){
   	$scope.showCustodyList=true;
   }
@@ -120,7 +132,13 @@ angular.module('drugDrive')
 	 {label:'O9	OTHER - ANY OTHER ETHNIC GROUP', id:'O9'},
 	 {label:'NX	NOT STATED - DECLINED ', id:'NX'},
 	 {label:'NZ	NOT STATED - NOT UNDERSTOOD ', id:'NZ'}	
-  ];  
+  ]; 
+  
+  $scope.wwmReason=[
+  	{label:'RTC', id:'RTC'},
+  	{label:'Moving Traffic Offence',id:'Moving Traffic Offence'},
+  	{label:'Suspect OPL in Drugs',id:'Suspect OPL in Drugs'}
+  ]; 
   
   $scope.loadDD = function(ddId){
   	
@@ -149,12 +167,16 @@ angular.module('drugDrive')
 	
   };
   
-  $scope.submitDD = function(){
-  	
-	$scope.ddData.DATE_INITIAL_STOP=formatDate($scope.ddData.DATE_INITIAL_STOP_PICKER,'dd/MM/yyyy');
+  $scope.formatDatePickers = function(){
+  	$scope.ddData.DATE_INITIAL_STOP=formatDate($scope.ddData.DATE_INITIAL_STOP_PICKER,'dd/MM/yyyy');
 	if ($scope.ddData.STATION_HCP_DATE_PICKER){
 		$scope.ddData.STATION_HCP_DATE=formatDate($scope.ddData.STATION_HCP_DATE_PICKER,'dd/MM/yyyy');	
 	}
+  }
+  
+  $scope.submitDD = function(){
+  	
+	$scope.formatDatePickers();
 	
   	ddService.submitDD($scope.ddData)
   	       .success(function(data, status, headers){
@@ -168,6 +190,35 @@ angular.module('drugDrive')
 			})
   	
   };
+  
+  $scope.finaliseDD = function(){
+  	
+  	$scope.formatDatePickers();
+  	
+  	ddService.submitDD($scope.ddData)
+  		.success(
+  			function(data, status, headers){
+  				ddService.finaliseDD($scope.ddData.WWM_DD_ID)
+  				.success(
+  					function(data, status, headers){
+  						alert(data.URN);
+  					}  					
+  				)  	
+  				.error
+  				(
+  					function(data, status, headers, config){
+  						console.log('error in finalise')
+  					}
+  				)
+  			}		
+  		)
+  		.error(
+  			function(data, status, headers, config){
+  				console.log('error in save')
+  					}
+  		);
+  	
+  }
   
   $scope.getOfficerLocation = function(){
   	

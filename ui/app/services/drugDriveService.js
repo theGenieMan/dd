@@ -13,12 +13,20 @@ angular.module('drugDrive')
 	var getDD = function(ddId){
 	 return $http({
 	  	method: 'get',        
-        url: '../cf/Com/drugDriveService.cfc?method=getDrugDrive&DD_ID='+ddId
+        url: '../cf/Com/drugDriveService.cfc?method=getDrugDriveJSON&DD_ID='+ddId
+      });	
+	}
+	
+	var finaliseDD = function(ddId){
+	 return $http({
+	  	method: 'get',        
+        url: '../cf/Com/drugDriveService.cfc?method=finaliseDrugDrive&DD_ID='+ddId
       });	
 	}
 	
     return {
      submitDD: submitDD,
-	 getDD: getDD
+	 getDD: getDD,
+	 finaliseDD: finaliseDD
     };
   }]);
