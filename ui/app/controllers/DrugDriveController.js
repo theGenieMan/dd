@@ -1,12 +1,13 @@
 angular.module('drugDrive')
-  .controller('DrugDriveController', ['$scope', '$document', 'officerLocationService', 'drugDriveService' , function($scope, $document, offLS, ddService) {
+  .controller('DrugDriveController', ['$scope', '$document', 'officerLocationService', 'drugDriveService','$routeParams' , 
+               function($scope, $document, offLS, ddService, routeParams) {
   
    $document.on('keydown', function(e){
           if(e.which === 8 && (e.target.nodeName !== "INPUT" && e.target.nodeName !=='TEXTAREA')){ // you can add others here.
               e.preventDefault();
           }
       });
-  
+  $scope.ddData = {};		
   $scope.applicationTitle='Drug Drive / FIT Test Submission';
   $scope.officerLocationSearchRan=false;
   $scope.showCustodyList=false;
@@ -14,6 +15,28 @@ angular.module('drugDrive')
   $scope.calStatus = {
     opened: false
   };
+
+  $scope.overideDate=new Date(2015,9,29,21,33,0,0);
+  
+  $scope.$watch('ddData.ARRESTED',
+  	function handleArrestedChange(newValue, oldValue){
+		if (newValue == 'Y'){
+			  $scope.showCustodyList=true;
+		}
+		else
+		{
+			  $scope.ddData.CUSTODY_REF='';
+			  $scope.ddData.WWM_NOMINAL_REF='';
+			  $scope.showCustodyList=false;
+		}
+	}
+  )
+  
+  $scope.showCustodies = function(){
+  	$scope.showCustodyList=true;
+  }
+  
+  $scope.CUSTODY_DATA={};
   
   $scope.forceSelect = [
   	{label:'-- Select --', id:''},
@@ -53,48 +76,6 @@ angular.module('drugDrive')
 	{label:'Amphetamines', id:'Amphetamines'}
 	*/	
   ]  
-
-  $scope.overideDate=new Date(2015,9,29,21,33,0,0);
-  
-  $scope.$watch('ddData.ARRESTED',
-  	function handleArrestedChange(newValue, oldValue){
-		if (newValue == 'Y'){
-			  $scope.showCustodyList=true;
-		}
-		else
-		{
-			  $scope.ddData.CUSTODY_REF='';
-			  $scope.ddData.WWM_NOMINAL_REF='';
-			  $scope.showCustodyList=false;
-		}
-	}
-  )
-  
-  $scope.showCustodies = function(){
-  	$scope.showCustodyList=true;
-  }
-  
-  $scope.ddData={
-  	DATE_INITIAL_STOP_PICKER:$scope.overideDate,
-  	TIME_INITIAL_STOP:formatDate($scope.overideDate,'HH:mm'),
-  	WWM_OFFICER_UID:'n_bla005',
-  	WWM_OFFICER_COLLAR:'4854',
-  	WWM_OFFICER_FORCE:'22',
-  	WWM_OFFICER_NAME:'Sp Con 4854 Nick BLACKHAM',
-  	WWM_OFFICER_EMAIL:'nick.blackham@westmercia.pnn.police.uk',
-  	WWM_TEST_LOCATION:'Station',
-	/*
-  	ROADSIDE_FIT_DONE: 'N',
-	ROADSIDE_BREATH_DONE: 'N',
-	ROADSIDE_SALIVA_DONE: 'Y',
-	
-	*/
-	STATION_SALIVA_RESULT: 'Positive',
-	STATION_BREATH_DONE: 'Y',
-	ARRESTED:'N'  	
-  };
-  
-  $scope.CUSTODY_DATA={};
   
   $scope.selectYN=[
   	{label:'-- Select --', id:''},
@@ -140,6 +121,33 @@ angular.module('drugDrive')
 	 {label:'NX	NOT STATED - DECLINED ', id:'NX'},
 	 {label:'NZ	NOT STATED - NOT UNDERSTOOD ', id:'NZ'}	
   ];  
+  
+  $scope.loadDD = function(ddId){
+  	
+	 ddService.getDD(ddId)
+  	    .success(function(data, status, headers){
+  				// the success function wraps the response in data
+				// setup the ddData variable with the information we have got.
+				console.log('got me data');	
+				console.log(data);	
+				$scope.ddData = {};						
+				for (var key in data) {
+				  console.log(key + ': '+ data[key]);
+				  $scope.ddData[key]=data[key];
+				};
+				if ($scope.ddData['DATE_INITIAL_STOP'].length > 0){
+					$scope.ddData.DATE_INITIAL_STOP_PICKER=new Date($scope.ddData['DATE_INITIAL_STOP']);
+				};
+				if ($scope.ddData['STATION_HCP_DATE'].length > 0){
+					$scope.ddData.STATION_HCP_DATE_PICKER=new Date($scope.ddData['STATION_HCP_DATE']);
+				};
+				$scope.officerLocationSearchRan=true;
+		}).error(function(data, status, heaers, config){
+				console.log('Error aye it: ' + data);
+				console.log(status);
+		})	
+	
+  };
   
   $scope.submitDD = function(){
   	
@@ -193,6 +201,30 @@ angular.module('drugDrive')
 	$scope.ddData.WWM_NOMINAL_REF=custodyData.NOMINAL_REF;
 	$scope.showCustodyList=false;
   };
-   
+
+  if (angular.isDefined(routeParams.ddId) ){
+  	  $scope.loadDD(routeParams.ddId);
+  }
+  else{
+  	  $scope.ddData={
+	  	DATE_INITIAL_STOP_PICKER:$scope.overideDate,
+	  	TIME_INITIAL_STOP:formatDate($scope.overideDate,'HH:mm'),
+	  	WWM_OFFICER_UID:'n_bla005',
+	  	WWM_OFFICER_COLLAR:'4854',
+	  	WWM_OFFICER_FORCE:'22',
+	  	WWM_OFFICER_NAME:'Sp Con 4854 Nick BLACKHAM',
+	  	WWM_OFFICER_EMAIL:'nick.blackham@westmercia.pnn.police.uk',
+	  	WWM_TEST_LOCATION:'Station',
+		/*
+	  	ROADSIDE_FIT_DONE: 'N',
+		ROADSIDE_BREATH_DONE: 'N',
+		ROADSIDE_SALIVA_DONE: 'Y',
+		
+		*/
+		STATION_SALIVA_RESULT: 'Positive',
+		STATION_BREATH_DONE: 'Y',
+		ARRESTED:'N'  	
+	  };
+  }   
   
 }]);

@@ -12,8 +12,14 @@ angular.module('drugDrive')
  			templateUrl: 'templates/pages/drugDriveForm/index.html',
  			controller: 'DrugDriveController'	
  		}
- 	).
- 	when('/userList',
+ 	)
+	.when('/drugDriveForm/:ddId',
+ 		{
+ 			templateUrl: 'templates/pages/drugDriveForm/index.html',
+ 			controller: 'DrugDriveController'	
+ 		}
+ 	)
+	.when('/userList',
  		{
  			templateUrl: 'templates/pages/userList/index.html'
  	})

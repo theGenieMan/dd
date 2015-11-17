@@ -8,8 +8,17 @@ angular.module('drugDrive')
         url: '../cf/Com/drugDriveService.cfc?method=createDrugDrive',
         data: form
       });
-    }
+    };
+	
+	var getDD = function(ddId){
+	 return $http({
+	  	method: 'get',        
+        url: '../cf/Com/drugDriveService.cfc?method=getDrugDrive&DD_ID='+ddId
+      });	
+	}
+	
     return {
-     submitDD: submitDD
+     submitDD: submitDD,
+	 getDD: getDD
     };
   }]);

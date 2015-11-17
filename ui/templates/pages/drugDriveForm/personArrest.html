@@ -106,12 +106,23 @@
 	        <div class="col-md-6">
 	          <input type="checkbox" ng-model="ddData.ARRESTED_FOR_DRUGSORALC" 
 			  		 ng-required="(!(ddData.ARRESTED_FOR_DRUGSORALC.length||ddData.ARRESTED_FOR_S4ALC.length||ddData.ARRESTED_FOR_S5ALC.length||ddData.ARRESTED_FOR_S4DRUGS.length||ddData.ARRESTED_FOR_S5DRUGS.length||ddData.ARRESTED_FOR_FAILURE.length||ddData.ARRESTED_FOR_OTHER.length)) && (ddData.ARRESTED==='Y' && ddData.WWM_TEST_LOCATION==='Roadside')"
-			         ng-true-value="'Y'" ng-false-value="''" name="arrestField"> Section 4 Alcohol and/or drugs<br>
-			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S4ALC" ng-true-value="'Y'" ng-false-value="''" > Section 4 Alcohol<br>
-			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S5ALC" ng-true-value="'Y'" ng-false-value="''" > Section 5 Alcohol<br>	
-			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S4DRUGS" ng-true-value="'Y'" ng-false-value="''"> Section 4 Drugs<br>
-			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S5DRUGS" ng-true-value="'Y'" ng-false-value="''"> Section 5 Drugs<br>
-			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_FAILURE" ng-true-value="'Y'" ng-false-value="''"> Fail to provide<br>
+			         ng-true-value="'Y'" ng-false-value="''" name="arrestField"
+					 ng-checked="ddData.ARRESTED_FOR_DRUGSORALC==='Y'"> Section 4 Alcohol and/or drugs<br>
+			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S4ALC" 
+			         ng-true-value="'Y'" ng-false-value="''"
+					 ng-checked="ddData.ARRESTED_FOR_S4ALC==='Y'"> Section 4 Alcohol<br>
+			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S5ALC" 
+			         ng-true-value="'Y'" ng-false-value="''" 
+					 ng-checked="ddData.ARRESTED_FOR_S5ALC==='Y'"> Section 5 Alcohol<br>	
+			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S4DRUGS" 
+			         ng-true-value="'Y'" ng-false-value="''"
+					 ng-checked="ddData.ARRESTED_FOR_S4DRUGS==='Y'"> Section 4 Drugs<br>
+			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_S5DRUGS" 
+			         ng-true-value="'Y'" ng-false-value="''"
+					 ng-checked="ddData.ARRESTED_FOR_S5DRUGS==='Y'"> Section 5 Drugs<br>
+			  <input type="checkbox" ng-model="ddData.ARRESTED_FOR_FAILURE" 
+			         ng-true-value="'Y'" ng-false-value="''"
+					 ng-checked="ddData.ARRESTED_FOR_FAILURE==='Y'"> Fail to provide<br>
 			  Other : <input type="text" ng-model="ddData.ARRESTED_FOR_OTHER">
 			  
 	          <p ng-show="personForm.arrestField.$invalid" class="help-block">Select reason for arrest or enter other</p>
@@ -128,12 +139,23 @@
 	        <div class="col-md-6">
 	          <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_DRUGSORALC" name="invField"
 			         ng-required="(!(ddData.INVESTIGATION_FOR_DRUGSORALC.length||ddData.INVESTIGATION_FOR_S4ALC.length||ddData.INVESTIGATION_FOR_S5ALC.length||ddData.INVESTIGATION_FOR_S4DRUGS.length||ddData.INVESTIGATION_FOR_S5DRUGS.length||ddData.INVESTIGATION_FOR_FAILURE.length||ddData.INVESTIGATION_FOR_OTHER.length)) && (ddData.ARRESTED==='Y' && ddData.WWM_TEST_LOCATION==='Station')"
-					 ng-true-value="'Y'" ng-false-value="''" > Section 4 Alcohol and/or drugs<br>
-			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S4ALC"  ng-true-value="'Y'" ng-false-value="''" > Section 4 Alcohol<br>
-			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S5ALC"  ng-true-value="'Y'" ng-false-value="''" > Section 5 Alcohol<br>	
-			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S4DRUGS"  ng-true-value="'Y'" ng-false-value="''" > Section 4 Drugs<br>
-			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S5DRUGS"  ng-true-value="'Y'" ng-false-value="''" > Section 5 Drugs<br>
-			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_FAILURE"  ng-true-value="'Y'" ng-false-value="''" > Fail to provide<br>
+					 ng-true-value="'Y'" ng-false-value="''" 
+					 ng-checked="ddData.INVESTIGATION_FOR_DRUGSORALC==='Y'"> Section 4 Alcohol and/or drugs<br>
+			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S4ALC" 
+			         ng-true-value="'Y'" ng-false-value="''"
+					 ng-checked="ddData.INVESTIGATION_FOR_S4ALC==='Y'"> Section 4 Alcohol<br>
+			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S5ALC"  
+			         ng-true-value="'Y'" ng-false-value="''" 
+					 ng-checked="ddData.INVESTIGATION_FOR_S5ALC==='Y'"> Section 5 Alcohol<br>	
+			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S4DRUGS"  
+			         ng-true-value="'Y'" ng-false-value="''"
+					 ng-checked="ddData.INVESTIGATION_FOR_S4DRUGS==='Y'"> Section 4 Drugs<br>
+			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_S5DRUGS"  
+			         ng-true-value="'Y'" ng-false-value="''"
+					 ng-checked="ddData.INVESTIGATION_FOR_S5DRUGS==='Y'"> Section 5 Drugs<br>
+			  <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_FAILURE"  
+			         ng-true-value="'Y'" ng-false-value="''"
+					 ng-checked="ddData.INVESTIGATION_FOR_FAILURE==='Y'"> Fail to provide<br>
 			  Other : <input type="text" ng-model="ddData.INVESTIGATION_FOR_OTHER">			  
 	          <p ng-show="personForm.invField.$invalid" class="help-block">Select reason for arrest or enter other</p>			  		
 	        </div>

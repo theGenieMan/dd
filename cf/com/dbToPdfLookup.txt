@@ -45,6 +45,7 @@ Roadside_Breath_done|ROADSIDE_BREATH_DONE|On
 Roadside_Breath_time|ROADSIDE_BREATH_TIME|Text
 Roadside_Breath_result|ROADSIDE_BREATH_RESULT|Text
 Roadside_FIT_done|ROADSIDE_FIT_DONE|On
+Roadside_FIT_time|ROADSIDE_FIT_TIME|Text
 Roadside_FIT_OK|ROADSIDE_FIT_OK|On
 Roadside_Saliva_done|ROADSIDE_SALIVA_DONE|On
 Roadside_Saliva_drug|ROADSIDE_SALIVA_DRUG|Text

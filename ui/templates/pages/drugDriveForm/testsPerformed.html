@@ -34,11 +34,13 @@
 	        <div class="col-md-6">
 	        	<label class="checkbox-inline">
 	        	<input type="radio" name="fitResult" ng-model="ddData.ROADSIDE_FIT_RESULT"
-	        	       value="OK" ng-required="!ddData.ROADSIDE_FIT_RESULT && ddData.ROADSIDE_FIT_DONE==='Y'" /> Performed OK
+	        	       value="OK" ng-required="!ddData.ROADSIDE_FIT_RESULT && ddData.ROADSIDE_FIT_DONE==='Y'" 
+					   ng-checked="ddData.ROADSIDE_FIT_RESULT==='OK'" /> Performed OK
 	        	</label>
 	        	<label class="checkbox-inline">
 	        	<input type="radio" name="fitResult" ng-model="ddData.ROADSIDE_FIT_RESULT"
-	        	       value="POOR" ng-required="!ddData.ROADSIDE_FIT_RESULT && ddData.ROADSIDE_FIT_DONE==='Y'" /> Performed Poorly
+	        	       value="POOR" ng-required="!ddData.ROADSIDE_FIT_RESULT && ddData.ROADSIDE_FIT_DONE==='Y'" 
+					   ng-checked="ddData.ROADSIDE_FIT_RESULT==='POOR'" /> Performed Poorly
 	        	</label>       		
 				<p ng-show="testsForm.fitResult.$invalid" class="help-block">Enter result of FIT.</p>
 	        </div>
@@ -123,7 +125,7 @@
 	    	<label for="drugBatch" class="col-md-2 control-label">Batch No</label>
 	        <div class="col-md-6">
 	         <input ng-model="ddData.TEST_REF" type="text" 
-                	       class="form-control input-sm" 
+                	       class="form-control input-sm mandatory" 
                 	       name="drugBatch" ng-required="ddData.ROADSIDE_SALIVA_DONE==='Y'">
 	         <p ng-show="testsForm.drugBatch.$invalid" class="help-block">Enter the Batch No of the Drug Swipe Kit</p>		
 	        </div>

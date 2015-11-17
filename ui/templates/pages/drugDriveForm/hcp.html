@@ -42,9 +42,11 @@
 	    	<label for="HCPWas" class="col-md-2 control-label">HCP Was</label>
 	        <div class="col-md-6">
 	          <input type="checkbox" ng-model="ddData.HCP_DOCTOR" name="HCPWas"			         
-					 ng-true-value="'Y'" ng-false-value="''" /> Doctor<br>
+					 ng-true-value="'Y'" ng-false-value="''" 
+					 ng-checked="ddData.HCP_DOCTOR==='Y'" /> Doctor<br>
 			  <input type="checkbox" ng-model="ddData.HCP_NURSE"  
-			         ng-true-value="'Y'" ng-false-value="''" > Nurse<br>			  
+			         ng-true-value="'Y'" ng-false-value="''" 
+					 ng-checked="ddData.HCP_NURSE==='Y'" /> Nurse<br>			  
 			  Other : <input type="text" class="form-control input-sm" ng-model="ddData.HCP_OTHER">			  	          			  		
 	        </div>
 	       </div>

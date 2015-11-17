@@ -8,7 +8,7 @@
         <label for="bloodRequested" class="col-md-2 control-label">Blood Sample<br>Requested?</label>
            <div class="col-md-6">                          
                 <select ng-model='ddData.BLOOD_REQUESTED' ng-options="c.id as c.label for c in selectYN" 
-				        ng-required="true" name="bloodRequested" class="form-control input-sm"></select>									
+				        name="bloodRequested" class="form-control input-sm"></select>									
 		   </div>
 	    </div>
 	  </div>
@@ -18,7 +18,7 @@
         <label for="bloodProvided" class="col-md-2 control-label">Blood Sample<br>Provided?</label>
            <div class="col-md-6">                          
                 <select ng-model='ddData.BLOOD_PROVIDED' ng-options="c.id as c.label for c in selectYN" 
-				        ng-required="true" name="bloodProvided" class="form-control input-sm"></select>									
+				        name="bloodProvided" class="form-control input-sm"></select>									
 		   </div>
 	    </div>
 	  </div>
@@ -52,7 +52,7 @@
         <label for="urineProvided" class="col-md-2 control-label">Urine Sample<br>Provided?</label>
            <div class="col-md-6">                          
                 <select ng-model='ddData.URINE_PROVIDED' ng-options="c.id as c.label for c in selectYN" 
-				        ng-required="true" name="urineProvided" class="form-control input-sm"></select>									
+				        name="urineProvided" class="form-control input-sm"></select>									
 		   </div>
 	    </div>
 	  </div>
@@ -86,7 +86,7 @@
         <label for="medicalDefence" class="col-md-2 control-label">Medical defence<br>claimed?</label>
            <div class="col-md-6">                          
                 <select ng-model='ddData.MEDICAL_DEFENCE_CLAIMED' ng-options="c.id as c.label for c in selectYN" 
-				        ng-required="true" name="medicalDefence" class="form-control input-sm"></select>		
+				        name="medicalDefence" class="form-control input-sm"></select>		
 				 <p ng-show="bloodForm.urineTime2.$invalid" class="help-block">Did driver claim to be on prescription medication at any stage</p> 							
 		   </div>
 	    </div>
