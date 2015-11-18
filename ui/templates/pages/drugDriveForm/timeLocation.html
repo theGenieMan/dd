@@ -1,37 +1,47 @@
 <div class="form-horizontal formDiv">	
 	<ng-form name="locationForm">
 	
-	 <div class="form-group">
-        <label for="dateInitial" class="col-md-2 control-label">Date / Time</label>
+	<div class="form-group" ng-class="{ 'has-error' : locationForm.testDate.$invalid }">
+      <div class="row">
+    	<label for="dateInitial" class="col-md-2 control-label">Date</label>
         <div class="col-md-6">
-            <div class="form-group row"  ng-class="{ 'has-error' : locationForm.testDate.$invalid }">                
-                <div class="col-md-3">
-                    <input type="text" id="dateInitial" ng-model="ddData.DATE_INITIAL_STOP_PICKER" name="testDate"
-					       class="form-control mandatory  input-sm" uib-datepicker-popup="dd/MM/yyyy" 
-					       is-open="calStatus.opened" ng-click="calStatus.opened=true" ng-required="true"
-					        />
-                </div>
-                 <p ng-show="locationForm.testDate.$invalid" class="help-block">Invalid Date (Valid format is DD/MM/YYYY)</p>
-             </div>
-             <div class="form-group row" ng-class="{ 'has-error' : locationForm.testTime.$invalid }">   
-                <div class="col-md-2">
-                	<input ng-model="ddData.TIME_INITIAL_STOP" type="text" placeholder="HH:mm"
-                	       ng-required="true" class="form-control mandatory  input-sm" ng-maxlength="5" ng-minlength="5"
-                	       ng-pattern='/[0-2][0-9]:[0-5][0-9]/' name="testTime">                	
-                </div>
-                <p ng-show="locationForm.testTime.$invalid" class="help-block">Invalid Time (Valid format is HH:mm)</p>
-            </div>
-            <div class="form-group row">    
-                <div class="col-md-8">
-                	<button ng-click='getOfficerLocation()' type="button">Get My Location</button>
-                </div>
-            </div>
+          <input type="text" id="dateInitial" ng-model="ddData.DATE_INITIAL_STOP_PICKER" name="testDate"
+	             class="form-control mandatory  input-sm" uib-datepicker-popup="dd/MM/yyyy" 
+	             is-open="calStatus.opened" ng-click="calStatus.opened=true" ng-required="true"/>
+         <p ng-show="locationForm.testDate.$invalid" class="help-block">Invalid Date (Valid format is DD/MM/YYYY)</p>		
         </div>
-    </div>	
-    
+      </div>
+    </div>
+	
+	<div class="form-group" ng-class="{ 'has-error' : locationForm.testTime.$invalid }">
+      <div class="row">    
+	  <label for="dateInitial" class="col-md-2 control-label">Time</label>	
+        <div class="col-md-6">
+          <input ng-model="ddData.TIME_INITIAL_STOP" type="text" placeholder="HH:mm"
+                	       ng-required="true" class="form-control mandatory  input-sm" ng-maxlength="5" ng-minlength="5"
+                	       ng-pattern='/[0-2][0-9]:[0-5][0-9]/' name="testTime">
+         <p ng-show="locationForm.testTime.$invalid" class="help-block">Invalid Time (Valid format is HH:mm)</p>		
+        </div>
+      </div>
+    </div>
+	
+	<div class="form-group">
+      <div class="row">    	
+	    <div class="col-md-2"></div> 
+        <div class="col-md-6">
+        	<span ng-show="!officerLocationSearchRunning">
+        		<button ng-click='getOfficerLocation()' type="button">Get My Location</button>
+			</span>			
+			<span ng-show="officerLocationSearchRunning">
+				<img src="images/spinner.gif"> Finding your location
+			</span>
+		</div>
+	  </div>
+	</div>
+	
     <span ng-show="officerLocationSearchRan">
     	
-    <uib-alert type="danger" ng-show="ddData.WWM_TEST_FORCE.length==0">Your location could not be found please select Force and Local Policing Area below</uib-alert> 	
+    <uib-alert type="danger" ng-show="noLocationFound">Your location could not be found please select Force and Local Policing Area below</uib-alert> 	
     
     <div class="form-group" ng-class="{ 'has-error' : locationForm.testForce.$invalid }">
       <div class="row">
@@ -55,7 +65,7 @@
     
     <div class="form-group">
       <div class="row">
-    	<label for="beatCode" class="col-md-2 control-label">Beat Codezzzzz</label>
+    	<label for="beatCode" class="col-md-2 control-label">Beat Code</label>
         <div class="col-md-6">
          	<input type="text" id="beatCode" ng-model="ddData.WWM_TEST_BEAT" class="form-control  input-sm" placeholder="Optional, complete if known"  />
         </div>
@@ -76,54 +86,8 @@
 	</span>
 	
 	<div align="center">
-		<button ng-click='finaliseDD();' class="btn btn-success" type="button" ng-show="locationForm.$valid" >Goto Tests Performed</button>
+		<button ng-click='submitDD();nextTab(0)' class="btn btn-success" type="button" ng-show="locationForm.$valid" >Goto Next Tab</button>
 	</div>
 	
-	<!-- nextTab(0) -->
-	
-	<!--	
-	<div class="row">	
-		<label for="dateIntial" class="col-sm-2 control-label">Date / Time</label> 
-		<div class="col-xs-3 form-inline">
-			<input type="text" id="dateInitial" ng-model="ddData.DATE_INITIAL_STOP" 
-			       class="form-control" uib-datepicker-popup="dd/MM/yyyy" is-open="calStatus.opened" ng-required="true" />
-			<span class="input-group-btn">
-			<button type="button" class="btn btn-default" ng-click="openCal($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-			</span>
-		</div>
-		<div class="col-xs-3">
-		<uib-timepicker ng-model="ddData.TIME_INITIAL_STOP" show-meridian="false"></uib-timpicker>
-		</div>
-	</div>
-	<div class="row">
-		<label class="col-sm-2 control-label"></label>
-		<div class="col-sm-8" style="border:1px solid black;">
-			<button ng-click='getOfficerLocation()' type="button">Get My Location</button>
-		</div>
-	</div>
-	
-	<div class="row">
-  <div class="col-xs-2">
-    <input type="text" class="form-control" placeholder=".col-xs-2">
-  </div>
-  <div class="col-xs-3">
-    <input type="text" class="form-control" placeholder=".col-xs-3">
-  </div>
-  <div class="col-xs-4">
-    <input type="text" class="form-control" placeholder=".col-xs-4">
-  </div>
-</div>
-		
-		<br><br><br> 	  	  
-		
-		Location Data:
-		Force: <input type="text" ng-model="ddData.WWM_TEST_FORCE" required /><br>
-		LPA: <input type="text" ng-model="ddData.WWM_TEST_LPA" required /><br>
-		Beat Code: <input type="text" ng-model="ddData.WWM_TEST_BEAT" /><br>
-		Grid Ref: {{ ddData.WWM_TEST_GRIDREF }}
-		<br><br>
-		{{ locationForm.$valid }}
-		<button ng-click='submitDD();nextTab(0)' type="button" >Goto Tests Performed</button>
-	-->
 	</ng-form>
 </div>

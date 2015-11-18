@@ -5,7 +5,7 @@ angular.module('drugDrive')
     var submitDD = function(form) {	  	
       return $http({
 	  	method: 'post',        
-        url: '../cf/Com/drugDriveService.cfc?method=createDrugDrive',
+        url: '../cf/Com/drugDriveWebService.cfc?method=createDrugDrive',
         data: form
       });
     };
@@ -13,7 +13,7 @@ angular.module('drugDrive')
 	var getDD = function(ddId){
 	 return $http({
 	  	method: 'get',        
-        url: '../cf/Com/drugDriveService.cfc?method=getDrugDriveJSON&DD_ID='+ddId
+        url: '../cf/Com/drugDriveWebService.cfc?method=getDrugDrive&DD_ID='+ddId
       });	
 	}
 	
@@ -24,9 +24,20 @@ angular.module('drugDrive')
       });	
 	}
 	
+	var locateOfficer = function(collar, force, dateLocation, timeLocation) {	
+          
+      var dateToFind = formatDate(dateLocation,'dd/MM/yyyy');
+    	  	
+      return $http({
+	  	method: 'get',        
+        url: '../cf/Com/drugDriveWebService.cfc?method=getOfficerLocation&officerCollar='+collar+'&officerForce='+force+'&dateToFind='+dateToFind+'&timeToFind='+timeLocation
+      });
+    }
+	
     return {
      submitDD: submitDD,
 	 getDD: getDD,
-	 finaliseDD: finaliseDD
+	 finaliseDD: finaliseDD,
+	 locateOfficer: locateOfficer
     };
   }]);

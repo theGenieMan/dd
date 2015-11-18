@@ -1,33 +1,26 @@
 <cfcomponent output="false">
 
-    <cffunction name="initVars" description="initialises db sources etc.." access="remote" returntype="struct" >
-    	
-    	<cfset var serviceVars=structNew()>
-    	
-    	<cfif SERVER_NAME IS "127.0.0.1" OR SERVER_NAME IS "localhost">   		
-    		<cfset serviceVars.WAREHOUSE_DB="wmercia">  
-    		<cfset serviceVars.ENV="localDev">  		
-    	<cfelseif SERVER_NAME IS "development.intranet.wmcpolice">
-    	    <cfset serviceVars.WAREHOUSE_DB="wmercia">
-    	    <cfset serviceVars.ENV="wmDev">    
-    	<cfelseif SERVER_NAME IS "websvr.intranet.wmcpolice">	
-    		
-    	</cfif>
-
-    	<cfreturn serviceVars>
-    	
-    </cffunction>
-    
+	<cffunction name="init" access="public" output="false" returntype="custodyService">
+		<cfargument name="WAREHOUSE_DB" type="string" hint="datasource of data warehouse" required="true" />
+				
+		<cfset variables.WAREHOUSE_DB = arguments.WAREHOUSE_DB />
+		
+		<cfset variables.version="1.0.0.0">    
+   	    <cfset variables.dateServiceStarted=DateFormat(now(),"DD-MMM-YYYY")&" "&TimeFormat(now(),"HH:mm:ss")>		
+		
+		<cfreturn this/>
+		
+	</cffunction>
+        
     <cffunction name="getCustodies"
                 access="remote"
                 returntype="array" 
                 returnformat="JSON">
-                    
-        <cfset var fnVars=initVars()>
+                            
         <cfset var arrCust=arrayNew(1)>    
 		<cfset var qCust=''>		
 		<cflog file="custService" type="information" text="running get custodies" />
-		<cfquery name="qCust" datasource="#fnVars.WAREHOUSE_DB#" result="qCustRes">
+		<cfquery name="qCust" datasource="#variables.WAREHOUSE_DB#" result="qCustRes">
             SELECT cs.CUSTODY_REF, SUBSTR(cs.CUSTODY_REF,0,4) AS CUST_SUITE,
                    cs.NOMINAL_REF, NAME AS NOMINAL_NAME,
                    TO_CHAR(DOB,'DD/MM/YYYY') AS DOB, 

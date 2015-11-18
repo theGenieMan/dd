@@ -134,7 +134,7 @@
 		 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.drugResult.$invalid }">
 	      <div class="row">
-	    	<label for="drugResult" class="col-md-2 control-label">Drug Swipe Result</label>
+	    	<label for="drugResult" class="col-md-2 control-label">Drug Swipe<br>Result</label>
 	        <div class="col-md-6">
 	         <select class="form-control mandatory input-sm" name="drugResult" ng-model='ddData.ROADSIDE_SALIVA_RESULT' 
 	                 ng-options="c.id as c.label for c in swipeResult" ng-required="ddData.ROADSIDE_SALIVA_DONE==='Y'"></select>
@@ -241,7 +241,7 @@
 		 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.stDrugResult.$invalid }">
 	      <div class="row">
-	    	<label for="stDrugResult" class="col-md-2 control-label">Drug Swipe Result</label>
+	    	<label for="stDrugResult" class="col-md-2 control-label">Drug Swipe<br>Result</label>
 	        <div class="col-md-6">
 	         <select class="form-control mandatory input-sm" name="stDrugResult" ng-model='ddData.STATION_SALIVA_RESULT' 
 	                 ng-options="c.id as c.label for c in swipeResult" ng-required="ddData.STATION_SALIVA_DONE==='Y'"></select>
@@ -310,7 +310,7 @@
 		 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.hoDrugResult.$invalid }">
 	      <div class="row">
-	    	<label for="hoDrugResult" class="col-md-2 control-label">Drug Swipe Result</label>
+	    	<label for="hoDrugResult" class="col-md-2 control-label">Drug Swipe<br>Result</label>
 	        <div class="col-md-6">
 	         <select class="form-control mandatory input-sm" name="hoDrugResult" ng-model='ddData.HOSPITAL_SALIVA_RESULT' 
 	                 ng-options="c.id as c.label for c in swipeResult" ng-required="ddData.HOSPITAL_SALIVA_DONE==='Y'"></select>
@@ -337,7 +337,7 @@
 		</span>
 		
 		<div align="center">
-			<button ng-click='submitDD();nextTab(1)' class="btn btn-success" type="button" ng-show="testsForm.$valid">Goto Person / Arrest</button>
+			<button ng-click='submitDD();nextTab(1)' class="btn btn-success" type="button" ng-show="testsForm.$valid">Goto Next Tab</button>
 		</div>
 		
 		<!--

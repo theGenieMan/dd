@@ -1,34 +1,29 @@
 <cfcomponent output="false">
 
-    <cffunction name="initVars" description="initialises db sources etc.." access="remote" returntype="struct" >
-    	
-    	<cfset var serviceVars=structNew()>
-    	
-    	<cfif SERVER_NAME IS "127.0.0.1" OR SERVER_NAME IS "localhost">
-    		<cfset serviceVars.DD_DB="DrugDrive">
-    		<cfset serviceVars.templateFile="C:\ColdFusion10\cfusion\wwwroot\drugDrive\cf\pdfTemplates\hoDrugDriveFormV1.pdf">
-    		<cfset serviceVars.dbToPdfLookupFile="C:\ColdFusion10\cfusion\wwwroot\drugDrive\cf\com\dbToPdfLookup.txt">
-    		<cfset serviceVars.pdfLocation="C:\ColdFusion10\cfusion\wwwroot\drugDrive\pdfOutput\">
-    	<cfelseif SERVER_NAME IS "development.intranet.wmcpolice">
-    		<cfset serviceVars.DD_DB="DrugDriveNew">
-    		<cfset serviceVars.templateFile="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\dd\cf\pdfTemplates\hoDrugDriveFormV1.pdf">
-    		<cfset serviceVars.dbToPdfLookupFile="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\dd\cf\com\dbToPdfLookup.txt">
-    		<cfset serviceVars.pdfLocation="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\pdfOutput\">    	
-    	<cfelseif SERVER_NAME IS "websvr.intranet.wmcpolice">	
-    		
-    	</cfif>
-    	
-    	<cfreturn serviceVars>
-    	
-    </cffunction>
+	<cffunction name="init" access="public" output="false" returntype="drugDriveService">
+		<cfargument name="dsn" type="string" hint="datasource of drug drive database" required="true" />
+		<cfargument name="templateFile" type="string" hint="dft base pdf file to send work off" required="true" />
+		<cfargument name="dbToPdfLookupFile" type="string" hint="lookup file to map database to pdf" required="true" />
+		<cfargument name="pdfLocation" type="string" hint="location of where pdfs are written too" required="true" />				
+				
+		<cfset variables.dsn = arguments.dsn />
+		<cfset variables.templateFile = arguments.templateFile />
+		<cfset variables.dbToPdfLookupFile = arguments.dbToPdfLookupFile />
+		<cfset variables.pdfLocation = arguments.pdfLocation />		
+		
+		<cfset variables.version="1.0.0.0">    
+   	    <cfset variables.dateServiceStarted=DateFormat(now(),"DD-MMM-YYYY")&" "&TimeFormat(now(),"HH:mm:ss")>		
+		
+		<cfreturn this/>
+		
+	</cffunction>
 
-	<cffunction name="getDrugDriveJSON" description="Get Drug Drive Test From DB" access="remote" output="false" returntype="struct" returnformat="JSON">
+	<cffunction name="getDrugDriveJSON" description="Get Drug Drive Test From DB" access="remote" output="false" returntype="struct">
        <cfargument name="DD_ID" required="true" type="numeric" hint="DD_ID to get from DB">
        
-       <cfset var qDD="">
-       <cfset var fnVars=initVars()>
+       <cfset var qDD="">       
        
-       <cfquery name="qDD" datasource="#fnVars.DD_DB#">
+       <cfquery name="qDD" datasource="#variables.dsn#">
        	SELECT *
        	FROM   FF_OWNER.DRUG_DRIVE
        	WHERE  WWM_DD_ID=<cfqueryparam value="#arguments.DD_ID#" cfsqltype="cf_sql_numeric" />
@@ -41,10 +36,9 @@
 	<cffunction name="getDrugDrive" description="Get Drug Drive Test From DB" access="remote" output="false" returntype="query">
        <cfargument name="DD_ID" required="true" type="numeric" hint="DD_ID to get from DB">
        
-       <cfset var qDD="">
-       <cfset var fnVars=initVars()>
+       <cfset var qDD="">       
        
-       <cfquery name="qDD" datasource="#fnVars.DD_DB#">
+       <cfquery name="qDD" datasource="#variables.dsn#">
        	SELECT *
        	FROM   FF_OWNER.DRUG_DRIVE
        	WHERE  WWM_DD_ID=<cfqueryparam value="#arguments.DD_ID#" cfsqltype="cf_sql_numeric" />
@@ -54,15 +48,14 @@
        
 	</cffunction>
 
-	<cffunction name="createDrugDrive" description="Creates / Updates a Drug Drive Form" access="remote" output="false" returntype="struct" returnformat="JSON" >
+	<cffunction name="createDrugDrive" description="Creates / Updates a Drug Drive Form" access="remote" output="false" returntype="struct">       
+       <cfargument name="incomingData" required="true" type="any" hint="drug drive json data to insert/update">
               
        <cfset var qDD="">
        <cfset var qNextSeq="">
-       <cfset var fnVars=initVars()>
-       <cfset var incomingData=toString( getHttpRequestData().content )>
        <cfset var formData=structNew()>
        <cfset var returnStruct=structNew()>
-       <cfset var qDbToPdfLookup=getDbtoPdfLookup(lookupFile=fnVars.dbToPdfLookupFile)>
+       <cfset var qDbToPdfLookup=getDbtoPdfLookup(lookupFile=variables.dbToPdfLookupFile)>
        <cfset var columnName=''>
        <cfset var colValue=''>
        <cfset var iCol=''>
@@ -81,7 +74,7 @@
        
        <!--- no DD_ID so it's create a new record time --->
        <cfif not StructKeyExists(formData,'WWM_DD_ID')>
-       	  <cfquery name="qNextSeq" datasource="#fnVars.DD_DB#">
+       	  <cfquery name="qNextSeq" datasource="#variables.dsn#">
        	  	select DD_ID_SEQ.NEXTVAL AS NEW_DD_ID from DUAL
        	  </cfquery>
        	  
@@ -138,7 +131,7 @@
        	  <cflog file="ddService" type="information" text="#insertQuery#" >
        	  
        	  <!--- insert the record --->
-       	  <cfquery name="qDD" datasource="#fnVars.DD_DB#">
+       	  <cfquery name="qDD" datasource="#variables.dsn#">
        	  	#PreserveSingleQuotes(insertQuery)#
        	  </cfquery>
        	  
@@ -171,7 +164,7 @@
 	       	  </cfoutput>
           <cflog file="ddService" type="information" text="#updateQuery#" >
           <!--- update the record --->
-       	  <cfquery name="qDD" datasource="#fnVars.DD_DB#">
+       	  <cfquery name="qDD" datasource="#variables.dsn#">
        	  	#PreserveSingleQuotes(updateQuery)#
        	  </cfquery>
        
@@ -189,14 +182,13 @@
 		<cfset var returnStruct=structNew()>
 		<cfset var qSeq="">
 		<cfset var qUpd="">
-		<cfset var qDD=getDrugDrive(arguments.DD_ID)>
-		<cfset var fnVars=initVars()>
+		<cfset var qDD=getDrugDrive(arguments.DD_ID)>		
 		
 		<cfset returnStruct.URN=''>
 		
 		<cflock timeout="10" scope="Server" type="exclusive">
 			
-			<cfquery name="qSeq" datasource="#fnVars.DD_DB#">
+			<cfquery name="qSeq" datasource="#variables.dsn#">
 				SELECT MAX(WWM_SERIAL_NO) AS MAX_SERIAL
 				FROM   FF_OWNER.DRUG_DRIVE
 				WHERE  WWM_YEAR='#qDD.WWM_YEAR#'
@@ -212,7 +204,7 @@
 			
 			<cfset returnStruct.URN='DRUGDRIVE/'&qDD.WWM_TEST_FORCE&"/"&qDD.WWM_TEST_LPA&"/"&nextSeq&"/"&qDD.WWM_YEAR>
 		
-			<cfquery name="qUpd" datasource="#fnVars.DD_DB#">
+			<cfquery name="qUpd" datasource="#variables.dsn#">
 				UPDATE FF_OWNER.DRUG_DRIVE
 				   SET WWM_SERIAL_NO = #nextSeq#,
 				       WWM_URN = '#returnStruct.URN#'
@@ -227,14 +219,13 @@
 
 	<cffunction name="createDDPDF" description="Creates a drug drive PDF form, returns the path and filename to the created form" access="remote" output="false" returntype="struct">
 		<cfargument name="DD_ID" type="string" required="true" hint="DD_ID of test to create the PDF for" >		
-		
-		<cfset var fnVars=initVars()>
+
 		<cfset var pdfCreated=structNew()>
-		<cfset var qDbToPdfLookup=getDbtoPdfLookup(lookupFile=fnVars.dbToPdfLookupFile)>
+		<cfset var qDbToPdfLookup=getDbtoPdfLookup(lookupFile=variables.dbToPdfLookupFile)>
 		<cfset var ddRow=getDrugDrive(DD_ID=arguments.DD_ID)>
 		<cfset var hoFileName=Replace(ddRow.WWM_URN,"/","_","ALL")&"_ho.pdf">
 		<cfset var wwmFileName=Replace(ddRow.WWM_URN,"/","_","ALL")&"_wwm.pdf">
-		<cfset var pdfPath=fnVars.pdfLocation & DateFormat(ddRow.WWM_DATE_CREATED,"YYYY") & "\" & DateFormat(ddRow.WWM_DATE_CREATED,'MM')&"\">
+		<cfset var pdfPath=variables.pdfLocation & DateFormat(ddRow.WWM_DATE_CREATED,"YYYY") & "\" & DateFormat(ddRow.WWM_DATE_CREATED,'MM')&"\">
 		<cfset var thisVal=''>
 		
 		<cfif not DirectoryExists(pdfPath)>
@@ -242,7 +233,7 @@
 		</cfif>
 		
 		<cfpdfform action="populate" 
-				   source="#fnVars.templateFile#"
+				   source="#variables.templateFile#"
 				   destination="#pdfPath##hoFileName#"
 				   overwrite="yes" overwritedata="yes">
 			

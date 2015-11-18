@@ -1,33 +1,28 @@
 <cfcomponent output="false">
 
-    <cffunction name="initVars" description="initialises db sources etc.." access="remote" returntype="struct" >
-    	
-    	<cfset var serviceVars=structNew()>
-    	
-    	<cfif SERVER_NAME IS "127.0.0.1" OR SERVER_NAME IS "localhost">   		
-    		<cfset serviceVars.WAREHOUSE_DB="wmercia">
-			<cfset serviceVars.WAREHOUSE_DB_PREFIX="">
-    		<cfset serviceVars.LOCATION_DB="wmercia">
-			<cfset serviceVars.LOCATION_DB_PREFIX="">    
-    		<cfset serviceVars.STORM_DB="wmercia">    		
-    	<cfelseif SERVER_NAME IS "development.intranet.wmcpolice">
-    		<cfset serviceVars.WAREHOUSE_DB="wmercia">
-			<cfset serviceVars.WAREHOUSE_DB_PREFIX="BROWSER_OWNER.">    
-    		<cfset serviceVars.LOCATION_DB="SS_CRIMES">
-			<cfset serviceVars.LOCATION_DB_PREFIX="CRIME.">    
-    		<cfset serviceVars.STORM_DB="STORM_ARC">  
-    	<cfelseif SERVER_NAME IS "websvr.intranet.wmcpolice">	
-    		
-    	</cfif>
-    	
-    	<cfreturn serviceVars>
-    	
-    </cffunction>
+	<cffunction name="init" access="public" output="false" returntype="officerLocationService">
+		<cfargument name="WAREHOUSE_DB" type="string" hint="datasource of data warehouse" required="true" />
+		<cfargument name="WAREHOUSE_DB_PREFIX" type="string" hint="prefix of user tables in warehouse" required="true" />
+		<cfargument name="LOCATION_DB" type="string" hint="datasource of west mercia location data" required="true" />
+		<cfargument name="LOCATION_DB_PREFIX" type="string" hint="prefix of user for west mercia location data" required="true" />
+		<cfargument name="STORM_DB" type="string" hint="datasource of STORM database for warks location data" required="true" />				
+				
+		<cfset variables.WAREHOUSE_DB = arguments.WAREHOUSE_DB />
+		<cfset variables.WAREHOUSE_DB_PREFIX = arguments.WAREHOUSE_DB_PREFIX />
+		<cfset variables.LOCATION_DB = arguments.LOCATION_DB />
+		<cfset variables.LOCATION_DB_PREFIX = arguments.LOCATION_DB_PREFIX />
+		<cfset variables.STORM_DB = arguments.STORM_DB />		
+		
+		<cfset variables.version="1.0.0.0">    
+   	    <cfset variables.dateServiceStarted=DateFormat(now(),"DD-MMM-YYYY")&" "&TimeFormat(now(),"HH:mm:ss")>		
+		
+		<cfreturn this/>
+		
+	</cffunction>
     
     <cffunction name="getLocation"
                 access="remote"
-                returntype="struct" 
-                returnformat="JSON">
+                returntype="struct">
                 
          <cfargument name="officerCollar" type="string" required="true" hint="collar number of officer" />
          <cfargument name="officerForce" type="string" required="true" hint="force of officer" />
@@ -37,8 +32,7 @@
          <cfset var officerLocationData=structNew()>
          <cfset var qWMQuery="">
          <cfset var qWQuery="">
-         <cfset var qBeatQuery="">
-         <cfset var fnVars=initVars()>
+         <cfset var qBeatQuery="">         
          <cfset var sWMCollar=arguments.officerCollar>
          <cfset var sWCollar=arguments.officerCollar>       
          <cfset var warksDateYear=ListGetAt(arguments.dateToFind,3,"/")>
@@ -67,9 +61,9 @@
          <cfif arguments.officerForce IS "23">
          	<cfset sWMCollar = "23"&sWMCollar>
          </cfif>
-         <cfquery name="qWMQuery" datasource="#fnVars.LOCATION_DB#" maxrows="1">
+         <cfquery name="qWMQuery" datasource="#variables.LOCATION_DB#" maxrows="1">
 			SELECT  av.TIME_TO, av.X, av.Y, av.X||av.Y AS GRIDREF, CALLSIGN
-			FROM    #fnVars.LOCATION_DB_PREFIX#APLS_STAFF_AVIS_HIST_VIEW av
+			FROM    #variables.LOCATION_DB_PREFIX#APLS_STAFF_AVIS_HIST_VIEW av
 			WHERE   CALLSIGN = <cfqueryparam value="#sWMCollar#" cfsqltype="cf_sql_varchar">
 			AND     (TIME_FROM < TO_DATE('#dateToFind# #timeToFind#','DD/MM/YYYY HH24:MI:SS') AND TIME_TO > TO_DATE('#dateToFind# #timeToFind#','DD/MM/YYYY HH24:MI:SS'))         	
          </cfquery>
@@ -86,7 +80,7 @@
                   west mercia collars need to be prefixed with 22
                   warks collar no prefix --->
                   
-              <cfquery name="qWQuery" datasource="#fnVars.STORM_DB#" maxrows="1">
+              <cfquery name="qWQuery" datasource="#variables.STORM_DB#" maxrows="1">
 			  	SELECT SUBSTR(AVL_DESC,1,4) AS CALLSIGN, MOD_TIME AS TIME_TO,           
 			           EASTING||NORTHING AS GRIDREF, EASTING AS X, NORTHING AS Y,
 			           abs((to_date(MOD_TIME,'HH24MISS')-to_date('#warksTime#','HH24MISS'))*24*60*60) AS DIFF
@@ -124,12 +118,12 @@
 			  <cfset yLow=int(officerLocationData.Y)-int(iDistance)>
          	  <cfset yHigh=int(officerLocationData.Y)+int(iDistance)>
          		
-	         	<cfquery name="qBeatQuery" datasource="#fnVars.WAREHOUSE_DB#" result="Z">
+	         	<cfquery name="qBeatQuery" datasource="#variables.WAREHOUSE_DB#" result="Z">
 	         		SELECT DISTINCT BEAT_CODE, DESCRIPTION FROM
 					(
 					SELECT BEAT_CODE, DESCRIPTION, GRID_REF, ABS(#officerLocationData.X#-SUBSTR(GRID_REF,0,6)) AS DIFF1, ABS(#officerLocationData.Y#-SUBSTR(GRID_REF,7,6)) AS DIFF2, 
 					       SQRT(  ABS(#officerLocationData.X#-SUBSTR(GRID_REF,0,6))*ABS(#officerLocationData.X#-SUBSTR(GRID_REF,0,6)) +  ABS(#officerLocationData.Y#-SUBSTR(GRID_REF,7,6))*ABS(#officerLocationData.Y#-SUBSTR(GRID_REF,7,6))  ) AS DIST
-					FROM #fnVars.WAREHOUSE_DB_PREFIX#OFFENCE_SEARCH os, #fnVars.WAREHOUSE_DB_PREFIX#ORG_LOOKUP org
+					FROM #variables.WAREHOUSE_DB_PREFIX#OFFENCE_SEARCH os, #variables.WAREHOUSE_DB_PREFIX#ORG_LOOKUP org
 					WHERE SUBSTR( OS.GRID_REF ,0,6) BETWEEN '#xLow#' AND '#xHigh#'
 					  AND SUBSTR( OS.GRID_REF ,7,6) BETWEEN '#yLow#' AND '#yHigh#'
 					  AND BEAT_CODE IS NOT NULL

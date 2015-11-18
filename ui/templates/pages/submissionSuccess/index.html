@@ -1,0 +1,17 @@
+<div class="container" ng-init="getUrn()">
+	<div class="jumbotron">	  
+	  <span ng-show="!urnReady">
+	  	<h2>Submitting Please Wait.....</h2>
+	  </span>
+	  
+	  <span ng-show="urnReady">
+	  	<h2>Your Drug/FIT submission has been successfully saved.
+		    <Br><Br>
+			The URN for this submission is
+			<br><br>
+			{{ URN }}
+		</h2>
+	  </span>
+	  
+	</div>
+</div>

@@ -23,5 +23,10 @@ angular.module('drugDrive')
  		{
  			templateUrl: 'templates/pages/userList/index.html'
  	})
+	.when('/submissionSuccess/:ddId',
+ 		{
+ 			templateUrl: 'templates/pages/submissionSuccess/index.html',
+			controller: 'SubmissionSuccessController'
+ 	})
  	
  }])

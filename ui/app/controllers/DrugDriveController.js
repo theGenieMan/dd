@@ -1,6 +1,6 @@
 angular.module('drugDrive')
-  .controller('DrugDriveController', ['$scope', '$document', 'officerLocationService', 'drugDriveService','$routeParams' , 
-               function($scope, $document, offLS, ddService, routeParams) {
+  .controller('DrugDriveController', ['$scope', '$rootScope', '$document', 'drugDriveService','$routeParams' , '$location',
+               function($scope, $rootScope, $document, ddService, routeParams, location) {
   
    $document.on('keydown', function(e){
           if(e.which === 8 && (e.target.nodeName !== "INPUT" && e.target.nodeName !=='TEXTAREA')){ // you can add others here.
@@ -10,13 +10,14 @@ angular.module('drugDrive')
   $scope.ddData = {};		
   $scope.applicationTitle='Drug Drive / FIT Test Submission';
   $scope.officerLocationSearchRan=false;
+  $scope.officerLocationSearchRunning=false;
   $scope.showCustodyList=false;
   $scope.personNext=2;
   $scope.calStatus = {
     opened: false
   };
-
-  $scope.overideDate=new Date(2015,9,29,21,33,0,0);
+  
+  alert('controller running!')
   
   $scope.$watch('ddData.ARRESTED',
   	function handleArrestedChange(newValue, oldValue){
@@ -137,11 +138,13 @@ angular.module('drugDrive')
   $scope.wwmReason=[
   	{label:'RTC', id:'RTC'},
   	{label:'Moving Traffic Offence',id:'Moving Traffic Offence'},
-  	{label:'Suspect OPL in Drugs',id:'Suspect OPL in Drugs'}
+	{label:'Suspect Impairment Thru Drugs',id:'Suspect Impairment Thru Drugs'},
+  	{label:'Suspect OPL in Drugs',id:'Suspect OPL in Drugs'},
+	{label:'Other',id:'Other'}
   ]; 
   
   $scope.loadDD = function(ddId){
-  	
+  	alert('load:' + ddId)
 	 ddService.getDD(ddId)
   	    .success(function(data, status, headers){
   				// the success function wraps the response in data
@@ -200,8 +203,8 @@ angular.module('drugDrive')
   			function(data, status, headers){
   				ddService.finaliseDD($scope.ddData.WWM_DD_ID)
   				.success(
-  					function(data, status, headers){
-  						alert(data.URN);
+  					function(data, status, headers){  	
+  						location.path('/submissionSuccess/'+$scope.ddData.WWM_DD_ID)  
   					}  					
   				)  	
   				.error
@@ -221,20 +224,27 @@ angular.module('drugDrive')
   }
   
   $scope.getOfficerLocation = function(){
-  	
-  	  offLS.getOfficerLocation($scope.ddData.WWM_OFFICER_COLLAR, $scope.ddData.WWM_OFFICER_FORCE, $scope.ddData.DATE_INITIAL_STOP_PICKER, $scope.ddData.TIME_INITIAL_STOP)
+  	  $scope.officerLocationSearchRunning=true;
+	  $scope.noLocationFound=false;
+  	  ddService.locateOfficer($scope.ddData.WWM_OFFICER_COLLAR, $scope.ddData.WWM_OFFICER_FORCE, $scope.ddData.DATE_INITIAL_STOP_PICKER, $scope.ddData.TIME_INITIAL_STOP)
   	       .success(function(data, status, headers){
-  		// the success function wraps the response in data
+  				// the success function wraps the response in data
 				// so we need to call data.data to fetch the raw data
 				$scope.ddData.WWM_TEST_GRIDREF = data.GRIDREF;
 				$scope.ddData.WWM_TEST_LPA = data.LPA;
 				$scope.ddData.WWM_TEST_BEAT = data.BEATCODE;
 				$scope.ddData.WWM_TEST_FORCE = data.FORCE;				
 				$scope.officerLocationSearchRan=true;
+				$scope.officerLocationSearchRunning=false;
+				if ($scope.ddData.WWM_TEST_GRIDREF.length==0){
+					$scope.noLocationFound=true;
+				}
 				console.log($scope.meData);
-			}).error(function(data, status, heaers, config){
+			}).error(function(data, status, headers, config){
 				console.log('Error aye it: ' + data);
 				console.log(status);
+				$scope.noLocationFound=true;
+				$scope.officerSearchRunning=false;
 			})
   	
   };
@@ -253,28 +263,18 @@ angular.module('drugDrive')
 	$scope.showCustodyList=false;
   };
 
-  if (angular.isDefined(routeParams.ddId) ){
+  if (angular.isDefined(routeParams.ddId) ){  	
   	  $scope.loadDD(routeParams.ddId);
   }
   else{
   	  $scope.ddData={
-	  	DATE_INITIAL_STOP_PICKER:$scope.overideDate,
-	  	TIME_INITIAL_STOP:formatDate($scope.overideDate,'HH:mm'),
-	  	WWM_OFFICER_UID:'n_bla005',
-	  	WWM_OFFICER_COLLAR:'4854',
-	  	WWM_OFFICER_FORCE:'22',
-	  	WWM_OFFICER_NAME:'Sp Con 4854 Nick BLACKHAM',
-	  	WWM_OFFICER_EMAIL:'nick.blackham@westmercia.pnn.police.uk',
-	  	WWM_TEST_LOCATION:'Station',
-		/*
-	  	ROADSIDE_FIT_DONE: 'N',
-		ROADSIDE_BREATH_DONE: 'N',
-		ROADSIDE_SALIVA_DONE: 'Y',
-		
-		*/
-		STATION_SALIVA_RESULT: 'Positive',
-		STATION_BREATH_DONE: 'Y',
-		ARRESTED:'N'  	
+	  	DATE_INITIAL_STOP_PICKER:new Date(),
+	  	TIME_INITIAL_STOP:formatDate(new Date(),'HH:mm'),
+	  	WWM_OFFICER_UID:$rootScope.userId,
+	  	WWM_OFFICER_COLLAR:$rootScope.collar,
+	  	WWM_OFFICER_FORCE:$rootScope.force,
+	  	WWM_OFFICER_NAME:$rootScope.userName,
+	  	WWM_OFFICER_EMAIL:$rootScope.emailAddr	
 	  };
   }   
   

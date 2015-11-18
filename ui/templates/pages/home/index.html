@@ -1,5 +1,20 @@
-<div class="jumbotron">
-  <h1>Drug Drive Home Page</h1> 
-  <br>Hello
-  {{ ready }} 
-</div>
+<div class="container" ng-init="initUser()">
+	<div class="jumbotron">
+	  <h2 align="center">Drug Swipe / FIT Home Page</h2> 
+	  <br>
+	  <uib-alert type="danger" ng-show="userError">
+	  	There has been an error getting your user details.<br>
+		Please report this to the ICT Service Desk<br>
+		Quote: Drug Drive Submission, User Initialisation Error.
+	  </uib-alert>
+	  
+	  <uib-alert type="success" ng-show="userReady">
+	  	<b>Logged in as</b>: {{ userName }}
+	  </uib-alert>
+	  
+	  <uib-alert type="info" ng-show="!userReady">
+	  	<b>Initialising Please Wait ....</b>
+	  </uib-alert>
+	   
+	</div>
+</div>	

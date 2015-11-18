@@ -1,6 +1,7 @@
 <!doctype html>
 <html ng-app='drugDrive'>
   <head>
+  	<title>Drug Swipe/FIT Submissions</title>
   	<meta http-equiv="X-UA-Compatible" content="IE=11" /> 
 	<meta http-equiv="cache-control" content="max-age=0" />
 	<meta http-equiv="cache-control" content="no-cache" />
@@ -15,13 +16,16 @@
 	<script src="app/usefulFunctions.js"></script>
 	<script src="app/app.js"></script>
 	<script src="app/routes.js"></script>
+	<script src="app/controllers/NavBarController.js"></script>
 	<script src="app/controllers/HomeController.js"></script>
 	<script src="app/controllers/DrugDriveController.js"></script>
 	<script src="app/controllers/tabController.js"></script>	
 	<script src="app/controllers/custodyController.js"></script>	
+	<script src="app/controllers/SubmissionSuccessController.js"></script>	
 	<script src="app/services/custodyService.js"></script>	
-	<script src="app/services/officerLocationService.js"></script>
+	
 	<script src="app/services/drugDriveService.js"></script>
+	<script src="app/services/userService.js"></script>
 	<script src="app/directives/custodyListDirective.js"></script>	
 		
 	<link href="/libraries/bootstrap-3.3.5-dist/css/bootstrap.css" rel="stylesheet">
@@ -30,7 +34,7 @@
   </head>
   <body>
 
-  	<div class="mainDiv" ng-controller="HomeController">
+  	<div class="mainDiv" ng-controller="NavBarController" ng-init="initUser()">
   	 <nav class="navbar navbar-default navbar-fixed-top">
        <div class="container">
          <div class="navbar-header">
@@ -38,9 +42,10 @@
          </div>
 		 <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav ">
-           <li><a ng-href="#/">Home</a></li>
-           <li><a ng-href="#/drugDriveForm">New Submission</a></li>
-           <li><a ng-href="#/userList">My Submissions</a></li>		  
+           <li><a ng-href="#/">Home</a></li>		   
+           <li><a ng-show="userReady" ng-href="#/drugDriveForm">New Submission</a></li>
+           <li><a ng-show="userReady" ng-href="#/userList">My Submissions</a></li>
+		   </span>		  
 		  </ul>
 		  <ul class="nav navbar-nav navbar-right">
 		   <li><a href="#"><img src="images/DualLogo.gif" border="0"></a></li>

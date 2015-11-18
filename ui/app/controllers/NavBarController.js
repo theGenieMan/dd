@@ -1,8 +1,7 @@
 angular.module('drugDrive')
- .controller('HomeController', ['$scope', '$rootScope', 'userService', function($scope,$rootScope,userService){
+ .controller('NavBarController', ['$scope', '$rootScope', 'userService', function($scope,$rootScope,userService){
  	
-	/*
- 	$scope.userReady=false;
+ 	$rootScope.userReady=false;
 	
 	$scope.initUser = function(){
 		
@@ -16,13 +15,13 @@ angular.module('drugDrive')
 				$rootScope.emailAddr=data.EMAIL;
 				$rootScope.collar=data.OFFICERCOLLAR;
 				$rootScope.force=data.OFFICERFORCE;		
-				$scope.userReady=true;
+				$rootScope.userReady=true;
 			}).error(function(data, status, headers, config){
-				$scope.userError=true;
+				$rootScope.userError=true;
 				console.log('Error aye it: ' + data);
 				console.log(status);
 			})
 		
-	}*/
+	}
  	
  }]);
