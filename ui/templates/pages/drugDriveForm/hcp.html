@@ -1,14 +1,14 @@
-   {{ hcpForm.$valid }} <br>   
-   {{ hcpForm.$error | json }}
+<!-- {{ hcpForm.$valid }} <br>   
+   {{ hcpForm.$error | json }} -->
 <div class="form-horizontal formDiv">	
 	<ng-form name="hcpForm">
 		
 	  <div class="form-group">
 	   <div class="row">
-        <label for="hcpReferred" class="col-md-2 control-label">Referred to Health <br> Care Prof (HCP)?</label>
+        <label for="hcpReferred" class="col-md-2 control-label">Referred to Health <br> Care Prof (HCP)? *</label>
            <div class="col-md-6">                          
                 <select ng-model='ddData.HCP_REFERRAL' ng-options="c.id as c.label for c in selectYN" 
-				        ng-required="true" name="hcpReferred" class="form-control input-sm mandatory"></select>									
+				        ng-required="!ddData.ARRESTED==='Y'" name="hcpReferred" class="form-control input-sm mandatory"></select>									
 		   </div>
 	    </div>
 	  </div>

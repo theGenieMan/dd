@@ -21,12 +21,18 @@ angular.module('drugDrive')
  	)
 	.when('/userList',
  		{
- 			templateUrl: 'templates/pages/userList/index.html'
+ 			templateUrl: 'templates/pages/userList/index.html',
+			controller: 'UserListController'
  	})
 	.when('/submissionSuccess/:ddId',
  		{
  			templateUrl: 'templates/pages/submissionSuccess/index.html',
 			controller: 'SubmissionSuccessController'
+ 	})
+    .when('/admin',
+ 		{
+ 			templateUrl: 'templates/pages/admin/index.html',
+			controller: 'AdminHomeController'
  	})
  	
  }])

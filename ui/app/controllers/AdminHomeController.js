@@ -1,11 +1,11 @@
 angular.module('drugDrive')
- .controller('NavBarController', ['$scope', '$rootScope', 'userService', function($scope,$rootScope,userService){
+ .controller('AdminHomeController', ['$scope', '$rootScope', 'userService', function($scope,$rootScope,userService){
  	
- 	$rootScope.userReady=false;
-	$rootScope.user={}
+	/*
+ 	$scope.userReady=false;
 	
 	$scope.initUser = function(){
-		console.log('getting user data');		
+		
 		userService.getLoggedInUser()
   	       .success(function(data, status, headers){
   		// the success function wraps the response in data
@@ -16,20 +16,13 @@ angular.module('drugDrive')
 				$rootScope.emailAddr=data.EMAIL;
 				$rootScope.collar=data.OFFICERCOLLAR;
 				$rootScope.force=data.OFFICERFORCE;		
-				$rootScope.userReady=true;
-				$rootScope.user = {
-					userId:data.TRUEUSERID,
-				    userName:data.FULLNAME,
-					isAdmin:data.ISADMIN	
-				};				
-				$rootScope.$broadcast('userIsReady');
-				console.log('user data returned');
+				$scope.userReady=true;
 			}).error(function(data, status, headers, config){
-				$rootScope.userError=true;
+				$scope.userError=true;
 				console.log('Error aye it: ' + data);
 				console.log(status);
 			})
 		
-	}
+	}*/
  	
  }]);

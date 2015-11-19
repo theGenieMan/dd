@@ -19,10 +19,10 @@
 	<script src="app/controllers/NavBarController.js"></script>
 	<script src="app/controllers/HomeController.js"></script>
 	<script src="app/controllers/DrugDriveController.js"></script>
-	<script src="app/controllers/tabController.js"></script>	
-	<script src="app/controllers/custodyController.js"></script>	
-	<script src="app/controllers/SubmissionSuccessController.js"></script>	
-	<script src="app/services/custodyService.js"></script>	
+	<script src="app/controllers/DrugDriveTabController.js"></script>			
+	<script src="app/controllers/SubmissionSuccessController.js"></script>
+	<script src="app/controllers/UserListController.js"></script>
+	<script src="app/controllers/AdminHomeController.js"></script>		
 	
 	<script src="app/services/drugDriveService.js"></script>
 	<script src="app/services/userService.js"></script>
@@ -45,7 +45,7 @@
            <li><a ng-href="#/">Home</a></li>		   
            <li><a ng-show="userReady" ng-href="#/drugDriveForm">New Submission</a></li>
            <li><a ng-show="userReady" ng-href="#/userList">My Submissions</a></li>
-		   </span>		  
+		   <li><a ng-show="userReady && user.isAdmin" ng-href="#/admin">Administrators</a></li>		   	  
 		  </ul>
 		  <ul class="nav navbar-nav navbar-right">
 		   <li><a href="#"><img src="images/DualLogo.gif" border="0"></a></li>

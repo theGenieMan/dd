@@ -3,7 +3,7 @@
 
 	  <div class="form-group" ng-class="{ 'has-error' : personForm.arrested.$invalid }">
 	   <div class="row">
-        <label for="arrested" class="col-md-2 control-label">Arrested?</label>
+        <label for="arrested" class="col-md-2 control-label">Arrested? *</label>
            <div class="col-md-6">                          
                 <select ng-model='ddData.ARRESTED' ng-options="c.id as c.label for c in selectYN" 
 				        ng-required="true" name="arrested" class="form-control mandatory input-sm"></select>
@@ -17,7 +17,7 @@
 	    
 	     <div class="form-group" ng-class="{ 'has-error' : personForm.whyNoArrest.$invalid }">
 	      <div class="row">
-	    	<label for="whyNoArrest" class="col-md-2 control-label">Drug Swipe Positive, why not arrested?</label>
+	    	<label for="whyNoArrest" class="col-md-2 control-label">Drug Swipe Positive, why not arrested? *</label>
 	        <div class="col-md-6">
 	         <textarea class="form-control mandatory input-sm" name="whyNoArrest"
 			           placeholder="eg. Went to hospital, reported for summons"
@@ -54,7 +54,7 @@
 	  	
 	  	<div class="form-group" ng-class="{ 'has-error' : personForm.personAge.$invalid }">
 	      <div class="row">
-	    	<label for="personAge" class="col-md-2 control-label">Age of person</label>
+	    	<label for="personAge" class="col-md-2 control-label">Age of person *</label>
 	        <div class="col-md-6">
 	          <input type="input" class="form-control mandatory input-sm" name="personAge" 
 				       ng-model="ddData.AGE" ng-required="true"
@@ -66,7 +66,7 @@
 		 
 	    <div class="form-group" ng-class="{ 'has-error' : personForm.personSex.$invalid }">
 	      <div class="row">
-	    	<label for="personSex" class="col-md-2 control-label">Sex of person</label>
+	    	<label for="personSex" class="col-md-2 control-label">Sex of person *</label>
 	        <div class="col-md-6">
 	          <select class="form-control mandatory input-sm" name="personSex" ng-model='ddData.GENDER' 
 	                 ng-options="c.id as c.label for c in gender" ng-required="true"></select>	         
@@ -77,7 +77,7 @@
 		 
 	    <div class="form-group" ng-class="{ 'has-error' : personForm.personEth16.$invalid }">
 	      <div class="row">
-	    	<label for="personEth16" class="col-md-2 control-label">Self Defined<Br>Ethnicity</label>
+	    	<label for="personEth16" class="col-md-2 control-label">Self Defined<Br>Ethnicity *</label>
 	        <div class="col-md-6">
 	          <select class="form-control mandatory input-sm" name="personEth16" ng-model='ddData.ETHICITY' 
 	                 ng-options="c.id as c.label for c in ethnic16" ng-required="true"></select>	         
@@ -88,7 +88,7 @@
 		 
 	    <div class="form-group" ng-class="{ 'has-error' : personForm.personEth6.$invalid }">
 	      <div class="row">
-	    	<label for="personEth6" class="col-md-2 control-label">Officer Defined<br>Ethnicity</label>
+	    	<label for="personEth6" class="col-md-2 control-label">Officer Defined<br>Ethnicity *</label>
 	        <div class="col-md-6">
 	          <select class="form-control mandatory input-sm" name="personEth6" ng-model='ddData.WWM_OFF_ETHNICITY' 
 	                 ng-options="c.id as c.label for c in ethnic6" ng-required="true"></select>	         
@@ -102,7 +102,7 @@
 	  <span ng-show="ddData.ARRESTED==='Y' && ddData.WWM_TEST_LOCATION==='Roadside'">
 	  	 <div class="form-group" ng-class="{ 'has-error' : personForm.arrestField.$invalid }">
 	      <div class="row">
-	    	<label for="arrestField" class="col-md-2 control-label">Arrested For</label>
+	    	<label for="arrestField" class="col-md-2 control-label">Arrested For *</label>
 	        <div class="col-md-6">
 	          <input type="checkbox" ng-model="ddData.ARRESTED_FOR_DRUGSORALC" 
 			  		 ng-required="(!(ddData.ARRESTED_FOR_DRUGSORALC.length||ddData.ARRESTED_FOR_S4ALC.length||ddData.ARRESTED_FOR_S5ALC.length||ddData.ARRESTED_FOR_S4DRUGS.length||ddData.ARRESTED_FOR_S5DRUGS.length||ddData.ARRESTED_FOR_FAILURE.length||ddData.ARRESTED_FOR_OTHER.length)) && (ddData.ARRESTED==='Y' && ddData.WWM_TEST_LOCATION==='Roadside')"
@@ -135,7 +135,7 @@
 	  <span ng-show="ddData.ARRESTED==='Y' && ddData.WWM_TEST_LOCATION==='Station'">
 	  	 <div class="form-group" ng-class="{ 'has-error' : personForm.invField.$invalid }">
 	      <div class="row">
-	    	<label for="invField" class="col-md-2 control-label">Investigated at<br>station for</label>
+	    	<label for="invField" class="col-md-2 control-label">Investigated at<br>station for *</label>
 	        <div class="col-md-6">
 	          <input type="checkbox" ng-model="ddData.INVESTIGATION_FOR_DRUGSORALC" name="invField"
 			         ng-required="(!(ddData.INVESTIGATION_FOR_DRUGSORALC.length||ddData.INVESTIGATION_FOR_S4ALC.length||ddData.INVESTIGATION_FOR_S5ALC.length||ddData.INVESTIGATION_FOR_S4DRUGS.length||ddData.INVESTIGATION_FOR_S5DRUGS.length||ddData.INVESTIGATION_FOR_FAILURE.length||ddData.INVESTIGATION_FOR_OTHER.length)) && (ddData.ARRESTED==='Y' && ddData.WWM_TEST_LOCATION==='Station')"
@@ -163,8 +163,7 @@
 	     </div> 	
 	  </span>
 			
-	<div align="center">
-		{{ personNext }}
+	<div align="center">		
 		<button ng-click='submitDD();nextTab(personNext)' class="btn btn-success" type="button" ng-show="personForm.$valid" >Goto Next Tab</button>
 	</div>			
 				 

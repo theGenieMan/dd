@@ -17,19 +17,24 @@
 		
 		    <cfset userId=AUTH_USER>
 			
+			<!---
 			<cfif userId IS "Westmerpolice01\n_bla003">
 				<cfset userId="n_bla005">
 			</cfif>
+			--->
 			
 		    <cfset user=application.hrService.getUserByUID(userId)>
 		
 			<cfif user.getIsValidRecord()>
 
+				<cfset adminUser=application.drugDriveService.getIsAdminUser(user.getTrueUserId())>
+	
 				<cfset userInfo.trueUserId=user.getTrueUserId()>
 				<cfset userInfo.fullName=user.getFullName()>			
 				<cfset userInfo.email=user.getEmailAddress()>
 				<cfset userInfo.officerForce=user.getForceCode()>
 				<cfset userInfo.officerCollar=user.getCollar()>
+				<cfset userInfo.isAdmin=adminUser>
 				
 			<cfelse>
 				<cfthrow message="User does not have a valid HR Account #userId#" errorcode="HR_UNKNOWN_USER" type="Application">

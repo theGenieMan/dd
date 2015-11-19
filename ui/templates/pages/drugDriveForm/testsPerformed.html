@@ -4,7 +4,7 @@
 
 		<div class="form-group" ng-class="{ 'has-error' : testsForm.testLocation.$invalid }">
 	      <div class="row">
-	    	<label for="testLocation" class="col-md-2 control-label">Performed At</label>
+	    	<label for="testLocation" class="col-md-2 control-label">Performed At *</label>
 	        <div class="col-md-6">
 	         <select class="form-control mandatory input-sm" name="testLocation" ng-model='ddData.WWM_TEST_LOCATION' 
 	                 ng-options="c.id as c.label for c in testLocation" ng-required="true"></select>
@@ -18,7 +18,7 @@
 	    
 	     <div class="form-group" ng-class="{ 'has-error' : testsForm.fitTest.$invalid }">
 	      <div class="row">
-	    	<label for="fitTest" class="col-md-2 control-label">FIT Test?</label>
+	    	<label for="fitTest" class="col-md-2 control-label">FIT Test? *</label>
 	        <div class="col-md-6">
 	         <select class="form-control mandatory input-sm" name="fitTest" ng-model='ddData.ROADSIDE_FIT_DONE' 
 	                 ng-options="c.id as c.label for c in selectYN" ng-required="ddData.WWM_TEST_LOCATION==='Roadside'"></select>
@@ -30,7 +30,7 @@
 	     <span id="fitResulDiv" ng-show="ddData.ROADSIDE_FIT_DONE==='Y'">
 	      <div class="form-group" ng-class="{ 'has-error' : testsForm.fitResult.$invalid }">
 	      <div class="row">
-	    	<label for="fitResult" class="col-md-2 control-label">FIT Result</label>
+	    	<label for="fitResult" class="col-md-2 control-label">FIT Result *</label>
 	        <div class="col-md-6">
 	        	<label class="checkbox-inline">
 	        	<input type="radio" name="fitResult" ng-model="ddData.ROADSIDE_FIT_RESULT"
@@ -48,7 +48,7 @@
 		  </div>
 		  <div class="form-group" ng-class="{ 'has-error' : testsForm.fitTime.$invalid }">  
 		   <div class="row">
-	    	<label for="fitTime" class="col-md-2 control-label">FIT Time</label>
+	    	<label for="fitTime" class="col-md-2 control-label">FIT Time *</label>
 	        <div class="col-md-6">
 	        	<input ng-model="ddData.ROADSIDE_FIT_TIME" type="text" placeholder="HH:mm"
                 	       class="form-control mandatory input-sm" ng-maxlength="5" ng-minlength="5" ng-required="ddData.ROADSIDE_FIT_DONE==='Y'"
@@ -61,7 +61,7 @@
 	     		 
 	     <div class="form-group" ng-class="{ 'has-error' : testsForm.breathTest.$invalid }">
 	      <div class="row">
-	    	<label for="breathTest" class="col-md-2 control-label">Breath Test?</label>
+	    	<label for="breathTest" class="col-md-2 control-label">Breath Test? *</label>
 	        <div class="col-md-6">
 	         <select class="form-control mandatory input-sm" name="breathTest" ng-model='ddData.ROADSIDE_BREATH_DONE' 
 	                 ng-options="c.id as c.label for c in selectYN" ng-required="ddData.WWM_TEST_LOCATION==='Roadside'"></select>
@@ -97,7 +97,7 @@
 		
 		<div class="form-group" ng-class="{ 'has-error' : testsForm.drugTest.$invalid }">
 	      <div class="row">
-	    	<label for="drugTest" class="col-md-2 control-label">Drug Swipe?</label>
+	    	<label for="drugTest" class="col-md-2 control-label">Drug Swipe? *</label>
 	        <div class="col-md-6">
 	         <select class="form-control mandatory input-sm" name="drugTest" ng-model='ddData.ROADSIDE_SALIVA_DONE' 
 	                 ng-options="c.id as c.label for c in selectYN" ng-required="ddData.WWM_TEST_LOCATION==='Roadside'"></select>
@@ -110,7 +110,7 @@
 		 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.drugTime.$invalid }">  
 		   <div class="row">
-	    	<label for="drugTime" class="col-md-2 control-label">Drug Test Time</label>
+	    	<label for="drugTime" class="col-md-2 control-label">Drug Test<br>Time*</label>
 	        <div class="col-md-6">
 	        	<input ng-model="ddData.ROADSIDE_SALIVA_TIME" type="text" placeholder="HH:mm"
                 	       class="form-control mandatory input-sm" ng-maxlength="5" ng-minlength="5" ng-required="ddData.ROADSIDE_SALIVA_DONE==='Y'"
@@ -122,7 +122,7 @@
 		 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.drugBatch.$invalid }">
 	      <div class="row">
-	    	<label for="drugBatch" class="col-md-2 control-label">Batch No</label>
+	    	<label for="drugBatch" class="col-md-2 control-label">Batch No *</label>
 	        <div class="col-md-6">
 	         <input ng-model="ddData.TEST_REF" type="text" 
                 	       class="form-control input-sm mandatory" 
@@ -134,7 +134,7 @@
 		 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.drugResult.$invalid }">
 	      <div class="row">
-	    	<label for="drugResult" class="col-md-2 control-label">Drug Swipe<br>Result</label>
+	    	<label for="drugResult" class="col-md-2 control-label">Drug Swipe<br>Result *</label>
 	        <div class="col-md-6">
 	         <select class="form-control mandatory input-sm" name="drugResult" ng-model='ddData.ROADSIDE_SALIVA_RESULT' 
 	                 ng-options="c.id as c.label for c in swipeResult" ng-required="ddData.ROADSIDE_SALIVA_DONE==='Y'"></select>
@@ -148,7 +148,7 @@
 		 <span id="drugDetected" ng-show="ddData.ROADSIDE_SALIVA_RESULT==='Positive'"> 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.drugDetected.$invalid }">
 	      <div class="row">
-	    	<label for="drugDetected" class="col-md-2 control-label">Drug Detected</label>
+	    	<label for="drugDetected" class="col-md-2 control-label">Drug Detected *</label>
 	        <div class="col-md-6">
 			 <select class="form-control mandatory input-sm" multiple="true" name="drugDetected" ng-model='ddData.ROADSIDE_SALIVA_DRUG' 
 	                 ng-options="c.id as c.label for c in swipeDrugs" ng-required="ddData.ROADSIDE_SALIVA_RESULT==='Positive'"></select>
@@ -167,7 +167,7 @@
 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.stBreathTest.$invalid }">
 	      <div class="row">
-	    	<label for="stBreathTest" class="col-md-2 control-label">Breath Test?</label>
+	    	<label for="stBreathTest" class="col-md-2 control-label">Breath Test? *</label>
 	        <div class="col-md-6">
 	         <select class="form-control mandatory input-sm" name="stBreathTest" ng-model='ddData.STATION_BREATH_DONE' 
 	                 ng-options="c.id as c.label for c in selectYN" ng-required="ddData.WWM_TEST_LOCATION==='Station'"></select>
@@ -204,7 +204,7 @@
 	     
 	     <div class="form-group" ng-class="{ 'has-error' : testsForm.stDrugTest.$invalid }">
 	      <div class="row">
-	    	<label for="stDrugTest" class="col-md-2 control-label">Drug Swipe?</label>
+	    	<label for="stDrugTest" class="col-md-2 control-label">Drug Swipe? *</label>
 	        <div class="col-md-6">
 	         <select class="form-control mandatory input-sm" name="stDrugTest" ng-model='ddData.STATION_SALIVA_DONE' 
 	                 ng-options="c.id as c.label for c in selectYN" ng-required="ddData.WWM_TEST_LOCATION==='Station'"></select>
@@ -217,7 +217,7 @@
 		 	
 		   <div class="form-group" ng-class="{ 'has-error' : testsForm.stDrugTime.$invalid }">  
 		   <div class="row">
-	    	<label for="stDrugTime" class="col-md-2 control-label">Drug Test Time</label>
+	    	<label for="stDrugTime" class="col-md-2 control-label">Drug Test<br>Time*</label>
 	        <div class="col-md-6">
 	        	<input ng-model="ddData.STATION_SALIVA_TIME" type="text" placeholder="HH:mm"
                 	       class="form-control mandatory input-sm" ng-maxlength="5" ng-minlength="5" ng-required="ddData.STATION_SALIVA_DONE==='Y'"
@@ -229,7 +229,7 @@
 		 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.stDrugBatch.$invalid }">
 	      <div class="row">
-	    	<label for="stDrugBatch" class="col-md-2 control-label">Batch No</label>
+	    	<label for="stDrugBatch" class="col-md-2 control-label">Batch No *</label>
 	        <div class="col-md-6">
 	         <input ng-model="ddData.TEST_REF" type="text" 
                 	       class="form-control input-sm" 
@@ -241,7 +241,7 @@
 		 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.stDrugResult.$invalid }">
 	      <div class="row">
-	    	<label for="stDrugResult" class="col-md-2 control-label">Drug Swipe<br>Result</label>
+	    	<label for="stDrugResult" class="col-md-2 control-label">Drug Swipe<br>Result *</label>
 	        <div class="col-md-6">
 	         <select class="form-control mandatory input-sm" name="stDrugResult" ng-model='ddData.STATION_SALIVA_RESULT' 
 	                 ng-options="c.id as c.label for c in swipeResult" ng-required="ddData.STATION_SALIVA_DONE==='Y'"></select>
@@ -255,7 +255,7 @@
 		 <span id="stDrugDetectedDiv" ng-show="ddData.STATION_SALIVA_RESULT==='Positive'"> 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.stDrugDetected.$invalid }">
 	      <div class="row">
-	    	<label for="stDrugDetected" class="col-md-2 control-label">Drug Detected</label>
+	    	<label for="stDrugDetected" class="col-md-2 control-label">Drug Detected *</label>
 	        <div class="col-md-6">
 			 <select class="form-control mandatory input-sm" multiple="true" name="stDrugDetected" ng-model='ddData.STATION_SALIVA_DRUG' 
 	                 ng-options="c.id as c.label for c in swipeDrugs" ng-required="ddData.STATION_SALIVA_RESULT==='Positive'"></select>
@@ -273,7 +273,7 @@
 	    	
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.hoDrugTest.$invalid }">
 	      <div class="row">
-	    	<label for="hoDrugTest" class="col-md-2 control-label">Drug Swipe?</label>
+	    	<label for="hoDrugTest" class="col-md-2 control-label">Drug Swipe? *</label>
 	        <div class="col-md-6">
 	         <select class="form-control mandatory input-sm" name="hoDrugTest" ng-model='ddData.HOSPITAL_SALIVA_DONE' 
 	                 ng-options="c.id as c.label for c in selectYN" ng-required="ddData.WWM_TEST_LOCATION==='Hospital'"></select>
@@ -286,7 +286,7 @@
 		 	
 		   <div class="form-group" ng-class="{ 'has-error' : testsForm.hoDrugTime.$invalid }">  
 		   <div class="row">
-	    	<label for="hoDrugTime" class="col-md-2 control-label">Drug Test Time</label>
+	    	<label for="hoDrugTime" class="col-md-2 control-label">Drug Test<br>Time*</label>
 	        <div class="col-md-6">
 	        	<input ng-model="ddData.HOSPITAL_SALIVA_TIME" type="text" placeholder="HH:mm"
                 	       class="form-control mandatory input-sm" ng-maxlength="5" ng-minlength="5" ng-required="ddData.HOSPITAL_SALIVA_DONE==='Y'"
@@ -298,7 +298,7 @@
 		 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.hoDrugBatch.$invalid }">
 	      <div class="row">
-	    	<label for="hoDrugBatch" class="col-md-2 control-label">Batch No</label>
+	    	<label for="hoDrugBatch" class="col-md-2 control-label">Batch No *</label>
 	        <div class="col-md-6">
 	         <input ng-model="ddData.TEST_REF" type="text" 
                 	       class="form-control input-sm" 
@@ -310,7 +310,7 @@
 		 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.hoDrugResult.$invalid }">
 	      <div class="row">
-	    	<label for="hoDrugResult" class="col-md-2 control-label">Drug Swipe<br>Result</label>
+	    	<label for="hoDrugResult" class="col-md-2 control-label">Drug Swipe<br>Result *</label>
 	        <div class="col-md-6">
 	         <select class="form-control mandatory input-sm" name="hoDrugResult" ng-model='ddData.HOSPITAL_SALIVA_RESULT' 
 	                 ng-options="c.id as c.label for c in swipeResult" ng-required="ddData.HOSPITAL_SALIVA_DONE==='Y'"></select>
@@ -324,7 +324,7 @@
 		 <span id="hoDrugDetectedDiv" ng-show="ddData.HOSPITAL_SALIVA_RESULT==='Positive'"> 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.hoDrugDetected.$invalid }">
 	      <div class="row">
-	    	<label for="hoDrugDetected" class="col-md-2 control-label">Drug Detected</label>
+	    	<label for="hoDrugDetected" class="col-md-2 control-label">Drug Detected *</label>
 	        <div class="col-md-6">
 			 <select class="form-control mandatory input-sm" multiple="true" name="hoDrugDetected" ng-model='ddData.HOSPITAL_SALIVA_DRUG' 
 	                 ng-options="c.id as c.label for c in swipeDrugs" ng-required="ddData.HOSPITAL_SALIVA_RESULT==='Positive'"></select>

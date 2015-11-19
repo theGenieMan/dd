@@ -1,17 +1,29 @@
-<div class="container">
-      {{ ddForm.$valid }}<br>
-	  <!-- {{ ddForm.$error | json }} -->  	  
+<div class="container" ng-init="initForm()">
+      <!-- Form valid = {{ ddForm.$valid }}<br>
+	  pristine = {{ ddForm.$pristine}}<br>
+	  dirty = {{ ddFrom.$dirty }} -->
+	  <!-- {{ ddForm | json }} -->  	 
+	  	  
+	  <uib-alert type="danger" 
+	             ng-show="!ddForm.$valid || ddForm.$pristine">
+	      Please complete the information in the tabs below. Mandatory fields are marked with a * and are in yellow.
+	  </uib-alert>
+	  <uib-alert type="success" 
+	             ng-show="ddForm.$valid && ddForm.$dirty">
+	      Your Submission is Valid! Click `Submit Drug/Fit Test` in the Additional tab to finalise and get your URN.
+	  </uib-alert>
+	  
   	  <form novalidate ng-submit='submitDD()' name="ddForm">
   	  	
-  	  	<div ng-controller="TabController">
+  	  	<div ng-controller="DrugDriveTabController">
   	  	<uib-tabset>
   	  		<uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled" ng-bind-html-unsafe="tab.content">
 		     <div ng-include='tab.content'></div>
 		    </uib-tab>
   	  	</uib-tabset>	
   	  	</div>
-  	  	
-  	  	
+  	  
+  	  	<!--
   	  	
   	  	<br><br>
   	  	<hr>
@@ -20,7 +32,7 @@
   	  	
   	  	<input type="submit"
   	  	       value="Submit Drug Drive / FIT Record" />
-  	  	
+  	  	-->
   	  </form>
 	  
   	   	  

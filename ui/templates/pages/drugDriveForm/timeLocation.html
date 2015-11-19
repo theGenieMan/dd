@@ -3,7 +3,7 @@
 	
 	<div class="form-group" ng-class="{ 'has-error' : locationForm.testDate.$invalid }">
       <div class="row">
-    	<label for="dateInitial" class="col-md-2 control-label">Date</label>
+    	<label for="dateInitial" class="col-md-2 control-label">Date *</label>
         <div class="col-md-6">
           <input type="text" id="dateInitial" ng-model="ddData.DATE_INITIAL_STOP_PICKER" name="testDate"
 	             class="form-control mandatory  input-sm" uib-datepicker-popup="dd/MM/yyyy" 
@@ -15,7 +15,7 @@
 	
 	<div class="form-group" ng-class="{ 'has-error' : locationForm.testTime.$invalid }">
       <div class="row">    
-	  <label for="dateInitial" class="col-md-2 control-label">Time</label>	
+	  <label for="dateInitial" class="col-md-2 control-label">Time *</label>	
         <div class="col-md-6">
           <input ng-model="ddData.TIME_INITIAL_STOP" type="text" placeholder="HH:mm"
                 	       ng-required="true" class="form-control mandatory  input-sm" ng-maxlength="5" ng-minlength="5"
@@ -45,7 +45,7 @@
     
     <div class="form-group" ng-class="{ 'has-error' : locationForm.testForce.$invalid }">
       <div class="row">
-    	<label for="testForce" class="col-md-2 control-label">Force</label>
+    	<label for="testForce" class="col-md-2 control-label">Force *</label>
         <div class="col-md-6">
          <select class="form-control mandatory  input-sm" name="testForce" ng-model='ddData.WWM_TEST_FORCE' ng-options="c.id as c.label for c in forceSelect" ng-required="true"></select>
          <p ng-show="locationForm.testForce.$invalid" class="help-block">Please select a Force.</p>		
@@ -55,7 +55,7 @@
     
     <div class="form-group" ng-class="{ 'has-error' : locationForm.testLPA.$invalid }">
       <div class="row">
-    	<label for="testForce" class="col-md-2 control-label">Local Policing<br>Area</label>
+    	<label for="testForce" class="col-md-2 control-label">Local Policing<br>Area *</label>
         <div class="col-md-6">
          <select class="form-control mandatory  input-sm" name="testLPA" ng-model='ddData.WWM_TEST_LPA' ng-options="c.id as c.label for c in lpaSelect" ng-required="true"></select>
          <p ng-show="locationForm.testLPA.$invalid" class="help-block">Please select a Local Policing Area.</p>	
@@ -74,7 +74,7 @@
 	
 	<div class="form-group" ng-class="{ 'has-error' : locationForm.wwmReason.$invalid }">
       <div class="row">
-    	<label for="rtc" class="col-md-2 control-label">Reason for<br>Drug/FIT?</label>
+    	<label for="rtc" class="col-md-2 control-label">Reason for<br>Drug/FIT? *</label>
         <div class="col-md-6">
          	<select class="form-control mandatory  input-sm" name="wwmReason" ng-model='ddData.WWM_TEST_REASON' 
 	                 ng-options="c.id as c.label for c in wwmReason" ng-required="true"></select>

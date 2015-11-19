@@ -17,8 +17,6 @@ angular.module('drugDrive')
     opened: false
   };
   
-  alert('controller running!')
-  
   $scope.$watch('ddData.ARRESTED',
   	function handleArrestedChange(newValue, oldValue){
 		if (newValue == 'Y'){
@@ -44,7 +42,7 @@ angular.module('drugDrive')
 		}
 	}
   )  
-  
+    
   $scope.showCustodies = function(){
   	$scope.showCustodyList=true;
   }
@@ -57,16 +55,28 @@ angular.module('drugDrive')
   	{label:'West Mercia Police', id:22}	
   ];
   
-  $scope.lpaSelect = [
-  	{label:'-- Select --', id:''},
-  	{label:'C - South Worcestershire', id:'C'},
-  	{label:'D - North Worcestershire', id:'D'},
-  	{label:'E - Herefordshire', id:'E'},
-  	{label:'F - Shropshire', id:'F'},
-  	{label:'G - Telford &amp; Wrekin', id:'G'},
-  	{label:'N - North Warwickshire', id:'N'},
-  	{label:'S - South Warwickshire', id:'S'}	
-  ]
+  $scope.$watch('ddData.WWM_TEST_FORCE',
+  	function handleReasonChange(newValue, oldValue){
+		if (newValue == '22'){
+			  $scope.lpaSelect = [
+				  	{label:'-- Select --', id:''},
+				  	{label:'C - South Worcestershire', id:'C'},
+				  	{label:'D - North Worcestershire', id:'D'},
+				  	{label:'E - Herefordshire', id:'E'},
+				  	{label:'F - Shropshire', id:'F'},
+				  	{label:'G - Telford &amp; Wrekin', id:'G'}
+			  ];
+		}
+
+		if (newValue == '23'){
+			  $scope.lpaSelect = [
+				{label:'N - North Warwickshire', id:'N'},
+			  	{label:'S - South Warwickshire', id:'S'}	
+			  ];
+		}		
+
+	}
+  )  
   
   $scope.testLocation = [
   	{label:'-- Select --', id:''},
@@ -144,7 +154,6 @@ angular.module('drugDrive')
   ]; 
   
   $scope.loadDD = function(ddId){
-  	alert('load:' + ddId)
 	 ddService.getDD(ddId)
   	    .success(function(data, status, headers){
   				// the success function wraps the response in data
@@ -260,22 +269,31 @@ angular.module('drugDrive')
 	$scope.ddData.ETHICITY=custodyData.ETHNICITY_16;
 	$scope.ddData.WWM_OFF_ETHNICITY=custodyData.ETHNICITY_6;
 	$scope.ddData.WWM_NOMINAL_REF=custodyData.NOMINAL_REF;
+	$scope.ddData.WWM_NOMINAL_NAME=custodyData.NOMINAL_NAME;
 	$scope.showCustodyList=false;
   };
 
-  if (angular.isDefined(routeParams.ddId) ){  	
-  	  $scope.loadDD(routeParams.ddId);
-  }
-  else{
-  	  $scope.ddData={
-	  	DATE_INITIAL_STOP_PICKER:new Date(),
-	  	TIME_INITIAL_STOP:formatDate(new Date(),'HH:mm'),
-	  	WWM_OFFICER_UID:$rootScope.userId,
-	  	WWM_OFFICER_COLLAR:$rootScope.collar,
-	  	WWM_OFFICER_FORCE:$rootScope.force,
-	  	WWM_OFFICER_NAME:$rootScope.userName,
-	  	WWM_OFFICER_EMAIL:$rootScope.emailAddr	
-	  };
-  }   
+  $scope.initForm = function(){
+    console.log('initForm drugDrive')
+  	if (angular.isDefined(routeParams.ddId)) {
+  		$scope.loadDD(routeParams.ddId);
+  	}
+  	else {
+  		$scope.ddData = {
+  			DATE_INITIAL_STOP_PICKER: new Date(),
+  			TIME_INITIAL_STOP: formatDate(new Date(), 'HH:mm'),
+  			WWM_OFFICER_UID: $rootScope.userId,
+  			WWM_OFFICER_COLLAR: $rootScope.collar,
+  			WWM_OFFICER_FORCE: $rootScope.force,
+  			WWM_OFFICER_NAME: $rootScope.userName,
+  			WWM_OFFICER_EMAIL: $rootScope.emailAddr
+  		};
+  	}
+	
+  };
+  
+  $scope.$on('userIsReady', function(event){
+    $scope.initForm();
+  });
   
 }]);

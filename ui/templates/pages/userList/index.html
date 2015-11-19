@@ -1,3 +1,101 @@
-<div class="jumbotron">
-  <h1>User List Page</h1>  
+<div class="container" ng-init="initList()">
+
+  <uib-alert type="info" 
+	             ng-show="!listReady">
+	 <b>Initialising Please Wait ....</b>
+  </uib-alert>
+
+  <span ng-show="listReady">
+  <h4 align="center">Submissions For {{ user.userName }}</h4>
+  
+    <div class="pull-right">
+	  <div class="form-horizontal">
+	   <!---
+	   <div class="form-group">		
+		<div class="row">				
+		    <label for="currentOption" class="col-md-2">Sort  :</label>
+			<div class="col-md-6">
+				<select ng-model='currentOption' ng-options="c.label for c in orderOptions track by c.id"  name="currentOption" class="form-control input-sm"></select>
+			</div> 				  
+		</div>
+	   </div>
+	   --->
+	   <div class="form-group">
+		<div class="row">
+			<label for="searchText" class="col-md-2">Filter :</label>
+			<div class="col-md-6">
+				<input type="text" name="searchText" size="55" class="form-control input-sm" ng-model="searchText" placeholder="type to filter eg. Name, Urn, Crime, OIS etc..">
+			</div>			
+		</div>				 
+	  </div>
+	 </div>
+	</div>
+	
+	<div>
+		<!---
+		{{ (submissionListArray | filter:searchText ).length }} Results | Page {{ currentPage }}<br>
+		--->		
+	</div>
+	
+	<table class="table table-striped">
+		<thead>			
+			<th>URN</th>
+			<th>Test Date</th>
+			<th>Created</th>
+			<th>Location</th>
+			<th>Reason</th>
+			<th>FIT</th>			
+			<th>Drug</th>
+			<th>Arrest</th>
+			<th></th>						
+		</thead>
+		<tbody>
+			<!-- submission in ( submissionListArray | filter:searchText | orderBy:'COURT_TIMESTAMP' )  --> 
+		  <tr ng-repeat="submission in userListArray | filter:searchText | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">			
+			<td>{{ submission.SHORT_URN }}</td>
+			<td>{{ submission.DATE_INITIAL_STOP_TSTAMP | date:'dd/MM/yyyy' }} {{ submission.TIME_INITIAL_STOP }}</td>
+			<td>{{ submission.DATE_GENERATED_TSTAMP | date:'dd/MM/yyyy HH:m' }}</td>
+			<td>{{ submission.WWM_TEST_LOCATION }}</td>
+			<td>{{ submission.WWM_TEST_REASON }}</td>			
+			<td>{{ submission.ROADSIDE_FIT_DONE }}
+			    <span ng-show="submission.ROADSIDE_FIT_DONE==='Y'">
+			    	- {{ submission.ROADSIDE_FIT_RESULT }}
+			    </span>			
+			</td>
+			<td>{{ submission.DRUG_DONE }}
+			    <span ng-show="submission.DRUG_DONE==='Y'">
+			    	- {{ submission.DRUG_RESULT }}
+			    </span>
+				<span ng-show="submission.DRUG_RESULT==='Positive'">
+				<br>
+				   {{ submission.DRUG_DETECTED }}	
+				</span>
+			</td>
+			<td>{{ submission.ARRESTED }}
+			    <span ng-show="submission.ARRESTED==='Y'">
+			    - {{ submission.CUSTODY_REF}} <br> {{ submission.WWM_NOMINAL_NAME }}	
+				</span>
+			</td>			
+			<td>
+                <span ng-show="submission.WWM_URN===''">
+                	<a ng-href="#/drugDriveForm/{{ submission.WWM_DD_ID }}" aria-label="Edit Sumbission"><span class="glyphicon glyphicon-pencil"></span></a>
+					&nbsp;&nbsp;
+					<a href ng-click="deleteDrugDrive(submission)"><span class="glyphicon glyphicon-trash"></span></a>
+                </span>
+			</td>			
+		  </tr>
+		</tbody>
+		<tfoot>
+		  <tr>
+		  	<td colspan="10" align="right">
+				<uib-pagination total-items="( userListArray | filter:searchText ).length" ng-model="currentPage" class="pagination-sm" max-size="10" items-per-page="pageSize"></uib-pagination>	  		
+		  	</td>
+		  </tr>
+		</tfoot>	
+	</table>
+  
+  
+  </span>
+  	  
+
 </div>

@@ -15,6 +15,8 @@
 			
 			<h3><a href="index.cfm?resetApp=true">Reset Services</a></h3>
 			
+			<cfdump var="#application.custodyService.getVars()#" />
+			
 		</div>
 		</cfoutput>
 	</body>

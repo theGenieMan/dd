@@ -7,6 +7,12 @@
 		
 		<cfset variables.version="1.0.0.0">    
    	    <cfset variables.dateServiceStarted=DateFormat(now(),"DD-MMM-YYYY")&" "&TimeFormat(now(),"HH:mm:ss")>		
+   	    
+   	    <cfif SERVER_NAME IS "127.0.0.1" OR SERVER_NAME IS "localhost">
+		  <cfset variables.ENV="Local">
+		<cfelse>
+		  <cfset variables.ENV="WM">
+		</cfif>
 		
 		<cfreturn this/>
 		
@@ -14,8 +20,7 @@
         
     <cffunction name="getCustodies"
                 access="remote"
-                returntype="array" 
-                returnformat="JSON">
+                returntype="array">
                             
         <cfset var arrCust=arrayNew(1)>    
 		<cfset var qCust=''>		
@@ -60,7 +65,7 @@
            WHERE (1=1)
            AND    cs.CUSTODY_REF=cd.CUSTODY_REF
            AND    cs.NOMINAL_REF=nd.NOMINAL_REF
-           <cfif fnVars.ENV IS NOT "localDev">
+           <cfif variables.ENV IS NOT "localDev">
            AND   ARREST_TIME > SYSDATE-4
            </cfif>
            ORDER   BY ARREST_TIME DESC

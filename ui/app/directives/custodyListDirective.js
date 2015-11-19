@@ -3,7 +3,7 @@ angular.module('drugDrive')
   return {
     restrict: 'AE',
     templateUrl : 'app/directives/custodyListDirective.html',
-    controller: ['$scope','custodyService', function($scope, custodyService){   
+    controller: ['$scope','drugDriveService', function($scope, ddService){   
 	
 	    $scope.custodyListArray = [];
 		
@@ -22,7 +22,7 @@ angular.module('drugDrive')
 		 $scope.currentPage = 1;
   		 $scope.totalItems = 0;
 	 
-    	custodyService.custodyList().success(function(data, status, headers){
+    	ddService.getCustodies().success(function(data, status, headers){
   				// the success function wraps the response in data
 				// so we need to call data.data to fetch the raw data	 		    
 				$scope.custodyListD = data;

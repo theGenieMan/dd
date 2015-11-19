@@ -1,5 +1,5 @@
-   {{ additionalForm.$valid }} <br>   
-   {{ additionalForm.$error | json }}
+<!--   {{ additionalForm.$valid }} <br>   
+       {{ additionalForm.$error | json }} -->
 <div class="form-horizontal formDiv">	
 	<ng-form name="additionalForm">
 	
@@ -8,14 +8,15 @@
 	    	<label for="additionalText" class="col-md-2 control-label">Additional Information</label>
 	        <div class="col-md-6">
 	         <textarea class="form-control input-sm" name="additionalText"
-			           placeholder="Please use this section to add any additional information. Eg. problems with screening device, or doctor/nurse not being avialable"
+			           placeholder="Please use this section to add any additional information. Eg. problems with screening device, or doctor/nurse not being available"
 					   ng-model="ddData.ADDITIONAL_INFORMATION" rows="12" cols="60"></textarea>
 					   					   		
 	        </div>
 	       </div>
 	    </div>	
-	
-	{{ ddForm.$valid }}	
+	<!--
+	{{ ddForm.$valid }}
+	-->	
 	<div align="center">		
 		<button ng-click='finaliseDD();' class="btn btn-success" type="button" ng-show="ddForm.$valid" >Submit Drug/Fit Test</button>
 	</div>			

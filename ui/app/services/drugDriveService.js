@@ -20,9 +20,23 @@ angular.module('drugDrive')
 	var finaliseDD = function(ddId){
 	 return $http({
 	  	method: 'get',        
-        url: '../cf/Com/drugDriveService.cfc?method=finaliseDrugDrive&DD_ID='+ddId
+        url: '../cf/Com/drugDriveWebService.cfc?method=finaliseDrugDrive&DD_ID='+ddId
       });	
 	}
+	
+	var deleteDrugDrive = function(ddId){
+	 return $http({
+	  	method: 'get',        
+        url: '../cf/Com/drugDriveWebService.cfc?method=deleteDrugDrive&DD_ID='+ddId
+      });	
+	}
+	
+	var getUserDrugDrive = function(userId) {	  	
+      return $http({
+	  	method: 'get',        
+        url: '../cf/Com/drugDriveWebService.cfc?method=getUserDrugDrive&userId='+userId
+      });
+    }
 	
 	var locateOfficer = function(collar, force, dateLocation, timeLocation) {	
           
@@ -34,10 +48,20 @@ angular.module('drugDrive')
       });
     }
 	
+	var getCustodies = function() {	  	
+      return $http({
+	  	method: 'get',        
+        url: '../cf/Com/drugDriveWebService.cfc?method=getCustodies'
+      });
+    }
+	
     return {
      submitDD: submitDD,
 	 getDD: getDD,
 	 finaliseDD: finaliseDD,
-	 locateOfficer: locateOfficer
+	 deleteDrugDrive: deleteDrugDrive,
+	 getUserDrugDrive: getUserDrugDrive,
+	 locateOfficer: locateOfficer,
+	 getCustodies: getCustodies
     };
   }]);
