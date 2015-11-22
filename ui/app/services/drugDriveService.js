@@ -38,6 +38,13 @@ angular.module('drugDrive')
       });
     }
 	
+	var getAdminDrugDrive = function() {	  	
+      return $http({
+	  	method: 'get',        
+        url: '../cf/Com/drugDriveWebService.cfc?method=getAdminDrugDrive'
+      });
+    }	
+	
 	var locateOfficer = function(collar, force, dateLocation, timeLocation) {	
           
       var dateToFind = formatDate(dateLocation,'dd/MM/yyyy');
@@ -61,6 +68,7 @@ angular.module('drugDrive')
 	 finaliseDD: finaliseDD,
 	 deleteDrugDrive: deleteDrugDrive,
 	 getUserDrugDrive: getUserDrugDrive,
+	 getAdminDrugDrive: getAdminDrugDrive,
 	 locateOfficer: locateOfficer,
 	 getCustodies: getCustodies
     };

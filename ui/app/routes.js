@@ -34,5 +34,20 @@ angular.module('drugDrive')
  			templateUrl: 'templates/pages/admin/index.html',
 			controller: 'AdminHomeController'
  	})
+    .when('/adminList',
+ 		{
+ 			templateUrl: 'templates/pages/adminList/index.html',
+			controller: 'AdminListController'
+ 	}) 	
+    .when('/adminEditor',
+ 		{
+ 			templateUrl: 'templates/pages/adminEditor/index.html',
+			controller: 'AdminEditorController'
+ 	}) 
+    .when('/statsReport',
+ 		{
+ 			templateUrl: 'templates/pages/adminStats/index.html',
+			controller: 'AdminStatsController'
+ 	}) 
  	
  }])

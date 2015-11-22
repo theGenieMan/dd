@@ -9,12 +9,22 @@
 	  </uib-alert>
 	  
 	  <uib-alert type="success" ng-show="userReady">
-	  	<b>Logged in as</b>: {{ userName }} {{user.isAdmin }}
+	  	<b>Logged in as</b>: {{ userName }}
 	  </uib-alert>
 	  
 	  <uib-alert type="info" ng-show="!userReady">
 	  	<b>Initialising Please Wait ....</b>
 	  </uib-alert>
+	  
+	  <div align="center" ng-show="userReady">
+	  	<a ng-href="#/drugDriveForm"><button type="button" class="btn btn-primary homebutton">Create New Submission</button></a>
+	  	<a ng-href="#/userList"><button type="button" class="btn btn-primary homebutton">View Your Submissions</button></a>
+	  	<span ng-show="userReady && user.isAdmin">
+	  	<a ng-href="#/admin"><button type="button" class="btn btn-danger homebutton">Administrators</button></a>	
+	  	</span>
+	  	<br><br>
+	  	<button type="button" class="btn btn-info homebutton">Creating Submissions Guide</button>
+	  </div>
 	   
 	</div>
 </div>	

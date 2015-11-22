@@ -71,8 +71,10 @@
    
    
    <cfset Application.custodyService=CreateObject('component','com.custodyService').init(WAREHOUSE_DB = application.WAREHOUSE_DB)>                                                                                                  
-																				  
-   <cfset Application.hrService=CreateObject('component','applications.cfc.hr_alliance.hrService').init(application.WAREHOUSE_DB)>
+   
+   <cfif application.ENV IS NOT "Local">																				  
+     <cfset Application.hrService=CreateObject('component','applications.cfc.hr_alliance.hrService').init(application.WAREHOUSE_DB)>
+   </cfif>
             
 </cffunction>
 

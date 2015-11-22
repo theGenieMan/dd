@@ -6,7 +6,7 @@
   </uib-alert>
 
   <span ng-show="listReady">
-  <h4 align="center">Submissions For {{ user.userName }}</h4>
+  <h4 align="center">All Completed Submissions</h4>
   
     <div class="pull-right">
 	  <div class="form-horizontal">
@@ -31,32 +31,27 @@
 	 </div>
 	</div>
 	
-	<div>
-		<!---
-		{{ (submissionListArray | filter:searchText ).length }} Results | Page {{ currentPage }}<br>
-		--->		
+	<div>		
+		{{ (adminListArray | filter:searchText ).length }} Results | Page {{ currentPage }}<br>		
 	</div>
 	
 	<table class="table table-striped">
 		<thead>			
-			<th>URN</th>
-			<th>Test Date</th>
-			<th>Created</th>
+			<th width="8%">URN</th>
+			<th>Test Date</th>			
 			<th>Location</th>
 			<th>Reason</th>
-			<th>FIT</th>			
-			<th>Drug</th>
-			<th>Arrest</th>
-			<th></th>						
+			<th width="10%">FIT</th>			
+			<th width="15%">Drug</th>
+			<th width="20%">Arrest</th>							
 		</thead>
 		<tbody>
 			<!-- submission in ( submissionListArray | filter:searchText | orderBy:'COURT_TIMESTAMP' )  --> 
-		  <tr ng-repeat="submission in userListArray | filter:searchText | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">			
+		  <tr ng-repeat="submission in adminListArray | filter:searchText | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">			
 			<td>{{ submission.SHORT_URN }}</td>
-			<td>{{ submission.DATE_INITIAL_STOP_TSTAMP | date:'dd/MM/yyyy' }} {{ submission.TIME_INITIAL_STOP }}</td>
-			<td>{{ submission.DATE_GENERATED_TSTAMP | date:'dd/MM/yyyy HH:mm' }}</td>
+			<td>{{ submission.DATE_INITIAL_STOP_TSTAMP | date:'dd/MM/yyyy' }}<br>{{ submission.TIME_INITIAL_STOP }}</td>			
 			<td>{{ submission.WWM_TEST_LOCATION }}</td>
-			<td>{{ submission.WWM_TEST_REASON }}</td>			
+			<td>{{ submission.WWM_TEST_REASON }}<br>{{ submission.WWM_OFFICER_NAME }}</td>			
 			<td>{{ submission.ROADSIDE_FIT_DONE }}
 			    <span ng-show="submission.ROADSIDE_FIT_DONE==='Y'">
 			    	- {{ submission.ROADSIDE_FIT_RESULT }}
@@ -75,20 +70,13 @@
 			    <span ng-show="submission.ARRESTED==='Y'">
 			    {{ submission.CUSTODY_REF}} <br> {{ submission.WWM_NOMINAL_NAME }}	
 				</span>
-			</td>			
-			<td>
-                <span ng-show="submission.WWM_URN===''">
-                	<a ng-href="#/drugDriveForm/{{ submission.WWM_DD_ID }}" aria-label="Edit Sumbission"><span class="glyphicon glyphicon-pencil"></span></a>
-					&nbsp;&nbsp;
-					<a href ng-click="deleteDrugDrive(submission)"><span class="glyphicon glyphicon-trash"></span></a>
-                </span>
-			</td>			
+			</td>					
 		  </tr>
 		</tbody>
 		<tfoot>
 		  <tr>
 		  	<td colspan="10" align="right">
-				<uib-pagination total-items="( userListArray | filter:searchText ).length" ng-model="currentPage" class="pagination-sm" max-size="10" items-per-page="pageSize"></uib-pagination>	  		
+				<uib-pagination total-items="( adminListArray | filter:searchText ).length" ng-model="currentPage" class="pagination-sm" max-size="10" items-per-page="pageSize"></uib-pagination>	  		
 		  	</td>
 		  </tr>
 		</tfoot>	

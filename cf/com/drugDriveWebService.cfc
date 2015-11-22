@@ -59,6 +59,15 @@
 	   
 	</cffunction>
 
+	<cffunction name="getAdminDrugDrive" description="gets an array list of all completed submission for the administrator" 
+				access="remote" output="false" returntype="array" returnformat="JSON" >	   
+	
+	   <cfset var drugDrive=application.drugDriveService.getAdminDrugDrive()>
+	 
+	   <cfreturn queryToArray(drugDrive)>
+	   
+	</cffunction>
+
     <cffunction name="getOfficerLocation"
                 access="remote"
                 returntype="struct" 

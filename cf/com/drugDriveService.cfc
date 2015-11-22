@@ -278,6 +278,39 @@
 
 	</cffunction>
 
+<cffunction name="getAdminDrugDrive" description="gets a list of all completed drug drive entries" access="remote" output="false" returntype="query">
+
+		<cfset var qDD="">
+
+        <cfquery name="qDD" datasource="#variables.dsn#">
+			SELECT WWM_DD_ID,
+			       WWM_URN,
+			       REPLACE(WWM_URN,'DRUGDRIVE/','') AS SHORT_URN,
+			       WWM_TEST_LOCATION,
+			       WWM_TEST_REASON,
+			       WWM_NOMINAL_REF,
+			       WWM_NOMINAL_NAME,
+			       WWM_OFFICER_NAME,
+			       TO_CHAR(DATE_GENERATED,'YYYYMMDDHH24MMSS') AS DATE_GENERATED_TSTAMP_ORDER,
+			       TO_CHAR(DATE_GENERATED,'YYYY-MM-DD')||'T'||TO_CHAR(DATE_GENERATED,'HH24:MI:SS')||'.000Z' AS DATE_GENERATED_TSTAMP,
+			       TO_CHAR(DATE_INITIAL_STOP,'YYYY-MM-DD')||'T'||TO_CHAR(DATE_INITIAL_STOP,'HH24:MI:SS')||'.000Z' AS DATE_INITIAL_STOP_TSTAMP,			       
+			       TIME_INITIAL_STOP,
+			       ROADSIDE_FIT_DONE,
+			       ROADSIDE_FIT_RESULT,			       
+			       NVL(NVL(ROADSIDE_SALIVA_DONE,STATION_SALIVA_DONE),HOSPITAL_SALIVA_DONE) AS DRUG_DONE,
+			       NVL(NVL(ROADSIDE_SALIVA_RESULT,STATION_SALIVA_RESULT),HOSPITAL_SALIVA_RESULT) AS DRUG_RESULT,
+			       NVL(NVL(ROADSIDE_SALIVA_DRUG,STATION_SALIVA_DRUG),HOSPITAL_SALIVA_DRUG) AS DRUG_DETECTED,
+			       ARRESTED,
+			       CUSTODY_REF
+			FROM  FF_OWNER.DRUG_DRIVE
+			WHERE WWM_URN IS NOT NULL			  
+			ORDER BY DATE_GENERATED DESC
+		</cfquery>
+		
+		<cfreturn qDD>
+
+	</cffunction>
+
 	<cffunction name="createDDPDF" description="Creates a drug drive PDF form, returns the path and filename to the created form" access="remote" output="false" returntype="struct">
 		<cfargument name="DD_ID" type="string" required="true" hint="DD_ID of test to create the PDF for" >		
 

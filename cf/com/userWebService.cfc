@@ -8,11 +8,12 @@
 		<cfset var userInfo=structNew()>
 		
 		<cfif SERVER_NAME IS "127.0.0.1" OR SERVER_NAME IS "localhost">
-			<cfset userInfo.trueUserId='n_bla005'>
-			<cfset userInfo.fullName='Sp Con 4854 Nick BLACKHAM'>			
+			<cfset userInfo.trueUserId='p_wat003'>
+			<cfset userInfo.fullName='Con Paul WATERHOUSE 221890 (22)'>			
 			<cfset userInfo.email='nick.blackham@westmercia.pnn.police.uk'>
 			<cfset userInfo.officerForce='22'>
-			<cfset userInfo.officerCollar='4854'>
+			<cfset userInfo.officerCollar='1890'>
+			<cfset userInfo.isAdmin=true>
 		<cfelse>
 		
 		    <cfset userId=AUTH_USER>
@@ -28,7 +29,7 @@
 			<cfif user.getIsValidRecord()>
 
 				<cfset adminUser=application.drugDriveService.getIsAdminUser(user.getTrueUserId())>
-	
+	            
 				<cfset userInfo.trueUserId=user.getTrueUserId()>
 				<cfset userInfo.fullName=user.getFullName()>			
 				<cfset userInfo.email=user.getEmailAddress()>
