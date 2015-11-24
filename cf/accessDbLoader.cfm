@@ -1,4 +1,4 @@
-<cfquery name="qOldData" datasource="drugDrive1">
+<cfquery name="qOldData" datasource="drugDriveAccessLive">
 	SELECT *
 	FROM drugDrive
 </cfquery>
@@ -89,7 +89,7 @@ INSERT INTO FF_OWNER.DRUG_DRIVE
   GENDER,
   AGE,
   ETHICITY,
-  WWM_ETHNIC_6,
+  WWM_OFF_ETHNICITY,
   DATE_SENT_TO_HO
 )	
 VALUES

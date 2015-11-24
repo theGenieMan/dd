@@ -1,6 +1,6 @@
 <div class="container" ng-init="initUser()">
 	<div class="jumbotron">
-	  <h2 align="center">Drug Swipe / FIT Home Page</h2> 
+	  <h2 align="center">Drug Drive / FIT Home Page</h2> 
 	  <br>
 	  <uib-alert type="danger" ng-show="userError">
 	  	There has been an error getting your user details.<br>
@@ -18,12 +18,12 @@
 	  
 	  <div align="center" ng-show="userReady">
 	  	<a ng-href="#/drugDriveForm"><button type="button" class="btn btn-primary homebutton">Create New Submission</button></a>
-	  	<a ng-href="#/userList"><button type="button" class="btn btn-primary homebutton">View Your Submissions</button></a>
+	  	<a ng-href="#/userList"><button type="button" class="btn btn-primary homebutton">My Submissions</button></a>
 	  	<span ng-show="userReady && user.isAdmin">
 	  	<a ng-href="#/admin"><button type="button" class="btn btn-danger homebutton">Administrators</button></a>	
 	  	</span>
 	  	<br><br>
-	  	<button type="button" class="btn btn-info homebutton">Creating Submissions Guide</button>
+	  	<a href="../guide/userguide.pdf" target="_blank"><button type="button" class="btn btn-info homebutton">User Guide</button></a>
 	  </div>
 	   
 	</div>

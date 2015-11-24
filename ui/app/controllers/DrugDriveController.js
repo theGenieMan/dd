@@ -171,6 +171,18 @@ angular.module('drugDrive')
 				if ($scope.ddData['STATION_HCP_DATE'].length > 0){
 					$scope.ddData.STATION_HCP_DATE_PICKER=new Date($scope.ddData['STATION_HCP_DATE']);
 				};
+				if ($scope.ddData['ROADSIDE_SALIVA_DRUG'].length > 0){					
+					var aDrugSplit=$scope.ddData['ROADSIDE_SALIVA_DRUG'].split(',');					
+					$scope.ddData.ROADSIDE_SALIVA_DRUG=aDrugSplit;					
+				}
+				if ($scope.ddData['STATION_SALIVA_DRUG'].length > 0){					
+					var aDrugSplit=$scope.ddData['STATION_SALIVA_DRUG'].split(',');					
+					$scope.ddData.STATION_SALIVA_DRUG=aDrugSplit;					
+				}
+				if ($scope.ddData['HOSPITAL_SALIVA_DRUG'].length > 0){					
+					var aDrugSplit=$scope.ddData['HOSPITAL_SALIVA_DRUG'].split(',');					
+					$scope.ddData.HOSPITAL_SALIVA_DRUG=aDrugSplit;					
+				}
 				$scope.officerLocationSearchRan=true;
 		}).error(function(data, status, heaers, config){
 				console.log('Error aye it: ' + data);
