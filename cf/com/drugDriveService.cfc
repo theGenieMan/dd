@@ -610,6 +610,7 @@
 			SELECT WWM_DD_ID,
 			       WWM_URN,
 			       REPLACE(WWM_URN,'DRUGDRIVE/','') AS SHORT_URN,
+			       REPLACE(WWM_URN,'/','_') AS FILE_URN,
 			       WWM_TEST_LOCATION,
 			       WWM_TEST_REASON,
 			       WWM_NOMINAL_REF,

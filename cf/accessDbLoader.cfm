@@ -59,10 +59,8 @@ INSERT INTO FF_OWNER.DRUG_DRIVE
   TIME_INITIAL_STOP,
   WWM_TEST_REASON,
   ARRESTED,
-  RTC,
-  <cfif Fit IS "Y">
-  ROADSIDE_FIT_DONE,
-  </cfif>
+  RTC,  
+  ROADSIDE_FIT_DONE,  
   <cfif DrugSwipe IS "Y">
   <cfif TestLocation IS "Roadside">
   ROADSIDE_SALVIA_DONE,
@@ -114,9 +112,7 @@ VALUES
   '#testReason#',
   '#arrested#',
   '#iif(rtc IS "Y",de('Y'),de('N'))#',
-   <cfif Fit IS "Y">
-   'Y',
-  </cfif>
+   '#FIT#',
   '#iif(drugSwipe IS "Y",de('Y'),de('N'))#',
   '#iif(Cannabis IS "Y" OR Cocaine IS "Y",de('Positive'),de('Negative'))#',
   '#drugs#',

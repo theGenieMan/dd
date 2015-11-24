@@ -19,7 +19,7 @@
 		    <cfset userId=AUTH_USER>
 						
 			<cfif userId IS "Westmerpolice01\n_bla003">
-				<cfset userId="n_bla005">
+				<cfset userId="j_mor005">
 			</cfif>
 			
 		    <cfset user=application.hrService.getUserByUID(userId)>
