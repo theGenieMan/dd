@@ -109,7 +109,8 @@ angular.module('drugDrive')
   $scope.gender=[
   	{label:'-- Select --', id:''},
   	{label:'Male', id:'M'},
-  	{label:'Female', id:'F'}	
+  	{label:'Female', id:'F'},	
+	{label:'Unknown', id:'U'}	
   ];
   
   $scope.ethnic6=[
