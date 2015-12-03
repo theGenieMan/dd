@@ -23,9 +23,9 @@
    <cfif application.ENV IS "LIVE">
 	   <cfset application.dsn="DrugDriveNew">
 	   <cfset application.Warehouse_DB="wmercia">
-       <cfset application.templateFile="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\dd\cf\pdfTemplates\hoDrugDriveFormV1.pdf">
-       <cfset application.dbToPdfLookupFile="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\dd\cf\com\dbToPdfLookup.txt">
-       <cfset application.pdfLocation="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\pdfOutput\">
+       <cfset application.templateFile="\\svr20200\d$\inetpub\wwwroot\applications\force_forms\dd\cf\pdfTemplates\hoDrugDriveFormV1.pdf">
+       <cfset application.dbToPdfLookupFile="\\svr20200\d$\inetpub\wwwroot\applications\force_forms\dd\cf\com\dbToPdfLookup.txt">
+       <cfset application.pdfLocation="\\svr20200\d$\assets\drugDrive\">
 	   <cfset application.wmDocDirectory="\\svr20200\d$\assets\drugDrive\">
 	   <cfset application.WAREHOUSE_DB="wmercia">
 	   <cfset application.WAREHOUSE_DB_PREFIX="BROWSER_OWNER.">
