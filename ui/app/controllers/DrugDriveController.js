@@ -183,7 +183,7 @@ angular.module('drugDrive')
 				if ($scope.ddData['HOSPITAL_SALIVA_DRUG'].length > 0){					
 					var aDrugSplit=$scope.ddData['HOSPITAL_SALIVA_DRUG'].split(',');					
 					$scope.ddData.HOSPITAL_SALIVA_DRUG=aDrugSplit;					
-				}
+				}				
 				$scope.officerLocationSearchRan=true;
 		}).error(function(data, status, heaers, config){
 				console.log('Error aye it: ' + data);
@@ -197,11 +197,27 @@ angular.module('drugDrive')
 	if ($scope.ddData.STATION_HCP_DATE_PICKER){
 		$scope.ddData.STATION_HCP_DATE=formatDate($scope.ddData.STATION_HCP_DATE_PICKER,'dd/MM/yyyy');	
 	}
+	if($scope.ddData.STATION_SALIVA_DONE === 'Y'){
+	  $scope.ddData.STATION_SALIVA_DATE=formatDate($scope.ddData.DATE_INITIAL_STOP_PICKER,'dd/MM/yyyy'); 	
+	}
+	if ($scope.ddData.STATION_BREATH_DONE === 'Y') {
+		$scope.ddData.STATION_BREATH_DATE = formatDate($scope.ddData.DATE_INITIAL_STOP_PICKER, 'dd/MM/yyyy');
+	}	
   }
   
   $scope.submitDD = function(){
   	
 	$scope.formatDatePickers();
+	
+	if ( $scope.ddData.ROADSIDE_SALIVA_DONE === 'Y' ){
+		$scope.ddData.ROADSIDE_DEVICE_TYPE3='Y'
+	}
+	
+	if ( $scope.ddData.STATION_SALIVA_DONE === 'Y' ){
+		$scope.ddData.STATION_DEVICE_TYPE3='Y'
+	}
+	
+	$scope.ddData.POLICE_FORCE_CODE=$scope.ddData.WWM_TEST_FORCE;
 	
   	ddService.submitDD($scope.ddData)
   	       .success(function(data, status, headers){

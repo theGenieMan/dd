@@ -376,7 +376,7 @@
 						 <td>
 						 	#iif(STATION_BREATH_DONE IS "Y",DE('Yes'),de('No'))#
 						 	<cfif STATION_BREATH_DONE IS "Y">
-							  <cfif Len(STATIONE_BREATH_TIME) GT 0>
+							  <cfif Len(STATION_BREATH_TIME) GT 0>
 							   <br>#STATION_BREATH_TIME#
 							  </cfif>
 							  <cfif Len(STATION_BREATH_RESULT) GT 0>
@@ -646,6 +646,8 @@
 		<cfset var wwmFileName=Replace(ddRow.WWM_URN,"/","_","ALL")&"_wwm.pdf">
 		<cfset var pdfPath=variables.pdfLocation & DateFormat(ddRow.WWM_DATE_CREATED,"YYYY") & "\" & DateFormat(ddRow.WWM_DATE_CREATED,'MM')&"\">
 		<cfset var thisVal=''>
+		<cfset var stationDeviceType3="">
+		<cfset var roadsideDeviceType3="">
 		
 		<cfif not DirectoryExists(pdfPath)>
 			<cfdirectory action="create" directory="#pdfPath#" >
@@ -660,6 +662,7 @@
 			 <cflog file="ddService" type="information" text="================================================" >	
 			 <cflog file="ddService" type="information" text="processing #DD_ID# #WWM_URN#" >	
 			 <cfloop query="qDbToPdfLookup">
+			   <cfif PDF_NAME IS NOT "NULL">
 			 	<cflog file="ddService" type="information" text="processing #DB_NAME#, #PDF_NAME#, #FIELD_TYPE# current row" >
 			 	<cflog file="ddService" type="information" text="current row  data is #ddRow[DB_NAME][1]#" >
 			 	<cfset thisVal=''>
@@ -676,10 +679,29 @@
 			 	<cfif DB_NAME IS "ADDITIONAL_INFORMATION">
 			 		<cfset thisVal="URN: "&ddRow['WWM_URN'][1]&chr(10)&thisVal>
 			 	</cfif>
-			 	
-			 	<cfpdfformparam name="#PDF_NAME#" value="#thisVal#">
+			 				 	
+			 	<cfif DB_NAME IS "ROADSIDE_FIT_RESULT">
+				 	<cfif thisVal IS "OK">
+					   <cfset Roadside_FIT_OK='On'>
+					 <cfelseif thisVal IS "POOR">
+					   <cfset Roadside_FIT_poor='On'>	 
+					</cfif>
+				</cfif>
+								
+				<cfif DB_NAME IS "ROADSIDE_FIT_RESULT">
+					<cfif isDefined("Roadside_FIT_OK")>
+						<cfpdfformparam name="Roadside_FIT_OK" value="On">	
+					</cfif>
+				    <cfif isDefined("Roadside_FIT_poor")>
+						<cfpdfformparam name="Roadside_FIT_poor" value="On">
+					</cfif>
+				<cfelse>				
+				 	<cfpdfformparam name="#PDF_NAME#" value="#thisVal#">
+				</cfif>
 			 	<cflog file="ddService" type="information" text="processed #DB_NAME#, #PDF_NAME#, #FIELD_TYPE# == #thisVal#" >
-			 </cfloop>	   			
+			   </cfif>
+			 </cfloop>
+			 	   			
 			 </cfoutput>	   
 			
 		</cfpdfform>
@@ -734,7 +756,7 @@
         <cfquery name="qDD" datasource="#variables.dsn#">
 			SELECT *
 			FROM   DRUG_DRIVE_ADMIN
-			WHERE  ADMIN_USER_ID=<cfqueryparam value="#userId#" cfsqltype="cf_sql_varchar" />
+			WHERE  LOWER(ADMIN_USER_ID)=<cfqueryparam value="#lcase(userId)#" cfsqltype="cf_sql_varchar" />
 		</cfquery>
 		
 		<cfif qDD.recordCount GT 0>

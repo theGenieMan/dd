@@ -5,18 +5,23 @@
 </div>
 <table class="table table-striped">
 	<thead>
+	   <tr>
+	   	 <td colspan="6">Click a Custody Reference to select that custody</td>
+	   </tr>
+	   <tr>
 		<th>Custody Ref</th>
 		<th>Person</th>
 		<th>Sex</th>
 		<th>DOB (Age)</th>
 		<th>Arrest By</th>
 		<th>Arrest Date</th>
+	  </tr>	
 	</thead>
 	<tbody>
 	  <!--
 	  <tr ng-repeat="custody in custodyListArray | filter:search:strict">
 	  -->
-	  <tr ng-repeat="custody in ( custodyListArray | filter:searchText ) | startFrom:(currentPage - 1) * pageSize | limitTo: pageSize">
+	  <tr ng-repeat="custody in ( custodyListArray | filter:searchText ) | orderBy:'-ARREST_TIMESTAMP' | startFrom:(currentPage - 1) * pageSize | limitTo: pageSize">
 		<td><a href ng-click="custodyClick(custody)">{{ custody.CUSTODY_REF }}</a></td>
 		<td>{{ custody.NOMINAL_NAME }} ({{ custody.NOMINAL_REF }})</td>
 		<td>{{ custody.SEX }}</td>
