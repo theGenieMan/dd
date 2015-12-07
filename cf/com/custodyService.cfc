@@ -32,6 +32,7 @@
                    floor(MONTHS_BETWEEN(sysdate,DOB)/12) AS AGE,
                    ETHNIC_APP, AO_FORCE, AO_BADGE, SEX, 
                    TO_CHAR(ARREST_TIME,'DD-MON HH24:MI') AS ARREST_TIME,
+                   TO_CHAR(ARREST_TIME,'YYYYMMDDHH24MISS') AS ARREST_TIMESTAMP,
                    cd.AO_NAME, 
                    TO_CHAR(DECODE(ND.ETHNICITY_6,'NORTH EUROPEAN - WHITE','1',
                                          'WHITE EUROPEAN','1',
@@ -66,7 +67,7 @@
            AND    cs.CUSTODY_REF=cd.CUSTODY_REF
            AND    cs.NOMINAL_REF=nd.NOMINAL_REF
            <cfif variables.ENV IS NOT "localDev">
-           AND   ARREST_TIME > SYSDATE-4
+           AND   ARREST_TIME > SYSDATE-7
            </cfif>
            ORDER   BY ARREST_TIME DESC
 		</cfquery>

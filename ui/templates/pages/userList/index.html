@@ -52,7 +52,7 @@
 		<tbody>
 			<!-- submission in ( submissionListArray | filter:searchText | orderBy:'COURT_TIMESTAMP' )  --> 
 		  <tr ng-repeat="submission in userListArray | filter:searchText | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">			
-			<td>{{ submission.SHORT_URN }}</td>
+			<td><a href="/drugDriveDocs/{{ submission.DATE_INITIAL_STOP_TSTAMP | date:'yyyy' }}/{{ submission.FILE_URN }}.pdf" target="_blank">{{ submission.SHORT_URN }}</a></td>
 			<td>{{ submission.DATE_INITIAL_STOP_TSTAMP | date:'dd/MM/yyyy' }} {{ submission.TIME_INITIAL_STOP }}</td>
 			<td>{{ submission.DATE_GENERATED_TSTAMP | date:'dd/MM/yyyy HH:mm' }}</td>
 			<td>{{ submission.WWM_TEST_LOCATION }}</td>

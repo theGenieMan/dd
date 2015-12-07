@@ -23,10 +23,11 @@
    <cfif application.ENV IS "LIVE">
 	   <cfset application.dsn="DrugDriveNew">
 	   <cfset application.Warehouse_DB="wmercia">
-       <cfset application.templateFile="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\dd\cf\pdfTemplates\hoDrugDriveFormV1.pdf">
-       <cfset application.dbToPdfLookupFile="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\dd\cf\com\dbToPdfLookup.txt">
-       <cfset application.pdfLocation="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\pdfOutput\">
-       <cfset application.reportTemp="\\svr20200\d$\assets\drugDrive\reportTemp\">
+       <cfset application.templateFile="\\svr20200\d$\inetpub\wwwroot\applications\force_forms\dd\cf\pdfTemplates\hoDrugDriveFormV1.pdf">
+       <cfset application.dbToPdfLookupFile="\\svr20200\d$\inetpub\wwwroot\applications\force_forms\dd\cf\com\dbToPdfLookup.txt">
+       <cfset application.pdfLocation="\\svr20200\d$\assets\drugDrive\">
+	   <cfset application.wmDocDirectory="\\svr20200\d$\assets\drugDrive\">
+	   <cfset application.reportTemp="\\svr20200\d$\assets\drugDrive\reportTemp\">
 	   <cfset application.WAREHOUSE_DB="wmercia">
 	   <cfset application.WAREHOUSE_DB_PREFIX="BROWSER_OWNER.">
 	   <cfset application.LOCATION_DB="SS_CRIMES">
@@ -39,6 +40,7 @@
        <cfset application.dbToPdfLookupFile="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\dd\cf\com\dbToPdfLookup.txt">
        <cfset application.pdfLocation="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\pdfOutput\">
        <cfset application.reportTemp="\\svr20200\d$\assets\drugDrive\reportTemp\">
+	   <cfset application.wmDocDirectory="\\svr20284\d$\assets\drugDrive\">
 	   <cfset application.WAREHOUSE_DB="wmercia">
 	   <cfset application.WAREHOUSE_DB_PREFIX="BROWSER_OWNER.">
 	   <cfset application.LOCATION_DB="SS_CRIMES">
@@ -48,9 +50,10 @@
    	   <cfset application.dsn="DrugDrive">
 	   <cfset application.Warehouse_DB="wmercia">    
        <cfset application.templateFile="C:\ColdFusion10\cfusion\wwwroot\drugDrive\cf\pdfTemplates\hoDrugDriveFormV1.pdf">
-       <cfset application.dbToPdfLookupFile="C:\ColdFusion10\cfusion\wwwroot\drugDrive\cf\com\dbToPdfLookup.txt">
-       <cfset application.pdfLocation="C:\ColdFusion10\cfusion\wwwroot\drugDrive\pdfOutput\">   
-       <cfset application.reportTemp="C:\ColdFusion10\cfusion\wwwroot\reportTemp\">   
+       <cfset application.dbToPdfLookupFile="C:\ColdFusion10\cfusion\wwwroot\drugDrive\cf\com\dbToPdfLookup.txt">  
+       <cfset application.reportTemp="C:\ColdFusion10\cfusion\wwwroot\reportTemp\">  
+       <cfset application.pdfLocation="C:\ColdFusion10\cfusion\wwwroot\drugDrive\pdfOutput\">
+	   <cfset application.wmDocDirectory="C:\ColdFusion10\cfusion\wwwroot\drugDrive\pdfOutput\">      
    	   <cfset application.WAREHOUSE_DB="wmercia">
 	   <cfset application.WAREHOUSE_DB_PREFIX="">
 	   <cfset application.LOCATION_DB="wmercia">
@@ -65,7 +68,11 @@
                                                                                              templateFile=application.templateFile,
 																							 dbToPdfLookupFile=application.dbToPdfLookupFile,
                                                                                              pdfLocation=application.pdfLocation,
+<<<<<<< HEAD
                                                                                              reportTemp=application.reportTemp)>
+=======
+																							 wmDocLocation=application.wmDocDirectory)>
+>>>>>>> 6d1f2c4c428a03b995e5e6cc20f0653156217a38
 																							        
    <cfset Application.officerLocationService=CreateObject('component','com.officerLocationService').init(WAREHOUSE_DB = application.WAREHOUSE_DB,
 																										WAREHOUSE_DB_PREFIX = application.WAREHOUSE_DB_PREFIX,
