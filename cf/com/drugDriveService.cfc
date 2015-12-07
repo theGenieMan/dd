@@ -4,12 +4,14 @@
 		<cfargument name="dsn" type="string" hint="datasource of drug drive database" required="true" />
 		<cfargument name="templateFile" type="string" hint="dft base pdf file to send work off" required="true" />
 		<cfargument name="dbToPdfLookupFile" type="string" hint="lookup file to map database to pdf" required="true" />
-		<cfargument name="pdfLocation" type="string" hint="location of where pdfs are written too" required="true" />				
+		<cfargument name="pdfLocation" type="string" hint="location of where pdfs are written too" required="true" />
+		<cfargument name="reportTemp" type="string" hint="location of where reports written too" required="true" />				
 				
 		<cfset variables.dsn = arguments.dsn />
 		<cfset variables.templateFile = arguments.templateFile />
 		<cfset variables.dbToPdfLookupFile = arguments.dbToPdfLookupFile />
 		<cfset variables.pdfLocation = arguments.pdfLocation />		
+		<cfset variables.reportTemp = arguments.reportTemp />		
 		
 		<cfset variables.version="1.0.0.0">    
    	    <cfset variables.dateServiceStarted=DateFormat(now(),"DD-MMM-YYYY")&" "&TimeFormat(now(),"HH:mm:ss")>		
@@ -417,6 +419,223 @@
 		</cfif>
 		
 		<cfreturn isAdmin>
+
+	</cffunction>
+
+	<cffunction name="createXl" description="" access="remote" output="false" returntype="string">
+		<cfargument name="fromDate" type="string" required="true" hint="date to start report">
+		<cfargument name="toDate" type="string" required="true" hint="date to finish report">	
+
+		<cfset var arrayAreas="">
+        <cfset var fileCreated="">
+        <cfset var reportXls="">
+        <cfset var i=0>
+        <cfset var qDataTotal=''>
+		<cfset var qPositive=''>
+		<cfset var qArrest=''>
+		<cfset var qCannabis=''>
+		<cfset var qCocaine=''>
+		<cfset var qFIT=''>
+		<cfset var qFITOk=''>
+		<cfset var qFITPoor=''>
+		
+        <cfset arrayAreas=arrayNew(1)>
+		<cfset arrayAreas[1]=structNew()>
+		<cfset arrayAreas[1].name='Alliance'>
+		<cfset arrayAreas[1].rowNo=2>
+		<cfset arrayAreas[1].areaSQL=''>
+		<cfset arrayAreas[2]=structNew()>
+		<cfset arrayAreas[2].name='Warwickshire'>
+		<cfset arrayAreas[2].rowNo=4>
+		<cfset arrayAreas[2].areaSQL="WWM_URN LIKE 'DRUGDRIVE/23/%'">
+		<cfset arrayAreas[3]=structNew()>
+		<cfset arrayAreas[3].name='North Warwickshire'>
+		<cfset arrayAreas[3].rowNo=5>
+		<cfset arrayAreas[3].areaSQL="WWM_URN LIKE 'DRUGDRIVE/23/N%'">
+		<cfset arrayAreas[4]=structNew()>
+		<cfset arrayAreas[4].name='South Warwickshire'>
+		<cfset arrayAreas[4].rowNo=6>
+		<cfset arrayAreas[4].areaSQL="WWM_URN LIKE 'DRUGDRIVE/23/S%'">
+		<cfset arrayAreas[5]=structNew()>
+		<cfset arrayAreas[5].name='Motorway'>
+		<cfset arrayAreas[5].rowNo=7>
+		<cfset arrayAreas[5].areaSQL="WWM_URN LIKE 'DRUGDRIVE/23/MW%'">
+		<cfset arrayAreas[6]=structNew()>
+		<cfset arrayAreas[6].name='West Mercia'>
+		<cfset arrayAreas[6].rowNo=9>
+		<cfset arrayAreas[6].areaSQL="WWM_URN LIKE 'DRUGDRIVE/22%'">
+		<cfset arrayAreas[7]=structNew()>
+		<cfset arrayAreas[7].name='South Worcestershire'>
+		<cfset arrayAreas[7].rowNo=10>
+		<cfset arrayAreas[7].areaSQL="WWM_URN LIKE 'DRUGDRIVE/22/C%'">
+		<cfset arrayAreas[8]=structNew()>
+		<cfset arrayAreas[8].name='North Worcestershire'>
+		<cfset arrayAreas[8].rowNo=11>
+		<cfset arrayAreas[8].areaSQL="WWM_URN LIKE 'DRUGDRIVE/22/D%'">
+		<cfset arrayAreas[9]=structNew()>
+		<cfset arrayAreas[9].name='Herefordshire'>
+		<cfset arrayAreas[9].rowNo=12>
+		<cfset arrayAreas[9].areaSQL="WWM_URN LIKE 'DRUGDRIVE/22/E%'">
+		<cfset arrayAreas[10]=structNew()>
+		<cfset arrayAreas[10].name='Shropshire'>
+		<cfset arrayAreas[10].rowNo=13>
+		<cfset arrayAreas[10].areaSQL="WWM_URN LIKE 'DRUGDRIVE/22/F%'">
+		<cfset arrayAreas[11]=structNew()>
+		<cfset arrayAreas[11].name='Telford & Wrekin'>
+		<cfset arrayAreas[11].rowNo=14>
+		<cfset arrayAreas[11].areaSQL="WWM_URN LIKE 'DRUGDRIVE/22/G%'">	
+		
+		<cfset reportXls=SpreadsheetNew('DrugDrive_Report')>
+
+		<cfset SpreadSheetSetCellValue(reportXls,'Drug Wipe Tests',1,2)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Postive',1,3)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Negative',1,4)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Arrests',1,5)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Cannabis',1,6)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Cocaine',1,7)>
+		<cfset SpreadSheetSetCellValue(reportXls,'FIT',1,9)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Performed OK',1,10)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Performed Poorly',1,11)>
+		
+		<cfloop from="1" to="#ArrayLen(arrayAreas)#" index="i">
+			
+			<cfset SpreadSheetSetCellValue(reportXls,arrayAreas[i].name, arrayAreas[i].rowNo,1)>
+
+			<cfquery name="qDataTotal" datasource="#application.dsn#">
+				SELECT COUNT(*) AS DTOTAL
+				FROM   FF_OWNER.DRUG_DRIVE dd
+				WHERE  WWM_URN IS NOT NULL
+				  AND  (   ROADSIDE_SALIVA_DONE = 'Y'
+				               OR STATION_SALIVA_DONE = 'Y'
+				               OR HOSPITAL_SALIVA_DONE = 'Y' 	              
+				        )
+				  AND  DATE_INITIAL_STOP BETWEEN TO_DATE('#fromDate# 00:00:00','DD-MON-YYYY HH24:MI:SS')
+				                             AND TO_DATE('#toDate# 23:59:59','DD-MON-YYYY HH24:MI:SS')
+				  <cfif Len(arrayAreas[i].areaSql) GT 0>
+				  <cfset sqlData=arrayAreas[i].areaSql>
+				  AND #preserveSingleQuotes(sqlData)#	
+				  </cfif>
+			</cfquery>	
+			
+			<cfquery name="qPositive" datasource="#application.dsn#">
+			    SELECT COUNT(*) AS POSITIVE
+			    FROM   FF_OWNER.DRUG_DRIVE dd
+			    WHERE  WWM_URN IS NOT NULL
+			      AND  (   ROADSIDE_SALIVA_RESULT = 'Positive'
+			                   OR STATION_SALIVA_RESULT = 'Positive'
+			                   OR HOSPITAL_SALIVA_RESULT = 'Positive'                  
+			            )
+				  AND  DATE_INITIAL_STOP BETWEEN TO_DATE('#fromDate# 00:00:00','DD-MON-YYYY HH24:MI:SS')
+				                             AND TO_DATE('#toDate# 23:59:59','DD-MON-YYYY HH24:MI:SS')
+				  <cfif Len(arrayAreas[i].areaSql) GT 0>
+				  <cfset sqlData=arrayAreas[i].areaSql>
+				  AND #preserveSingleQuotes(sqlData)#	
+				  </cfif>	                             
+			</cfquery>	
+			
+			<cfquery name="qArrest" datasource="#application.dsn#">
+			    SELECT COUNT(*) AS ARREST
+			    FROM   FF_OWNER.DRUG_DRIVE dd
+			    WHERE  WWM_URN IS NOT NULL
+			      AND  ARRESTED = 'Y'
+				  AND  DATE_INITIAL_STOP BETWEEN TO_DATE('#fromDate# 00:00:00','DD-MON-YYYY HH24:MI:SS')
+				                             AND TO_DATE('#toDate# 23:59:59','DD-MON-YYYY HH24:MI:SS')
+				  <cfif Len(arrayAreas[i].areaSql) GT 0>
+				  <cfset sqlData=arrayAreas[i].areaSql>
+				  AND #preserveSingleQuotes(sqlData)#	
+				  </cfif>	                             
+			</cfquery>	
+			
+			<cfquery name="qCannabis" datasource="#application.dsn#">
+			    SELECT COUNT(*) AS CANNABIS
+			    FROM   FF_OWNER.DRUG_DRIVE dd
+			    WHERE  WWM_URN IS NOT NULL
+			      AND  (
+			               ROADSIDE_SALIVA_DRUG LIKE '%Cannabis%'
+			            OR STATION_SALIVA_DRUG LIKE '%Cannabis%'
+			            OR HOSPITAL_SALIVA_DRUG LIKE '%Cannabis%'
+			           )
+				  AND  DATE_INITIAL_STOP BETWEEN TO_DATE('#fromDate# 00:00:00','DD-MON-YYYY HH24:MI:SS')
+				                             AND TO_DATE('#toDate# 23:59:59','DD-MON-YYYY HH24:MI:SS')
+				  <cfif Len(arrayAreas[i].areaSql) GT 0>
+				  <cfset sqlData=arrayAreas[i].areaSql>
+				  AND #preserveSingleQuotes(sqlData)#	
+				  </cfif>	                             
+			</cfquery>	
+			
+			<cfquery name="qCocaine" datasource="#application.dsn#">
+			    SELECT COUNT(*) AS COCAINE
+			    FROM   FF_OWNER.DRUG_DRIVE dd
+			    WHERE  WWM_URN IS NOT NULL
+			      AND  (
+			               ROADSIDE_SALIVA_DRUG LIKE '%Cocaine%'
+			            OR STATION_SALIVA_DRUG LIKE '%Cocaine%'
+			            OR HOSPITAL_SALIVA_DRUG LIKE '%Cocaine%'
+			           )
+				  AND  DATE_INITIAL_STOP BETWEEN TO_DATE('#fromDate# 00:00:00','DD-MON-YYYY HH24:MI:SS')
+				                             AND TO_DATE('#toDate# 23:59:59','DD-MON-YYYY HH24:MI:SS')
+				  <cfif Len(arrayAreas[i].areaSql) GT 0>
+				  <cfset sqlData=arrayAreas[i].areaSql>
+				  AND #preserveSingleQuotes(sqlData)#	
+				  </cfif>	                             
+			</cfquery>	
+			
+			<cfquery name="qFIT" datasource="#application.dsn#">
+			    SELECT COUNT(*) AS FIT
+			    FROM   FF_OWNER.DRUG_DRIVE dd
+			    WHERE  WWM_URN IS NOT NULL
+			      AND  ROADSIDE_FIT_DONE = 'Y'            
+				  AND  DATE_INITIAL_STOP BETWEEN TO_DATE('#fromDate# 00:00:00','DD-MON-YYYY HH24:MI:SS')
+				                             AND TO_DATE('#toDate# 23:59:59','DD-MON-YYYY HH24:MI:SS')
+				  <cfif Len(arrayAreas[i].areaSql) GT 0>
+				  <cfset sqlData=arrayAreas[i].areaSql>
+				  AND #preserveSingleQuotes(sqlData)#	
+				  </cfif>	                             
+			</cfquery>	
+			
+			<cfquery name="qFITOk" datasource="#application.dsn#">
+			    SELECT COUNT(*) AS FIT
+			    FROM   FF_OWNER.DRUG_DRIVE dd
+			    WHERE  WWM_URN IS NOT NULL
+			      AND  ROADSIDE_FIT_RESULT = 'OK'            
+				  AND  DATE_INITIAL_STOP BETWEEN TO_DATE('#fromDate# 00:00:00','DD-MON-YYYY HH24:MI:SS')
+				                             AND TO_DATE('#toDate# 23:59:59','DD-MON-YYYY HH24:MI:SS')
+				  <cfif Len(arrayAreas[i].areaSql) GT 0>
+				  <cfset sqlData=arrayAreas[i].areaSql>
+				  AND #preserveSingleQuotes(sqlData)#	
+				  </cfif>	                             
+			</cfquery>	
+			
+			<cfquery name="qFITPoor" datasource="#application.dsn#">
+			    SELECT COUNT(*) AS FIT
+			    FROM   FF_OWNER.DRUG_DRIVE dd
+			    WHERE  WWM_URN IS NOT NULL
+			      AND  ROADSIDE_FIT_RESULT = 'POOR'            
+				  AND  DATE_INITIAL_STOP BETWEEN TO_DATE('#fromDate# 00:00:00','DD-MON-YYYY HH24:MI:SS')
+				                             AND TO_DATE('#toDate# 23:59:59','DD-MON-YYYY HH24:MI:SS')
+				  <cfif Len(arrayAreas[i].areaSql) GT 0>
+				  <cfset sqlData=arrayAreas[i].areaSql>
+				  AND #preserveSingleQuotes(sqlData)#	
+				  </cfif>	                             
+			</cfquery>	
+			
+			<cfset SpreadSheetSetCellValue(reportXls,qDataTotal.DTOTAL,arrayAreas[i].rowNo,2)>
+			<cfset SpreadSheetSetCellValue(reportXls,qPositive.POSITIVE,arrayAreas[i].rowNo,3)>
+			<cfset SpreadSheetSetCellValue(reportXls,qDataTotal.DTOTAL-qPositive.POSITIVE,arrayAreas[i].rowNo,4)>
+			<cfset SpreadSheetSetCellValue(reportXls,qArrest.ARREST,arrayAreas[i].rowNo,5)>
+			<cfset SpreadSheetSetCellValue(reportXls,qCannabis.CANNABIS,arrayAreas[i].rowNo,6)>
+			<cfset SpreadSheetSetCellValue(reportXls,qCocaine.COCAINE,arrayAreas[i].rowNo,7)>
+			<cfset SpreadSheetSetCellValue(reportXls,qFIT.FIT,arrayAreas[i].rowNo,9)>
+			<cfset SpreadSheetSetCellValue(reportXls,qFITOk.FIT,arrayAreas[i].rowNo,10)>
+			<cfset SpreadSheetSetCellValue(reportXls,qFITPoor.FIT,arrayAreas[i].rowNo,11)>
+			
+		</cfloop>
+		
+		<cfset fileCreated=variables.reportTemp&dateFormat(now(),'YYYYMMDD')&TimeFormat(now(),'HHmmss')&".xls">
+		
+		<cfspreadsheet action="write" filename="#fileCreated#" sheetname="Drug Drive Statistics" name="reportXls" overwrite="true">	
+		
+		<cfreturn fileCreated>
 
 	</cffunction>
 

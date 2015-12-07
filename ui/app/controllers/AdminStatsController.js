@@ -1,28 +1,24 @@
 angular.module('drugDrive')
- .controller('AdminStatsController', ['$scope', '$rootScope', 'userService', function($scope,$rootScope,userService){
+ .controller('AdminStatsController', ['$scope', '$rootScope', function($scope,$rootScope){
  	
-	/*
- 	$scope.userReady=false;
+ 	var today=new Date();
+ 	$scope.startDate=new Date(today.getFullYear(),0,1);
+ 	$scope.endDate=today;
+ 	$scope.calStatusStart = {
+    	opened: false
+  	};
+  	$scope.calStatusEnd = {
+    	opened: false
+  	};
+		
 	
-	$scope.initUser = function(){
+	$scope.createReport = function(){
 		
-		userService.getLoggedInUser()
-  	       .success(function(data, status, headers){
-  		// the success function wraps the response in data
-				// so we need to call data.data to fetch the raw data
-				console.log(data);		
-				$rootScope.userId=data.TRUEUSERID;
-				$rootScope.userName=data.FULLNAME;				
-				$rootScope.emailAddr=data.EMAIL;
-				$rootScope.collar=data.OFFICERCOLLAR;
-				$rootScope.force=data.OFFICERFORCE;		
-				$scope.userReady=true;
-			}).error(function(data, status, headers, config){
-				$scope.userError=true;
-				console.log('Error aye it: ' + data);
-				console.log(status);
-			})
+		var sStartDate=formatDate($scope.startDate,'dd-MMM-yyyy').toUpperCase();
+		var sEndDate=formatDate($scope.endDate,'dd-MMM-yyyy').toUpperCase();
 		
-	}*/
+		window.open('../cf/reportXl.cfm?fromDate='+sStartDate+'&toDate='+sEndDate);
+		
+	}	
  	
  }]);
