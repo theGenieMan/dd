@@ -39,7 +39,7 @@
        <cfset application.templateFile="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\dd\cf\pdfTemplates\hoDrugDriveFormV1.pdf">
        <cfset application.dbToPdfLookupFile="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\dd\cf\com\dbToPdfLookup.txt">
        <cfset application.pdfLocation="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\pdfOutput\">
-       <cfset application.reportTemp="\\svr20200\d$\assets\drugDrive\reportTemp\">
+       <cfset application.reportTemp="\\svr20284\d$\assets\drugDrive\reportTemp\">
 	   <cfset application.wmDocDirectory="\\svr20284\d$\assets\drugDrive\">
 	   <cfset application.WAREHOUSE_DB="wmercia">
 	   <cfset application.WAREHOUSE_DB_PREFIX="BROWSER_OWNER.">
@@ -60,19 +60,14 @@
 	   <cfset application.LOCATION_DB_PREFIX="">    
 	   <cfset application.STORM_DB="wmercia">    	   
    </cfif>
-
-             
    
   
    <cfset Application.drugDriveService=CreateObject('component','com.drugDriveService').init(dsn=application.dsn,
                                                                                              templateFile=application.templateFile,
 																							 dbToPdfLookupFile=application.dbToPdfLookupFile,
                                                                                              pdfLocation=application.pdfLocation,
-<<<<<<< HEAD
-                                                                                             reportTemp=application.reportTemp)>
-=======
+                                                                                             reportTemp=application.reportTemp,
 																							 wmDocLocation=application.wmDocDirectory)>
->>>>>>> 6d1f2c4c428a03b995e5e6cc20f0653156217a38
 																							        
    <cfset Application.officerLocationService=CreateObject('component','com.officerLocationService').init(WAREHOUSE_DB = application.WAREHOUSE_DB,
 																										WAREHOUSE_DB_PREFIX = application.WAREHOUSE_DB_PREFIX,

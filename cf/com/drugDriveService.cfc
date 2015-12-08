@@ -774,8 +774,7 @@
 		<cfargument name="toDate" type="string" required="true" hint="date to finish report">	
 
 		<cfset var arrayAreas="">
-        <cfset var fileCreated="">
-        <cfset var reportXls="">
+        <cfset var fileCreated="">        
         <cfset var i=0>
         <cfset var qDataTotal=''>
 		<cfset var qPositive=''>
@@ -785,6 +784,7 @@
 		<cfset var qFIT=''>
 		<cfset var qFITOk=''>
 		<cfset var qFITPoor=''>
+		<cfset reportXls="">
 		
         <cfset arrayAreas=arrayNew(1)>
 		<cfset arrayAreas[1]=structNew()>
@@ -979,9 +979,9 @@
 		</cfloop>
 		
 		<cfset fileCreated=variables.reportTemp&dateFormat(now(),'YYYYMMDD')&TimeFormat(now(),'HHmmss')&".xls">
-		
-		<cfspreadsheet action="write" filename="#fileCreated#" sheetname="Drug Drive Statistics" name="reportXls" overwrite="true">	
-		
+
+		<cfspreadsheet action="write" filename="#fileCreated#" sheetname="Drug Drive Statistics" name="reportXls" overwrite="true">
+
 		<cfreturn fileCreated>
 
 	</cffunction>
