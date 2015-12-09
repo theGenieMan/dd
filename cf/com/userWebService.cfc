@@ -20,9 +20,10 @@
 			
 			<!---			
 			<cfif userId IS "Westmerpolice01\n_bla003">
-				<cfset userId="j_mor005">
+				<cfset userId="a_wor003">
 			</cfif>
 			--->
+			
 			
 		    <cfset user=application.hrService.getUserByUID(userId)>
 		

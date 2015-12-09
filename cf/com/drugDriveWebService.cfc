@@ -68,6 +68,44 @@
 	   
 	</cffunction>
 
+	<cffunction name="getAdminUserList" description="gets an array list of all administrators" 
+				access="remote" output="false" returntype="array" returnformat="JSON" >	   
+	
+	   <cfset var drugDrive=application.drugDriveService.getAdminUserList()>
+	 
+	   <cfreturn queryToArray(drugDrive)>
+	   
+	</cffunction>
+	
+	<cffunction name="addAdminUser" 
+		        description="Adds a new admin user" 
+				access="remote" 
+				output="false" 
+				returntype="boolean" 
+				returnformat="JSON">
+       
+       <cfset var incomingData=toString( getHttpRequestData().content )>
+	   
+	   <cfset var drugDrive=application.drugDriveService.addAdminUser(incomingData)>
+	      
+	   <cfreturn drugDrive>   
+	      
+	</cffunction>		
+	
+	<cffunction name="deleteAdminUser" 
+		        description="Deletes an admin user" 
+				access="remote" 
+				output="false" 
+				returntype="boolean" 
+				returnformat="JSON">
+       <cfargument name="userId" type="string" hint="userId to remove" required="true">
+       
+	   <cfset var drugDrive=application.drugDriveService.deleteAdminUser(userId)>
+	      
+	   <cfreturn drugDrive>   
+	      
+	</cffunction>	
+
     <cffunction name="getOfficerLocation"
                 access="remote"
                 returntype="struct" 

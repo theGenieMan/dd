@@ -9,7 +9,7 @@
 
 <cfloop query="qOldData">
 
-<cfquery name="qNextDD" datasource="#application.dsn#">
+<cfquery name="qNextDD" datasource="DrugDriveNewLive">
 	select DD_ID_SEQ.NEXTVAL AS NEW_DD_ID from DUAL
 </cfquery>
 
@@ -133,7 +133,7 @@ VALUES
 
 <cfoutput>
 <h1>#ID#</h1>
-<cfquery name="qInsert" datasource="#application.DSN#">
+<cfquery name="qInsert" datasource="DrugDriveNewLive">
 INSERT INTO FF_OWNER.DRUG_DRIVE
 (
   WWM_DD_ID,

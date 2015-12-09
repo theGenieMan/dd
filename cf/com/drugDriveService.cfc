@@ -644,12 +644,13 @@
 		<cfset var pdfCreated=structNew()>
 		<cfset var qDbToPdfLookup=getDbtoPdfLookup(lookupFile=variables.dbToPdfLookupFile)>
 		<cfset var ddRow=getDrugDrive(DD_ID=arguments.DD_ID)>
-		<cfset var hoFileName=Replace(ddRow.WWM_URN,"/","_","ALL")&"_ho.pdf">
-		<cfset var wwmFileName=Replace(ddRow.WWM_URN,"/","_","ALL")&"_wwm.pdf">
-		<cfset var pdfPath=variables.pdfLocation & DateFormat(ddRow.WWM_DATE_CREATED,"YYYY") & "\" & DateFormat(ddRow.WWM_DATE_CREATED,'MM')&"\">
+		<cfset var dftFileName="WWM_"&Replace(ddRow.WWM_URN,"/","_","ALL")&".pdf">		
+		<cfset var pdfPath=variables.wmDocLocation & 'dft\' & DateFormat(ddRow.DATE_GENERATED,"YYYY") & "\" & DateFormat(ddRow.DATE_GENERATED,'MM')&"\">
 		<cfset var thisVal=''>
 		<cfset var stationDeviceType3="">
 		<cfset var roadsideDeviceType3="">
+		
+		<cflog text="#pdfPath#" file="ddService" type="information" >
 		
 		<cfif not DirectoryExists(pdfPath)>
 			<cfdirectory action="create" directory="#pdfPath#" >
@@ -657,7 +658,7 @@
 		
 		<cfpdfform action="populate" 
 				   source="#variables.templateFile#"
-				   destination="#pdfPath##hoFileName#"
+				   destination="#pdfPath##dftFileName#"
 				   overwrite="yes" overwritedata="yes">
 			
 			 <cfoutput query="ddRow">
@@ -708,11 +709,8 @@
 			
 		</cfpdfform>
 		
-		<!--- flatten the form so it now cannot be altered --->
-		<cfpdf action="write" destination="#pdfPath##wwmFileName#" source="#pdfPath##hoFileName#" flatten="true" overwrite="true">	
-		
 		<cfset pdfCreated.pdfPath=pdfPath>
-		<cfset pdfCreated.pdfFile=wwmFileName>
+		<cfset pdfCreated.pdfFile=dftFileName>
 		
 		<cfreturn pdfCreated>
 		
@@ -766,6 +764,73 @@
 		</cfif>
 		
 		<cfreturn isAdmin>
+
+	</cffunction>
+
+	<cffunction name="getAdminUserList" description="returns a query of admin users" access="remote" output="false" returntype="query">		
+
+		<cfset var qDD="">
+        
+        <cfquery name="qDD" datasource="#variables.dsn#">
+			SELECT dda.*, REGEXP_SUBSTR(ADMIN_USER_NAME,'[A-Z^,]{3,}',5) AS SURNAME,
+	   		  			  REGEXP_SUBSTR(ADMIN_USER_NAME,'[0-9^,]{3,}',5) AS COLLAR,
+	   		  			  TO_CHAR(DATE_ADDED,'YYYY-MM-DD')||'T'||TO_CHAR(DATE_ADDED,'HH24:MI:SS')||'.000Z' AS DATE_ADDED_TSTAMP
+			FROM   DRUG_DRIVE_ADMIN dda
+			ORDER BY REGEXP_SUBSTR(ADMIN_USER_NAME,'[A-Z^,]{3,}',5)
+		</cfquery>
+				
+		<cfreturn qDD>
+
+	</cffunction>
+
+	<cffunction name="addAdminUser" description="adds a new admin user" access="remote" output="false" returntype="boolean">		
+        <cfargument name="incomingData" required="true" type="any" hint="admin user json data to insert">
+		
+		<cfset var qDD="">
+		<cfset var userData=structNew()>
+		
+		<cfset structAppend( userData, deserializeJson( incomingData ) )>
+        
+        <cfquery name="qDD" datasource="#variables.dsn#">
+		  INSERT INTO FF_OWNER.DRUG_DRIVE_ADMIN
+		  (
+		  	ADMIN_USER_ID,
+		  	DATE_ADDED,
+		  	ADMIN_USER_NAME,
+		  	ADDED_BY_USERID,
+		  	ADDED_BY_USER_NAME,
+		  	ADMIN_USER_DEPT,
+		  	ADMIN_USER_LOCATION,
+			ADMIN_USER_ROLE
+		  )
+		  VALUES
+		  (
+		    '#userData.trueUserId#',
+			SYSDATE,
+			'#userData.fullName#',
+			'#userData.addedByUserId#',
+			'#userData.addedByUserName#',
+			'#userData.department#',
+			'#userData.location#',
+			'#userData.duty#'
+		  )	
+		</cfquery>
+				
+		<cfreturn true>
+
+	</cffunction>
+
+	<cffunction name="deleteAdminUser" description="deletes an admin user" access="remote" output="false" returntype="boolean">		
+        <cfargument name="userId" required="true" type="string" hint="userId to delete">
+		
+		<cfset var qDD="">
+		
+        <cfquery name="qDD" datasource="#variables.dsn#">
+		  DELETE FF_OWNER.DRUG_DRIVE_ADMIN
+		  WHERE ADMIN_USER_ID='#arguments.userId#'
+		</cfquery>
+				
+		<cfreturn true>
 
 	</cffunction>
 

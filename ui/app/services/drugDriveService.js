@@ -45,6 +45,28 @@ angular.module('drugDrive')
       });
     }	
 	
+    var getAdminUserList = function() {	  	
+      return $http({
+	  	method: 'get',        
+        url: '../cf/Com/drugDriveWebService.cfc?method=getAdminUserList'
+      });
+    }	
+	
+    var addAdminUser = function(user) {	  	
+      return $http({
+	  	method: 'post',        
+        url: '../cf/Com/drugDriveWebService.cfc?method=addAdminUser',
+        data: user
+      });
+    };
+	
+	var deleteAdminUser = function(userId) {	  	
+      return $http({
+	  	method: 'get',        
+        url: '../cf/Com/drugDriveWebService.cfc?method=deleteAdminUser&userId='+userId
+      });
+    };
+	
 	var locateOfficer = function(collar, force, dateLocation, timeLocation) {	
           
       var dateToFind = formatDate(dateLocation,'dd/MM/yyyy');
@@ -69,6 +91,9 @@ angular.module('drugDrive')
 	 deleteDrugDrive: deleteDrugDrive,
 	 getUserDrugDrive: getUserDrugDrive,
 	 getAdminDrugDrive: getAdminDrugDrive,
+	 getAdminUserList: getAdminUserList,
+	 addAdminUser: addAdminUser,
+	 deleteAdminUser: deleteAdminUser,
 	 locateOfficer: locateOfficer,
 	 getCustodies: getCustodies
     };

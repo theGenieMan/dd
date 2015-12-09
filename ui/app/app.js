@@ -1,4 +1,4 @@
-angular.module('drugDrive', ['ui.bootstrap','ngRoute']);
+angular.module('drugDrive', ['ui.bootstrap','ngRoute','hrModule']);
 
 // Configure the $httpProvider by adding our date transformer
 angular.module('drugDrive').config(["$httpProvider", function ($httpProvider) {

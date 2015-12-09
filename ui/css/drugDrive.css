@@ -61,4 +61,7 @@ display:inline-block;
 .homebutton{
 	width:200px;
 }
-}
+
+.pagination {
+	margin:5px 0px 0px 0px;	
+}	

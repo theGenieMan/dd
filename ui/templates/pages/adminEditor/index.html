@@ -1,6 +1,103 @@
-<div class="container">
-	<div class="jumbotron">
-	  <h2 align="center">Drug Swipe / FIT Edit Administrator - Coming Soon</h2> 
-	   
-	</div>
+<div class="container" ng-init="initList()">
+	
+  <div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">Add a New Administrator</h3>
+	  </div>
+  	  <div class="panel-body">	
+	
+	
+	  <uib-alert type="danger" 
+	             ng-show="userErrorMessage.length>0">
+	      {{ userErrorMessage }}
+	  </uib-alert>
+	  <uib-alert type="success" 
+	             ng-show="userAddedMessage.length>0">
+	      {{ userAddedMessage }}
+	  </uib-alert>
+	  
+	  
+	  <div class="form-horizontal formDiv">	
+		<ng-form name="additionalForm">
+	
+		<div class="form-group">
+	      <div class="row">
+	    	<label for="additionalText" class="col-md-2 control-label">User To Add</label>
+	        <div class="col-md-6">
+				<hr_search_directive user_data='addUser' reset_var='resetUserSearch'></hr_search_directive>	         		   					   		
+	        </div>
+	       </div>
+	    </div>
+	  
+	    <div align="center">
+	  		<button name="addUser" ng-click="addAdminUser()">Add User As Administrator</button>
+		</div>
+	  </div>	
+	
+   </div>
+	   	
+ </div>
+ 
+ <div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">Existing Administrators</h3>
+	  </div>
+  	  <div class="panel-body">	
+	  
+	    <uib-alert type="info" 
+	             ng-show="!listReady">
+	 			<b>Initialising Please Wait ....</b>
+  		</uib-alert>
+		
+		<span ng-show="listReady">			
+			  		   
+		   <table class="table table-striped">
+			<thead>
+			  <tr>
+			  	<td colspan="2">	
+					<div class="form-horizontal">				
+			   			<div class="form-group">
+							<div class="row">
+							<label for="searchText" class="col-md-2 control-label">Filter :</label>
+							<div class="col-md-6">
+								<input type="text" name="searchText" size="45" class="form-control input-sm" ng-model="searchText" placeholder="type to filter eg. Name, Collar etc..">
+							</div>			
+						</div>
+					</div>								 			  		
+			  	</td>
+				<td colspan="3" align="right">					
+					<uib-pagination total-items="( adminUserListArray | filter:searchText ).length" ng-model="currentPage" class="pagination-sm" max-size="10" items-per-page="pageSize"></uib-pagination>												
+				</td>
+			  </tr>	
+			  <tr>			
+				<th>Administrator</th>
+				<th>Dept / Role / Location</th>
+				<th>Added On</th>
+				<th>Added By</th>
+				<th>&nbsp;</th>
+			  </tr>										
+			</thead>
+			<tbody>
+			  <tr ng-repeat="user in adminUserListArray | filter:searchText | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
+				<td><b>{{ user.ADMIN_USER_NAME }}</b></td>
+				<td>{{ user.ADMIN_USER_DEPT }} / {{ user.ADMIN_USER_LOCATION }}<br>{{ user.ADMIN_USER_ROLE }}</td>
+				<td>{{ user.DATE_ADDED_TSTAMP | date:'dd/MM/yyyy' }}</td>
+				<td>{{ user.ADDED_BY_USER_NAME }}</td>	
+				<td><a href ng-click="deleteAdminUser(user)"><span class="glyphicon glyphicon-trash"></span></a></td>
+			  </tr>
+			</tbody>
+			<tfoot>
+			  <tr>
+			  	<td colspan="5" align="right">
+					<uib-pagination total-items="( adminUserListArray | filter:searchText ).length" ng-model="currentPage" class="pagination-sm" max-size="10" items-per-page="pageSize"></uib-pagination>	  		
+			  	</td>
+			  </tr>
+			</tfoot>			
+		   </table>
+		   
+		</span>
+	  
+	  </div>
+ </div>
+ 
 </div>	

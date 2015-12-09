@@ -1,4 +1,4 @@
-﻿<cfquery name="qSub" datasource="DrugDriveNew">
+﻿<cfquery name="qSub" datasource="DrugDriveNewLive">
 	SELECT *
 	FROM   FF_OWNER.DRUG_DRIVE
 </cfquery>	
@@ -6,7 +6,7 @@
 <cfset x=1>
 <cfloop query="qSub">
 	
-<cfset theDir="\\svr20284\d$\assets\drugDrive\"&DateFormat(DATE_INITIAL_STOP,"YYYY")&"\">
+<cfset theDir="\\svr20200\d$\assets\drugDrive\"&DateFormat(DATE_INITIAL_STOP,"YYYY")&"\">
 
 <cfif not directoryExists(theDir)>
  <cfdirectory action="create" directory="#theDir#">
@@ -23,7 +23,7 @@
 	<cfargument name="WWM_DD_ID">
 	<cfargument name="filename">
 	
-	<cfquery name="qSub" datasource="DrugDriveNew">
+	<cfquery name="qSub" datasource="DrugDriveNewLive">
 	SELECT *
 	FROM   FF_OWNER.DRUG_DRIVE
 	WHERE  WWM_DD_ID = #WWM_DD_ID#

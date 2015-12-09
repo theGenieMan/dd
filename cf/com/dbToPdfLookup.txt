@@ -13,8 +13,8 @@ Blood_Doctor|BLOOD_DOCTOR|On
 Blood_Nurse|BLOOD_NURSE|On
 Blood_failure_reason|BLOOD_FAILURE_REASON|Text
 Blood_other|BLOOD_OTHER|Text
-Blood_provided|BLOOD_PROVIDED|Text
-Blood_requested|BLOOD_REQUESTED|Text
+Blood_provided|BLOOD_PROVIDED|On
+Blood_requested|BLOOD_REQUESTED|On
 Blood_time|BLOOD_TIME|Text
 Custody_Ref|CUSTODY_REF|Text
 Date_initial_stop|DATE_INITIAL_STOP|Date
