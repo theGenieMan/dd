@@ -33,8 +33,8 @@
          <cfset var qWMQuery="">
          <cfset var qWQuery="">
          <cfset var qBeatQuery="">         
-         <cfset var sWMCollar=arguments.officerCollar>
-         <cfset var sWCollar=arguments.officerCollar>       
+         <cfset var sWMCollar=NumberFormat(arguments.officerCollar,'0000')>
+         <cfset var sWCollar=NumberFormat(arguments.officerCollar,'0000')>       
          <cfset var warksDateYear=ListGetAt(arguments.dateToFind,3,"/")>
          <cfset var warksDateMonth=ListGetAt(arguments.dateToFind,2,"/")>
          <cfset var warksDateDay=ListGetAt(arguments.dateToFind,1,"/")>
@@ -42,7 +42,7 @@
          <cfset var warksTime=Replace(timeToFind,":","","ALL")&"00">
          <cfset var listDistances="100,250,500,1000,2000">
          
-         <cflog file="ols" type="information" text="x#dateToFind#x#timeToFind#x" >
+         <cflog file="ols" type="information" text="date = #dateToFind# #timeToFind# officer collar = #sWMCollar#" >
          
          <cfset officerLocationData.locationAvailable=false>
          <cfset officerLocationData.gridAvailable=false>
