@@ -649,6 +649,8 @@
 		<cfset var thisVal=''>
 		<cfset var stationDeviceType3="">
 		<cfset var roadsideDeviceType3="">
+		<cfset var roadside_FIT_OK="">
+		<cfset var roadside_FIT_poor="">
 		
 		<cflog text="#pdfPath#" file="ddService" type="information" >
 		
@@ -690,17 +692,18 @@
 					   <cfset Roadside_FIT_poor='On'>	 
 					</cfif>
 				</cfif>
-								
+										
 				<cfif DB_NAME IS "ROADSIDE_FIT_RESULT">
-					<cfif isDefined("Roadside_FIT_OK")>
+					<cfif Roadside_FIT_OK IS "On">
 						<cfpdfformparam name="Roadside_FIT_OK" value="On">	
 					</cfif>
-				    <cfif isDefined("Roadside_FIT_poor")>
+				    <cfif Roadside_FIT_poor IS "On">
 						<cfpdfformparam name="Roadside_FIT_poor" value="On">
 					</cfif>
 				<cfelse>				
 				 	<cfpdfformparam name="#PDF_NAME#" value="#thisVal#">
 				</cfif>
+				
 			 	<cflog file="ddService" type="information" text="processed #DB_NAME#, #PDF_NAME#, #FIELD_TYPE# == #thisVal#" >
 			   </cfif>
 			 </cfloop>

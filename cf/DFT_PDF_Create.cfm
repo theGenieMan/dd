@@ -63,7 +63,7 @@ The following will be sent:
 		iNextPDF = #iNextPDF#<br>
 		send2ndPDF = #send2ndPDF#<br>
 		
-		<cfmail to="nick.blackham@westmercia.pnn.police.uk" from="drugDrive@westmercia.pnn.police.uk"
+		<cfmail to="#application.schedEmail#" from="drugDrive@westmercia.pnn.police.uk"
 	       subject="Warks / West Mercia Drug Drive - Email #iEmailCount# of #totalEmails# [RESTRICTED]"
 		      type="html">
 		  <html>
@@ -105,6 +105,13 @@ The following will be sent:
 	    <cfset iEmailCount++>
 	</cfif>
 	
+	<!--- update the DATE_SENT_TO_HO date, so we don't send twice --->
+	<cfquery name="qSubUpd" datasource="#application.dsn#">
+		UPDATE FF_OWNER.DRUG_DRIVE
+		   SET DATE_SENT_TO_HO = SYSDATE
+		 WHERE WWM_DD_ID = #arrFilesCreated[z].ddId#
+	</cfquery>
+	
 </cfloop>
 
 <cfset dftSentReport &= "=================================================================================================================">
@@ -113,7 +120,7 @@ The following will be sent:
 
 <cffile action="write" file="#reportFile#" output="#dftSentReport#">
 
-<cfmail to="nick.blackham@westmercia.pnn.police.uk" from="drugDrive@westmercia.pnn.police.uk"
+<cfmail to="#application.schedReportEmail#" from="drugDrive@westmercia.pnn.police.uk"
 	       subject="Warks / West Mercia Drug Drive - Weekly Email Report">
 #dftSentReport#
 </cfmail>

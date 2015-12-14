@@ -32,7 +32,9 @@
 	   <cfset application.WAREHOUSE_DB_PREFIX="BROWSER_OWNER.">
 	   <cfset application.LOCATION_DB="SS_CRIMES">
 	   <cfset application.LOCATION_DB_PREFIX="CRIME.">    
-	   <cfset application.STORM_DB="STORM_ARC">             
+	   <cfset application.STORM_DB="STORM_ARC">      
+	   <cfset application.schedEmail="Sandra.Forde@dft.gsi.gov.uk,nick.blackham@westmercia.pnn.police.uk">
+	   <cfset application.schedReportEmail="Sandra.Forde@dft.gsi.gov.uk,nick.blackham@westmercia.pnn.police.uk">          
    <cfelseif application.ENV IS "DEV">
 	   <cfset application.dsn="DrugDriveNewLive">
 	   <cfset application.Warehouse_DB="wmercia">
@@ -45,7 +47,9 @@
 	   <cfset application.WAREHOUSE_DB_PREFIX="BROWSER_OWNER.">
 	   <cfset application.LOCATION_DB="SS_CRIMES">
 	   <cfset application.LOCATION_DB_PREFIX="CRIME.">    
-	   <cfset application.STORM_DB="STORM_ARC">     
+	   <cfset application.STORM_DB="STORM_ARC">
+	   <cfset application.schedEmail="nick.blackham@westmercia.pnn.police.uk">     
+	   <cfset application.schedReportEmail="nick.blackham@westmercia.pnn.police.uk">   
    <cfelseif application.ENV IS "Local">
    	   <cfset application.dsn="DrugDrive">
 	   <cfset application.Warehouse_DB="wmercia">    
