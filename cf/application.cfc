@@ -34,7 +34,7 @@
 	   <cfset application.LOCATION_DB_PREFIX="CRIME.">    
 	   <cfset application.STORM_DB="STORM_ARC">      
 	   <cfset application.schedEmail="Sandra.Forde@dft.gsi.gov.uk,nick.blackham@westmercia.pnn.police.uk">
-	   <cfset application.schedReportEmail="Sandra.Forde@dft.gsi.gov.uk,nick.blackham@westmercia.pnn.police.uk">          
+	   <cfset application.schedReportEmail="nick.blackham@westmercia.pnn.police.uk">          
    <cfelseif application.ENV IS "DEV">
 	   <cfset application.dsn="DrugDriveNewLive">
 	   <cfset application.Warehouse_DB="wmercia">
