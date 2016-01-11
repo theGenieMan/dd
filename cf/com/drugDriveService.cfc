@@ -1054,6 +1054,89 @@
 
 	</cffunction>
 
+	<cffunction name="exportXl" description="" access="remote" output="false" returntype="string">
+		<cfargument name="fromDate" type="string" required="true" hint="date to start report">
+		<cfargument name="toDate" type="string" required="true" hint="date to finish report">	
+		
+		<cfset var fileCreated="">
+		<cfset var qExport="">
+		<cfset reportXls="">
+		
+		<cfset reportXls=SpreadsheetNew('DrugDrive_Export')>
+
+		<cfset SpreadSheetSetCellValue(reportXls,'URN',1,1)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Date/Time',1,2)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Force',1,3)>
+		<cfset SpreadSheetSetCellValue(reportXls,'LPA',1,4)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Beat',1,5)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Grid',1,6)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Test Location',1,7)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Test Reason',1,8)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Pos / Neg',1,9)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Cannabis',1,10)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Cocaine',1,11)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Arrested',1,12)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Custody Ref',1,13)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Gender',1,14)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Age',1,15)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Self Defined Ethnicity',1,16)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Officer Defined Ethnicity',1,17)>
+		<cfset SpreadSheetSetCellValue(reportXls,'Officer Completing',1,18)>
+		
+		<cfquery name="qExport" datasource="#application.dsn#">
+				SELECT *
+				FROM   FF_OWNER.DRUG_DRIVE dd
+				WHERE  WWM_URN IS NOT NULL
+				  AND  DATE_INITIAL_STOP BETWEEN TO_DATE('#fromDate# 00:00:00','DD-MON-YYYY HH24:MI:SS')
+				                             AND TO_DATE('#toDate# 23:59:59','DD-MON-YYYY HH24:MI:SS')
+				ORDER BY DATE_INITIAL_STOP  
+		</cfquery>	
+		
+		<cfset iRow=2>
+		<cfloop query="qExport">
+		  <cfset gridRef=''>
+		  <cfif Len(WWM_TEST_GRIDREF) IS 12>
+		  	  <cfset gridRef=Insert(" ",WWM_TEST_GRIDREF,6)>
+		  </cfif>
+		  <cfset SpreadSheetSetCellValue(reportXls,WWM_URN,iRow,1)>
+		  <cfset SpreadSheetSetCellValue(reportXls,DateFormat(DATE_INITIAL_STOP,'DD/MM/YYYY')&" "&TIME_INITIAL_STOP,iRow,2)>
+		  <cfset SpreadSheetSetCellValue(reportXls,POLICE_FORCE_CODE,iRow,3)>
+		  <cfset SpreadSheetSetCellValue(reportXls,WWM_TEST_LPA,iRow,4)>
+		  <cfset SpreadSheetSetCellValue(reportXls,WWM_TEST_BEAT,iRow,5)>
+		  <cfset SpreadSheetSetCellValue(reportXls,gridRef,iRow,6)>
+		  <cfset SpreadSheetSetCellValue(reportXls,WWM_TEST_LOCATION,iRow,7)>
+		  <cfset SpreadSheetSetCellValue(reportXls,WWM_TEST_REASON,iRow,8)>
+		  <cfif WWM_TEST_LOCATION IS "ROADSIDE">
+		  	<cfset SpreadSheetSetCellValue(reportXls,ROADSIDE_SALIVA_RESULT,iRow,9)>
+			<cfset SpreadSheetSetCellValue(reportXls,iif(ListFind(ROADSIDE_SALIVA_DRUG,'Cannabis') GT 0,de('Y'),de('N')),iRow,10)>
+			<cfset SpreadSheetSetCellValue(reportXls,iif(ListFind(ROADSIDE_SALIVA_DRUG,'Cocaine') GT 0,de('Y'),de('N')),iRow,11)>  	  
+		  <cfelseif WWM_TEST_LOCATION IS "STATION">
+		  	<cfset SpreadSheetSetCellValue(reportXls,STATION_SALIVA_RESULT,iRow,9)>
+			<cfset SpreadSheetSetCellValue(reportXls,iif(ListFind(STATION_SALIVA_DRUG,'Cannabis') GT 0,de('Y'),de('N')),iRow,10)>
+			<cfset SpreadSheetSetCellValue(reportXls,iif(ListFind(STATION_SALIVA_DRUG,'Cocaine') GT 0,de('Y'),de('N')),iRow,11)>  
+		  <cfelseif WWM_TEST_LOCATION IS "HOSPITAL">
+		  	<cfset SpreadSheetSetCellValue(reportXls,HOSPITAL_SALIVA_RESULT,iRow,9)>
+			<cfset SpreadSheetSetCellValue(reportXls,iif(ListFind(HOSPITAL_SALIVA_DRUG,'Cannabis') GT 0,de('Y'),de('N')),iRow,10)>
+			<cfset SpreadSheetSetCellValue(reportXls,iif(ListFind(HOSPITAL_SALIVA_DRUG,'Cocaine') GT 0,de('Y'),de('N')),iRow,11)>
+		  </cfif>
+		  <cfset SpreadSheetSetCellValue(reportXls,ARRESTED,iRow,12)>
+		  <cfset SpreadSheetSetCellValue(reportXls,CUSTODY_REF,iRow,13)>
+		  <cfset SpreadSheetSetCellValue(reportXls,GENDER,iRow,14)>
+		  <cfset SpreadSheetSetCellValue(reportXls,AGE,iRow,15)>  
+		  <cfset SpreadSheetSetCellValue(reportXls,ETHICITY,iRow,16)>
+		  <cfset SpreadSheetSetCellValue(reportXls,WWM_OFF_ETHNICITY,iRow,17)>      
+		  <cfset SpreadSheetSetCellValue(reportXls,WWM_OFFICER_NAME,iRow,18)>        	      
+		  <cfset iRow++>
+		</cfloop>
+		
+		<cfset fileCreated=variables.reportTemp&dateFormat(now(),'YYYYMMDD')&TimeFormat(now(),'HHmmss')&".xls">
+
+		<cfspreadsheet action="write" filename="#fileCreated#" sheetname="Drug Drive Export" name="reportXls" overwrite="true">
+
+		<cfreturn fileCreated>
+		
+	</cffunction>
+
     <cffunction name="QueryToStruct" access="public" returntype="any" output="false"
     	hint="Converts an entire query or the given record to a struct. This might return a structure (single record) or an array of structures.">
 

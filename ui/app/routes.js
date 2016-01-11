@@ -49,5 +49,10 @@ angular.module('drugDrive')
  			templateUrl: 'templates/pages/adminStats/index.html',
 			controller: 'AdminStatsController'
  	}) 
+   .when('/excelExport',
+ 		{
+ 			templateUrl: 'templates/pages/adminExcel/index.html',
+			controller: 'AdminExcelController'
+ 	})
  	
  }])
