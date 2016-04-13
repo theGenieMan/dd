@@ -27,7 +27,7 @@
 		<cflog file="custService" type="information" text="running get custodies" />
 		<cfquery name="qCust" datasource="#variables.WAREHOUSE_DB#" result="qCustRes">
             SELECT cs.CUSTODY_REF, SUBSTR(cs.CUSTODY_REF,0,4) AS CUST_SUITE,
-                   cs.NOMINAL_REF, NAME AS NOMINAL_NAME,
+                   cs.NOMINAL_REF, REPLACE(NAME,'''','`') AS NOMINAL_NAME,
                    TO_CHAR(DOB,'DD/MM/YYYY') AS DOB, 
                    floor(MONTHS_BETWEEN(sysdate,DOB)/12) AS AGE,
                    ETHNIC_APP, AO_FORCE, AO_BADGE, SEX, 
