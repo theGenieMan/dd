@@ -164,6 +164,49 @@
 		
 		<!-- STATION TESTS -->
 	    <span name="stationDiv" ng-show="ddData.WWM_TEST_LOCATION==='Station'">
+	    	
+		 <div class="form-group" ng-class="{ 'has-error' : testsForm.stFitTest.$invalid }">
+	      <div class="row">
+	    	<label for="stFitTest" class="col-md-2 control-label">FIT Test? *</label>
+	        <div class="col-md-6">
+	         <select class="form-control mandatory input-sm" name="stFitTest" ng-model='ddData.STATION_FIT_DONE' 
+	                 ng-options="c.id as c.label for c in selectYN" ng-required="ddData.WWM_TEST_LOCATION==='Station'"></select>
+	         <p ng-show="testsForm.stFitTest.$invalid" class="help-block">Select if FIT Test was performed.</p>		
+	        </div>
+	       </div>
+	     </div>
+	     
+	     <span id="stFitResulDiv" ng-show="ddData.STATION_FIT_DONE==='Y'">
+	      <div class="form-group" ng-class="{ 'has-error' : testsForm.stFitResult.$invalid }">
+	      <div class="row">
+	    	<label for="stFitResult" class="col-md-2 control-label">FIT Result *</label>
+	        <div class="col-md-6">
+	        	<label class="checkbox-inline">
+	        	<input type="radio" name="stFitResult" ng-model="ddData.STATION_FIT_RESULT"
+	        	       value="OK" ng-required="!ddData.STATION_FIT_RESULT && ddData.STATION_FIT_DONE==='Y'" 
+					   ng-checked="ddData.STATION_FIT_RESULT==='OK'" /> Performed OK
+	        	</label>
+	        	<label class="checkbox-inline">
+	        	<input type="radio" name="stFitResult" ng-model="ddData.STATION_FIT_RESULT"
+	        	       value="POOR" ng-required="!ddData.STATION_FIT_RESULT && ddData.STATION_FIT_DONE==='Y'" 
+					   ng-checked="ddData.STATION_FIT_RESULT==='POOR'" /> Performed Poorly
+	        	</label>       		
+				<p ng-show="testsForm.stFitResult.$invalid" class="help-block">Enter result of FIT.</p>
+	        </div>
+	       </div>
+		  </div>
+		  <div class="form-group" ng-class="{ 'has-error' : testsForm.stFitTime.$invalid }">  
+		   <div class="row">
+	    	<label for="stFitTime" class="col-md-2 control-label">FIT Time *</label>
+	        <div class="col-md-6">
+	        	<input ng-model="ddData.STATION_FIT_TIME" type="text" placeholder="HH:mm"
+                	       class="form-control mandatory input-sm" ng-maxlength="5" ng-minlength="5" ng-required="ddData.STATION_FIT_DONE==='Y'"
+                	       ng-pattern='/[0-2][0-9]:[0-5][0-9]/' name="stFitTime">
+				<p ng-show="testsForm.stFitTime.$invalid" class="help-block">Enter time of FIT Test (HH:mm).</p>						     		
+	        </div>
+	       </div>
+	      </div>
+	     </span>			
 
 		 <div class="form-group" ng-class="{ 'has-error' : testsForm.stBreathTest.$invalid }">
 	      <div class="row">

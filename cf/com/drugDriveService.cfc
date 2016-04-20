@@ -374,6 +374,20 @@
 						<cfif WWM_TEST_LOCATION IS "Station">
 						<cfif Len(STATION_BREATH_DONE) GT 0>
 						<tr>
+					     <td width="25%" valign="top"><label style="font-weight:bold;">FIT Test?</label></td>
+						 <td>
+						 	#iif(STATION_FIT_DONE IS "Y",DE('Yes'),de('No'))#
+						 	<cfif STATION_FIT_DONE IS "Y">
+							  <cfif Len(STATION_FIT_TIME) GT 0>
+							   <br>#STATION_FIT_TIME#
+							  </cfif>
+							  <cfif Len(STATION_FIT_RESULT) GT 0>
+							   <br>#STATION_FIT_RESULT#
+							  </cfif> 	
+							</cfif>		     
+					     </td>
+					    </tr>	
+						<tr>
 					     <td width="25%" valign="top"><label style="font-weight:bold;">Breath Test?</label></td>
 						 <td>
 						 	#iif(STATION_BREATH_DONE IS "Y",DE('Yes'),de('No'))#
@@ -999,7 +1013,7 @@
 			    SELECT COUNT(*) AS FIT
 			    FROM   FF_OWNER.DRUG_DRIVE dd
 			    WHERE  WWM_URN IS NOT NULL
-			      AND  ROADSIDE_FIT_DONE = 'Y'            
+			      AND  (ROADSIDE_FIT_DONE = 'Y' OR STATION_FIT_DONE='Y')            
 				  AND  DATE_INITIAL_STOP BETWEEN TO_DATE('#fromDate# 00:00:00','DD-MON-YYYY HH24:MI:SS')
 				                             AND TO_DATE('#toDate# 23:59:59','DD-MON-YYYY HH24:MI:SS')
 				  <cfif Len(arrayAreas[i].areaSql) GT 0>
@@ -1012,7 +1026,7 @@
 			    SELECT COUNT(*) AS FIT
 			    FROM   FF_OWNER.DRUG_DRIVE dd
 			    WHERE  WWM_URN IS NOT NULL
-			      AND  ROADSIDE_FIT_RESULT = 'OK'            
+			      AND  (ROADSIDE_FIT_RESULT = 'OK' OR STATION_FIT_RESULT = 'OK')           
 				  AND  DATE_INITIAL_STOP BETWEEN TO_DATE('#fromDate# 00:00:00','DD-MON-YYYY HH24:MI:SS')
 				                             AND TO_DATE('#toDate# 23:59:59','DD-MON-YYYY HH24:MI:SS')
 				  <cfif Len(arrayAreas[i].areaSql) GT 0>
@@ -1025,7 +1039,7 @@
 			    SELECT COUNT(*) AS FIT
 			    FROM   FF_OWNER.DRUG_DRIVE dd
 			    WHERE  WWM_URN IS NOT NULL
-			      AND  ROADSIDE_FIT_RESULT = 'POOR'            
+			      AND  (ROADSIDE_FIT_RESULT = 'POOR' OR STATION_FIT_RESULT = 'POOR')           
 				  AND  DATE_INITIAL_STOP BETWEEN TO_DATE('#fromDate# 00:00:00','DD-MON-YYYY HH24:MI:SS')
 				                             AND TO_DATE('#toDate# 23:59:59','DD-MON-YYYY HH24:MI:SS')
 				  <cfif Len(arrayAreas[i].areaSql) GT 0>

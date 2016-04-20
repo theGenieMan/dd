@@ -36,13 +36,13 @@
 	   <cfset application.schedEmail="Sandra.Forde@dft.gsi.gov.uk,nick.blackham@westmercia.pnn.police.uk">
 	   <cfset application.schedReportEmail="nick.blackham@westmercia.pnn.police.uk">          
    <cfelseif application.ENV IS "DEV">
-	   <cfset application.dsn="DrugDriveNewLive">
+	   <cfset application.dsn="DrugDriveNew">
 	   <cfset application.Warehouse_DB="wmercia">
        <cfset application.templateFile="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\dd\cf\pdfTemplates\hoDrugDriveFormV1.pdf">
        <cfset application.dbToPdfLookupFile="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\dd\cf\com\dbToPdfLookup.txt">
        <cfset application.pdfLocation="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\pdfOutput\">
        <cfset application.reportTemp="\\svr20284\d$\assets\drugDrive\reportTemp\">
-	   <cfset application.wmDocDirectory="\\svr20200\d$\assets\drugDrive\">
+	   <cfset application.wmDocDirectory="\\svr20284\d$\inetpub\wwwroot\applications\force_forms\drugDriveNew\pdfOutput\">
 	   <cfset application.WAREHOUSE_DB="wmercia">
 	   <cfset application.WAREHOUSE_DB_PREFIX="BROWSER_OWNER.">
 	   <cfset application.LOCATION_DB="SS_CRIMES">
